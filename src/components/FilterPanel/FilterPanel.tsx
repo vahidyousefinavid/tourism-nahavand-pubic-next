@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Filter as FilterIcon, ChevronDown } from 'lucide-react';
 
@@ -33,6 +33,16 @@ export const FilterPanel = ({
   resultLabel = 'مورد یافت شد',
 }: FilterPanelProps) => {
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  // 📌 چک کردن سایز صفحه فقط روی کلاینت
+  useEffect(() => {
+    const checkScreen = () => setIsDesktop(window.innerWidth >= 768);
+
+    checkScreen();
+    window.addEventListener('resize', checkScreen);
+    return () => window.removeEventListener('resize', checkScreen);
+  }, []);
 
   return (
     <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
@@ -49,7 +59,7 @@ export const FilterPanel = ({
       </div>
 
       <AnimatePresence initial={false}>
-        {(showMobileFilters || window.innerWidth >= 768) && (
+        {(showMobileFilters || isDesktop) && (
           <motion.div
             key="filter-panel"
             initial={{ opacity: 0, height: 0 }}

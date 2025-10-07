@@ -14,7 +14,6 @@ import { Navigation as SwiperNavigation } from 'swiper/modules';
 import Lightbox from 'yet-another-react-lightbox';
 import Zoom from 'yet-another-react-lightbox/plugins/zoom';
 import 'yet-another-react-lightbox/styles.css';
-// import 'yet-another-react-lightbox/plugins/zoom.css';
 
 interface LocationModalContentProps {
   location: Location;
@@ -30,7 +29,11 @@ export function LocationModalContent({ location, openInMaps }: LocationModalCont
     setOpen(true);
   };
 
-  const slides = location.images.map((src) => ({ src }));
+  const slides = location.images.map((src) => ({
+    src: process.env.NEXT_PUBLIC_API_URL
+      ? process.env.NEXT_PUBLIC_API_URL + src
+      : src,
+  }));
 
   return (
     <div className="space-y-6">
@@ -49,26 +52,30 @@ export function LocationModalContent({ location, openInMaps }: LocationModalCont
               onClick={() => handleOpenLightbox(index)}
               role="button"
               tabIndex={0}
-              onKeyDown={e => {
+              onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   handleOpenLightbox(index);
                 }
               }}
               aria-label={`باز کردن تصویر ${index + 1}`}
             >
-              <Image
-                src={image}
-                alt={`${location.name} - تصویر ${index + 1}`}
-                fill
+              <img
+                src={
+                  process.env.NEXT_PUBLIC_API_URL
+                    ? process.env.NEXT_PUBLIC_API_URL + image
+                    : image
+                }
+                alt={`${location.name['fa']} - تصویر ${index + 1}`}
+                // fill
                 className="object-cover rounded-lg"
-                priority={index === 0}
+                // priority={index === 0}
               />
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
 
-      {/* Yet Another React Lightbox */}
+      {/* Lightbox */}
       <Lightbox
         open={open}
         close={() => setOpen(false)}
@@ -84,7 +91,9 @@ export function LocationModalContent({ location, openInMaps }: LocationModalCont
       {/* Description */}
       <section>
         <h3 className="text-lg font-semibold text-gray-900 mb-2">توضیحات</h3>
-        <p className="text-gray-600 leading-relaxed">{location.description}</p>
+        <p className="text-gray-600 leading-relaxed">
+          {location.description['fa']}
+        </p>
       </section>
 
       {/* Details */}
@@ -94,16 +103,20 @@ export function LocationModalContent({ location, openInMaps }: LocationModalCont
           <div className="space-y-2">
             <div className="flex gap-2 items-center space-x-2 space-x-reverse">
               <Clock className="w-4 h-4 text-gray-400" />
-              <span className="text-gray-600">ساعات بازدید: {location.openingHours}</span>
+              <span className="text-gray-600">
+                ساعات بازدید: {location.openingHours['fa']}
+              </span>
             </div>
             <div className="flex gap-2 items-center space-x-2 space-x-reverse">
               <DollarSign className="w-4 h-4 text-gray-400" />
-              <span className="text-gray-600">هزینه ورودی: {location.entryFee}</span>
+              <span className="text-gray-600">
+                هزینه ورودی: {location.entryFee['fa']}
+              </span>
             </div>
             <div className="flex gap-2 items-center space-x-2 space-x-reverse">
               <Star className="w-4 h-4 text-yellow-400 fill-current" />
               <span className="text-gray-600">
-                امتیاز: {location.rating} از 5 ({location.reviews} نظر)
+                امتیاز: {location.rating} از 5
               </span>
             </div>
           </div>
@@ -112,7 +125,7 @@ export function LocationModalContent({ location, openInMaps }: LocationModalCont
         <div>
           <h3 className="text-lg font-semibold text-gray-900 mb-3">امکانات</h3>
           <div className="flex flex-wrap gap-2">
-            {location.facilities.map((facility, index) => (
+            {location.facilities?.['fa']?.map((facility, index) => (
               <span
                 key={index}
                 className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm"
@@ -125,22 +138,26 @@ export function LocationModalContent({ location, openInMaps }: LocationModalCont
       </section>
 
       {/* Map and Navigation */}
-      <section>
-        <h3 className="text-lg font-semibold text-gray-900 mb-3">موقعیت مکانی</h3>
-        <div className="bg-gray-100 rounded-lg p-4 text-center">
-          <MapPin className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-          <p className="text-gray-600 mb-4">
-            مختصات: {location.coordinates[0]}, {location.coordinates[1]}
-          </p>
-          <Button
-            onClick={() => openInMaps(location.coordinates)}
-            className="flex items-center space-x-2 space-x-reverse mx-auto"
-          >
-            <Navigation className="w-4 h-4" />
-            <span>مشاهده در نقشه</span>
-          </Button>
-        </div>
-      </section>
+      {location.latlng && (
+        <section>
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">موقعیت مکانی</h3>
+          <div className="bg-gray-100 rounded-lg p-4 text-center">
+            <MapPin className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+            <p className="text-gray-600 mb-4">
+              مختصات: {location.latlng.lat}, {location.latlng.lng}
+            </p>
+            <Button
+              onClick={() =>
+                openInMaps([location?.latlng?.lat, location.latlng?.lng])
+              }
+              className="flex items-center space-x-2 space-x-reverse mx-auto"
+            >
+              <Navigation className="w-4 h-4" />
+              <span>مشاهده در نقشه</span>
+            </Button>
+          </div>
+        </section>
+      )}
     </div>
   );
 }

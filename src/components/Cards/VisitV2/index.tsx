@@ -3,7 +3,7 @@ import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function VisitCardV2({ location, index }: { location: any, index: any }) {
+export default function VisitCardV2({ location, index, onClick }: { location: any, index: any, onClick?: () => void }) {
     return (
         <div
             key={location.id}
@@ -20,7 +20,7 @@ export default function VisitCardV2({ location, index }: { location: any, index:
                 <img
                     // className="object-cover"
                     className=" w-full h-[220px] sm:h-[310px]"
-                    src={'/images/pexels.jpg'}
+                    src={process.env.NEXT_PUBLIC_API_URL + location?.images[location?.mainImageIndex || 0]}
                 />
                 <div className="absolute z- top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
                     <span className="text-sm font-medium text-gray-700">
@@ -33,10 +33,10 @@ export default function VisitCardV2({ location, index }: { location: any, index:
             </div>
             <div className="p-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
-                    {location.name}
+                    {location.name['fa']}
                 </h3>
                 <p className="text-gray-600 mb-4 line-clamp-2">
-                    {location.description}
+                    {location.description['fa']}
                 </p>
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-1 space-x-reverse flex-wrap gap-2">
@@ -48,10 +48,10 @@ export default function VisitCardV2({ location, index }: { location: any, index:
                             ({location.reviews} نظر)
                         </span> */}
                     </div>
-                    <Button size="sm">
-                        <Link href={`/locations?id=${location.id}`} className="text-nowrap">
+                    <Button size="sm" onClick={onClick}>
+                        {/* <Link  className="text-nowrap"> */}
                             مشاهده جزئیات
-                        </Link>
+                        {/* </Link> */}
                     </Button>
                 </div>
             </div>
