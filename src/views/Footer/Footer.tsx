@@ -62,7 +62,7 @@ export default function Footer() {
                 <div>
                     <h3 className="text-lg font-bold mb-4">راهنمای سفر</h3>
                     <ul className="space-y-2 text-sm">
-                        <li><a href="/places" className="hover:text-blue-600">مکان ها</a></li>
+                        <li><a href="/locations" className="hover:text-blue-600">مکان ها</a></li>
                         <li><a href="/events" className="hover:text-blue-600">رویدادها</a></li>
                         {/* <li><a href="/restaurants" className="hover:text-blue-600">رستوران‌های سنتی</a></li> */}
                         {/* <li><a href="/weather" className="hover:text-blue-600">آب‌و‌هوا و اقلیم</a></li> */}

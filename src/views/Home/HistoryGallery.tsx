@@ -8,21 +8,21 @@ import 'swiper/css/navigation';
 
 const gallery = [
     {
-        src: '/images/back1.png',
-        caption: 'چشمه‌های طبیعی نهاوند',
+        src: '/images/back32.jpg',
+        caption: 'مسجد جامع',
     },
     {
-        src: '/images/back2.jpg',
-        caption: 'سراب گیان در بهار',
+        src: '/images/back31.jpg',
+        caption: 'سراب گیان  ',
     },
     {
-        src: '/images/back3.jpg',
-        caption: 'باغ‌های نهاوند',
+        src: '/images/back31.jpg',
+        caption: ' نهاوند',
     },
-    {
-        src: '/images/back4.jpg',
-        caption: 'مناطق باستانی شهر',
-    },
+    // {
+    //     src: '/images/back4.jpg',
+    //     caption: 'مناطق باستانی شهر',
+    // },
 ];
 
 export default function HistoryGallery() {

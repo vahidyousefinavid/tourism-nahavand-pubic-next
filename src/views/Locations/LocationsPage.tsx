@@ -1,3 +1,4 @@
+'use client';
 // 'use client';
 
 // import { useState, useEffect } from 'react';
@@ -134,14 +135,12 @@
 //   );
 // }
 
-'use client';
 
 import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import axios from 'axios';
 import { Location, FilterOptions } from '@/types';
 
-import { FilterPanel } from '@/components/FilterPanel/FilterPanel';
 import { Modal } from '@/components/ui/Modal';
 import { NoResults } from './NoResults';
 import { LocationCard } from './LocationCard';

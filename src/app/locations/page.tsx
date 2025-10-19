@@ -1,7 +1,10 @@
+import { Suspense } from "react";
 import LocationsPage from "@/views/Locations/LocationsPage";
 
-export default function Events() {
+export default function LocationsWrapper() {
   return (
-    <LocationsPage/>
+    <Suspense fallback={<div>Loading...</div>}>
+      <LocationsPage />
+    </Suspense>
   );
 }

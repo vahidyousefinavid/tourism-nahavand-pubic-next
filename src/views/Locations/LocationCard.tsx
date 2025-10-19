@@ -70,7 +70,7 @@ export function LocationCard({
 
         {/* امتیاز */}
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-1 space-x-reverse">
+          {/* <div className="flex items-center space-x-1 space-x-reverse">
             <Star className="w-4 h-4 text-yellow-400 fill-current" />
             <span className="text-sm font-medium text-gray-700">
               {location.rating}
@@ -78,7 +78,7 @@ export function LocationCard({
             <span className="text-sm text-gray-500">
               ({location.views} بازدید)
             </span>
-          </div>
+          </div> */}
           <Button size="sm">مشاهده جزئیات</Button>
         </div>
       </div>
