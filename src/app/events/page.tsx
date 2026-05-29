@@ -3,7 +3,9 @@ import EventsPage from "@/views/Events/EventsPage";
 
 export default function Events() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense 
+    // fallback={<div>Loading...</div>}
+    >
       <EventsPage />
     </Suspense>
   );

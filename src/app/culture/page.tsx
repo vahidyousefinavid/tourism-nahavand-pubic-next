@@ -1,89 +1,96 @@
+"use client";
+
 import Image from 'next/image';
 import { Palette, Music, Utensils, Users, Heart, Star } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { useDirection } from '@/hooks/useDirection'; // Assuming this hook is available
 
 export default function CulturePage() {
+  const { t } = useTranslation();
+  const { dir } = useDirection(); // Use dir directly if it provides 'rtl' or 'ltr'
+
   const culturalAspects = [
     {
       icon: Palette,
-      title: 'صنایع دستی',
-      description: 'سفالگری لالجین، قالی‌بافی و صنایع چوبی',
+      title: t('culturePage.culturalAspects.handicrafts.title'),
+      description: t('culturePage.culturalAspects.handicrafts.description'),
       image: '/images/culture/handicrafts.jpg',
       details: [
-        'سفال و سرامیک لالجین با تاریخی چندین هزار ساله',
-        'قالی‌بافی سنتی با نقوش محلی',
-        'صنایع چوبی و معرق‌کاری',
-        'طلاکاری و نقره‌کاری'
+        t('culturePage.culturalAspects.handicrafts.details1'),
+        t('culturePage.culturalAspects.handicrafts.details2'),
+        t('culturePage.culturalAspects.handicrafts.details3'),
+        t('culturePage.culturalAspects.handicrafts.details4')
       ]
     },
     {
       icon: Music,
-      title: 'موسیقی محلی',
-      description: 'آهنگ‌های سنتی و رقص‌های محلی نهاوند',
+      title: t('culturePage.culturalAspects.localMusic.title'),
+      description: t('culturePage.culturalAspects.localMusic.description'),
       image: '/images/culture/local-music.jpg',
       details: [
-        'موسیقی کردی و لری منطقه',
-        'سازهای سنتی مثل دف و تنبور',
-        'رقص‌های محلی در جشن‌ها',
-        'ترانه‌های عاشقانه و حماسی'
+        t('culturePage.culturalAspects.localMusic.details1'),
+        t('culturePage.culturalAspects.localMusic.details2'),
+        t('culturePage.culturalAspects.localMusic.details3'),
+        t('culturePage.culturalAspects.localMusic.details4')
       ]
     },
     {
       icon: Utensils,
-      title: 'غذاهای محلی',
-      description: 'طعم‌های اصیل و سنتی آشپزی نهاوند',
+      title: t('culturePage.culturalAspects.traditionalFood.title'),
+      description: t('culturePage.culturalAspects.traditionalFood.description'),
       image: '/images/culture/traditional-food.jpg',
       details: [
-        'آش دوغ و آش رشته محلی',
-        'کباب کوبیده نهاوندی',
-        'دولمه برگ مو و کلم',
-        'شیرینی‌های سنتی مثل باقلوا'
+        t('culturePage.culturalAspects.traditionalFood.details1'),
+        t('culturePage.culturalAspects.traditionalFood.details2'),
+        t('culturePage.culturalAspects.traditionalFood.details3'),
+        t('culturePage.culturalAspects.traditionalFood.details4')
       ]
     },
     {
       icon: Users,
-      title: 'آداب و رسوم',
-      description: 'سنت‌ها و مراسم مردم نهاوند',
+      title: t('culturePage.culturalAspects.tradition.title'),
+      description: t('culturePage.culturalAspects.tradition.description'),
       image: '/images/culture/tradition.jpg',
       details: [
-        'مراسم عروسی سنتی',
-        'جشن نوروز و چهارشنبه سوری',
-        'مراسم مذهبی و عزاداری',
-        'مهمان‌نوازی اصیل ایرانی'
+        t('culturePage.culturalAspects.tradition.details1'),
+        t('culturePage.culturalAspects.tradition.details2'),
+        t('culturePage.culturalAspects.tradition.details3'),
+        t('culturePage.culturalAspects.tradition.details4')
       ]
     }
   ];
 
   const festivals = [
     {
-      name: 'جشنواره سفال',
-      date: 'شهریور ماه',
-      description: 'نمایشگاه و جشنواره سالانه صنایع سفالی',
+      name: t('culturePage.festivals.festival1.name'),
+      date: t('culturePage.festivals.festival1.date'),
+      description: t('culturePage.festivals.festival1.description'),
       image: '/images/culture/pottery.jpg'
     },
     {
-      name: 'جشن گلاب‌گیری',
-      date: 'اردیبهشت ماه',
-      description: 'برداشت گل محمدی و تولید گلاب',
+      name: t('culturePage.festivals.festival2.name'),
+      date: t('culturePage.festivals.festival2.date'),
+      description: t('culturePage.festivals.festival2.description'),
       image: '/images/culture/rose.jpg'
     },
     {
-      name: 'جشنواره موسیقی محلی',
-      date: 'مهر ماه',
-      description: 'اجرای موسیقی سنتی و محلی',
+      name: t('culturePage.festivals.festival3.name'),
+      date: t('culturePage.festivals.festival3.date'),
+      description: t('culturePage.festivals.festival3.description'),
       image: '/images/culture/music.jpg'
     }
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" dir={dir}>
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            فرهنگ غنی نهاوند
+            {t('culturePage.hero.title')}
           </h1>
           <p className="text-xl md:text-2xl opacity-90 max-w-3xl mx-auto">
-            آشنایی با سنت‌ها، هنرها و فرهنگ اصیل مردم نهاوند
+            {t('culturePage.hero.description')}
           </p>
         </div>
       </section>
@@ -93,10 +100,10 @@ export default function CulturePage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              جنبه‌های فرهنگی
+              {t('culturePage.culturalAspects.title')}
             </h2>
             <p className="text-lg text-gray-600">
-              کشف ابعاد مختلف فرهنگ و هنر نهاوند
+              {t('culturePage.culturalAspects.description')}
             </p>
           </div>
 
@@ -109,7 +116,7 @@ export default function CulturePage() {
                 }`}
               >
                 <div className={index % 2 === 1 ? 'lg:col-start-2' : ''}>
-                  <div className="flex items-center space-x-3 space-x-reverse mb-6">
+                  <div className="flex items-center space-x-3 space-x-reverse mb-6  gap-3">
                     <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                       <aspect.icon className="w-6 h-6 text-blue-600" />
                     </div>
@@ -122,7 +129,7 @@ export default function CulturePage() {
                   </p>
                   <ul className="space-y-3">
                     {aspect.details.map((detail, detailIndex) => (
-                      <li key={detailIndex} className="flex items-start space-x-3 space-x-reverse">
+                      <li key={detailIndex} className="flex items-start space-x-3 space-x-reverse gap-3">
                         <Star className="w-5 h-5 text-yellow-500 mt-0.5 flex-shrink-0" />
                         <span className="text-gray-700">{detail}</span>
                       </li>
@@ -134,7 +141,7 @@ export default function CulturePage() {
                 }`}>
                   <Image
                     src={aspect.image}
-                    alt={aspect.title}
+                    alt={t(`culturePage.culturalAspects.handicrafts.alt`, 'صنایع دستی')} // Translate alt text
                     fill
                     className="object-cover"
                   />
@@ -150,10 +157,10 @@ export default function CulturePage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              جشنواره‌ها و رویدادهای فرهنگی
+              {t('culturePage.festivals.title')}
             </h2>
             <p className="text-lg text-gray-600">
-              برنامه‌های سالانه که فرهنگ نهاوند را زنده نگه می‌دارند
+              {t('culturePage.festivals.description')}
             </p>
           </div>
 
@@ -167,7 +174,7 @@ export default function CulturePage() {
                 <div className="relative h-48">
                   <Image
                     src={festival.image}
-                    alt={festival.name}
+                    alt={t(`culturePage.festivals.festival${index + 1}.alt`, 'تصویر جشنواره')} // Translate alt text
                     fill
                     className="object-cover"
                   />
@@ -197,37 +204,36 @@ export default function CulturePage() {
           <div className="max-w-4xl mx-auto">
             <Heart className="w-16 h-16 mx-auto mb-6 opacity-90" />
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              میراث فرهنگی ما
+              {t('culturePage.heritage.title')}
             </h2>
             <p className="text-lg md:text-xl opacity-90 leading-relaxed">
-              فرهنگ نهاوند، ترکیبی زیبا از سنت‌های کهن ایرانی و تأثیرات محلی است. 
-              از صنایع دستی بی‌نظیر گرفته تا موسیقی دلنشین و غذاهای خوشمزه، 
-              همه و همه نشان‌دهنده غنای فرهنگی این سرزمین کهن است. 
-              ما افتخار می‌کنیم که وارث چنین میراث ارزشمندی هستیم.
+              {t('culturePage.heritage.description')}
             </p>
           </div>
         </div>
       </section>
 
-      {/* Call to Action */}
-      {/* <section className="py-16 px-4">
+      {/* Call to Action (Optional) */}
+      {/* 
+      <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-            تجربه فرهنگ اصیل نهاوند
+            {t('culturePage.cta.title')}
           </h2>
           <p className="text-lg text-gray-600 mb-8">
-            با ما همراه شوید تا از نزدیک با فرهنگ غنی و سنت‌های زیبای نهاوند آشنا شوید
+            {t('culturePage.cta.description')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button className="bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
-              مشاهده رویدادهای فرهنگی
+              {t('culturePage.cta.button1')}
             </button>
             <button className="border border-gray-300 text-gray-700 px-8 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors">
-              بازدید از کارگاه‌های صنایع دستی
+              {t('culturePage.cta.button2')}
             </button>
           </div>
         </div>
-      </section> */}
+      </section> 
+      */}
     </div>
   );
 }

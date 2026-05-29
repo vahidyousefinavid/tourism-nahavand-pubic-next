@@ -136,24 +136,31 @@
 // }
 
 
+'use client';
 import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import axios from 'axios';
 import { Location, FilterOptions } from '@/types';
-
 import { Modal } from '@/components/ui/Modal';
 import { NoResults } from './NoResults';
 import { LocationCard } from './LocationCard';
 import { LocationModalContent } from './LocationModalContent';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
+import { useDirection } from '@/hooks/useDirection';
+import i18n from '@/lib/i18n';
 
 export default function LocationsPage() {
+  const { t } = useTranslation();
+  const { isRTL, dir } = useDirection();
+
   const searchParams = useSearchParams();
   const router = useRouter();
 
   const [locations, setLocations] = useState<Location[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
+
   const [filters, setFilters] = useState<FilterOptions>({
     search: '',
     category: '',
@@ -171,9 +178,9 @@ export default function LocationsPage() {
           sortBy: filters.sortBy,
         },
       });
-      setLocations(res.data.data || res.data); // فرض می‌کنیم API { items: Location[] } یا فقط [] برگردونه
+      setLocations(res.data.data || res.data);
     } catch (err) {
-      console.error('❌ خطا در گرفتن مکان‌ها:', err);
+      console.error('❌ Error fetching locations:', err);
     } finally {
       setLoading(false);
     }
@@ -207,33 +214,39 @@ export default function LocationsPage() {
     window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
   };
 
+  // دریافت زبان فعلی برای پاس دادن به کامپوننت‌ها
+
   return (
-    <div className="min-h-screen py-8">
+    <div dir={dir} className={`min-h-screen py-8 ${isRTL ? 'text-right' : 'text-left'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">مکان‌های دیدنی نهاوند</h1>
-          <p className="text-lg text-gray-600">کشف جاذبه‌های گردشگری و تاریخی شهر نهاوند</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            {t('locationsPage.title')}
+          </h1>
+          <p className="text-lg text-gray-600">
+            {t('locationsPage.subtitle')}
+          </p>
         </div>
 
         {/* Filters */}
         {/* <FilterPanel
           filters={filters}
           onChange={setFilters}
-          searchPlaceholder="جستجو در مکان‌ها..."
+          searchPlaceholder={t('locationsPage.searchPlaceholder')}
           categoryOptions={[
-            { label: 'تاریخی', value: 'historical' },
-            { label: 'طبیعی', value: 'natural' },
-            { label: 'فرهنگی', value: 'cultural' },
-            { label: 'مذهبی', value: 'religious' },
+            { label: t('categories.historical'), value: 'historical' },
+            { label: t('categories.natural'), value: 'natural' },
+            { label: t('categories.cultural'), value: 'cultural' },
+            { label: t('categories.religious'), value: 'religious' },
           ]}
           sortOptions={[
-            { label: 'مرتب‌سازی بر اساس نام', value: 'name' },
-            { label: 'مرتب‌سازی بر اساس امتیاز', value: 'rating' },
-            { label: 'مرتب‌سازی بر اساس نظرات', value: 'reviews' },
+            { label: t('locationsPage.sortByName'), value: 'name' },
+            { label: t('locationsPage.sortByRating'), value: 'rating' },
+            { label: t('locationsPage.sortByReviews'), value: 'reviews' },
           ]}
           resultCount={locations.length}
-          resultLabel="مکان یافت شد"
+          resultLabel={t('locationsPage.resultLabel')}
         /> */}
 
         {/* Locations Grid */}
@@ -243,11 +256,13 @@ export default function LocationsPage() {
               animate={{ scale: [1, 1.2, 1], opacity: [1, 0.8, 1] }}
               transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
               className="w-18 h-18 rounded-full bg-blue-10 shadow-lg"
-            > <img
+            >
+              <img
                 src="/images/noah.png"
                 alt="logo"
                 className="w-[80px] h-full object-contain"
-              /></motion.div>
+              />
+            </motion.div>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -260,6 +275,7 @@ export default function LocationsPage() {
                   location={location}
                   index={index}
                   onClick={() => handleLocationClick(location)}
+                  locale={i18n.language as any}
                 />
               ))
             )}
@@ -271,10 +287,14 @@ export default function LocationsPage() {
       <Modal
         isOpen={!!selectedLocation}
         onClose={handleCloseModal}
-        title={selectedLocation?.name.fa || selectedLocation?.name.en}
+        title={selectedLocation?.name[i18n.language] || selectedLocation?.name.fa}
       >
         {selectedLocation && (
-          <LocationModalContent location={selectedLocation} openInMaps={openInMaps} />
+          <LocationModalContent
+            location={selectedLocation}
+            openInMaps={openInMaps}
+            locale={i18n.language as any}
+          />
         )}
       </Modal>
     </div>

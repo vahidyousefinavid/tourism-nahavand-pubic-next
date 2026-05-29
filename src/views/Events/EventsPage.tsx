@@ -3,29 +3,34 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import axios from 'axios';
-import { motion } from 'framer-motion';
-
 import { Event, FilterOptions } from '@/types';
-import { FilterPanel } from '@/components/FilterPanel/FilterPanel';
 import { Modal } from '@/components/ui/Modal';
-import NoResults from './NoResults';
-import EventCard from './EventCard';
+import {EventCard} from './EventCard';
 import EventModalContent from './EventModalContent';
+import NoResults from './NoResults';
+import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
+import { useDirection } from '@/hooks/useDirection';
+import i18n from '@/lib/i18n';
 
 export default function EventsPage() {
+  const { t } = useTranslation();
+  const { isRTL, dir } = useDirection();
+
   const searchParams = useSearchParams();
   const router = useRouter();
 
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+
   const [filters, setFilters] = useState<FilterOptions>({
     search: '',
     category: '',
     sortBy: 'date',
   });
 
-  // 📌 گرفتن لیست رویدادها از API
+  // 📌 گرفتن دیتا از API
   const fetchEvents = async () => {
     setLoading(true);
     try {
@@ -36,11 +41,9 @@ export default function EventsPage() {
           sortBy: filters.sortBy,
         },
       });
-
-      // فرض: API می‌فرسته { data: Event[] } یا فقط []
       setEvents(res.data.data || res.data);
     } catch (err) {
-      console.error('❌ خطا در گرفتن رویدادها:', err);
+      console.error('❌ Error fetching events:', err);
     } finally {
       setLoading(false);
     }
@@ -70,37 +73,20 @@ export default function EventsPage() {
   };
 
   return (
-    <div className="min-h-screen py-8">
+    <div dir={dir} className={`min-h-screen py-8 ${isRTL ? 'text-right' : 'text-left'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">رویدادهای نهاوند</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            {t('eventsPage.title')}
+          </h1>
           <p className="text-lg text-gray-600">
-            برنامه‌های فرهنگی، ورزشی و تفریحی شهر
+            {t('eventsPage.subtitle')}
           </p>
         </div>
 
-        {/* Filters */}
-        {/* <FilterPanel
-          filters={filters}
-          onChange={setFilters}
-          searchPlaceholder="جستجو در رویدادها..."
-          categoryOptions={[
-            { label: 'جشنواره', value: 'festival' },
-            { label: 'فرهنگی', value: 'cultural' },
-            { label: 'ورزشی', value: 'sports' },
-            { label: 'مذهبی', value: 'religious' },
-          ]}
-          sortOptions={[
-            { label: 'تاریخ', value: 'date' },
-            { label: 'نام', value: 'title' },
-            { label: 'قیمت', value: 'price' },
-          ]}
-          resultCount={events.length}
-          resultLabel="رویداد یافت شد"
-        /> */}
-
-        {/* Events Grid */}
+        {/* Grid */}
         {loading ? (
           <div className="flex justify-center items-center h-64">
             <motion.div
@@ -125,6 +111,7 @@ export default function EventsPage() {
                   key={event.id}
                   event={event}
                   onClick={() => handleEventClick(event)}
+                  locale={i18n.language as any}
                 />
               ))
             )}
@@ -136,9 +123,18 @@ export default function EventsPage() {
       <Modal
         isOpen={!!selectedEvent}
         onClose={handleCloseModal}
-        title={selectedEvent?.title?.fa || selectedEvent?.title?.en}
+        title={
+          selectedEvent?.title?.[i18n.language] ||
+          selectedEvent?.title?.fa ||
+          selectedEvent?.title?.en
+        }
       >
-        {selectedEvent && <EventModalContent event={selectedEvent} />}
+        {selectedEvent && (
+          <EventModalContent
+            event={selectedEvent}
+            locale={i18n.language as any}
+          />
+        )}
       </Modal>
     </div>
   );

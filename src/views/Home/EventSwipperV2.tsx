@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -7,28 +6,32 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import axios from "axios";
 import EventCardV2 from "@/components/Cards/EventV2";
 import { Modal } from "@/components/ui/Modal";
 import EventModalContent from "../Events/EventModalContent";
+import { useTranslation } from "react-i18next";
+import { AppLocale } from "@/types"; // <--- ایمپورت تایپ
 
 export default function EventSwipperV2() {
+  const { t, i18n } = useTranslation();
   const [events, setEvents] = useState<any[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<any | null>(null);
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await axios.get(`/api/events/top/views`); // 👈 این API باید رویدادهای آینده رو بده
+        const res = await axios.get(`/api/events/top/views`);
         setEvents(res.data);
       } catch (error) {
-        console.error("خطا در دریافت رویدادها:", error);
+        console.error("Error fetching events:", error);
       }
     };
-
     fetchEvents();
   }, []);
+
+  const ArrowIcon = i18n.dir() === 'rtl' ? ArrowLeft : ArrowRight;
 
   return (
     <section className="py-16 px-4 bg-gray-50">
@@ -36,10 +39,10 @@ export default function EventSwipperV2() {
         {/* Title */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            رویدادهای پیش رو
+            {t('events.title', 'رویدادهای پیش رو')}
           </h2>
           <p className="text-lg text-gray-600">
-            برنامه‌های فرهنگی و تفریحی نهاوند
+            {t('events.subtitle', 'برنامه‌های فرهنگی و تفریحی نهاوند')}
           </p>
         </div>
 
@@ -52,6 +55,7 @@ export default function EventSwipperV2() {
           slidesPerView="auto"
           spaceBetween={35}
           className="!py-8"
+          dir={i18n.dir()}
         >
           {events.map((event, index) => (
             <SwiperSlide
@@ -67,7 +71,7 @@ export default function EventSwipperV2() {
                 timeRanges={event.timeRanges}
                 index={index}
                 onClick={() => setSelectedEvent(event)}
-                locale="fa"
+                locale={i18n.language as AppLocale}
               />
             </SwiperSlide>
           ))}
@@ -84,8 +88,8 @@ export default function EventSwipperV2() {
               variant="outline"
               className="group gap-2 hover:border-gray-700 transition-colors duration-300 cursor-pointer"
             >
-              <span>مشاهده همه رویدادها</span>
-              <ArrowLeft className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" />
+              <span>{t('events.viewAll', 'مشاهده همه رویدادها')}</span>
+              <ArrowIcon className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" />
             </Button>
           </Link>
         </div>
@@ -94,10 +98,10 @@ export default function EventSwipperV2() {
         <Modal
           isOpen={!!selectedEvent}
           onClose={() => setSelectedEvent(null)}
-          title={selectedEvent?.title?.fa}
+          title={selectedEvent?.title?.[i18n.language as AppLocale] || selectedEvent?.title?.fa}
         >
           {selectedEvent && (
-            <EventModalContent event={selectedEvent} />
+            <EventModalContent event={selectedEvent} locale={i18n.language as AppLocale} />
           )}
         </Modal>
       </div>

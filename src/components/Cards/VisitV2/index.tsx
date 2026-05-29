@@ -2,8 +2,34 @@ import { Button } from "@/components/ui/Button";
 import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
+import { AppLocale } from "@/types";
 
-export default function VisitCardV2({ location, index, onClick }: { location: any, index: any, onClick?: () => void }) {
+export default function VisitCardV2({ 
+    location, 
+    index, 
+    onClick, 
+    locale = "fa" 
+}: { 
+    location: any, 
+    index: any, 
+    onClick?: () => void,
+    locale?: AppLocale 
+}) {
+    const { t } = useTranslation();
+
+    // دریافت نام و توضیحات بر اساس زبان، با فال‌بک (Fallback) به فارسی
+    const name = location.name?.[locale] || location.name?.fa || '';
+    const description = location.description?.[locale] || location.description?.fa || '';
+
+    // تابع کمکی برای ترجمه دسته‌بندی (Category)
+    const getCategoryLabel = (cat: string) => {
+        const key = `categories.${cat}`;
+        const translation = t(key);
+        // اگر ترجمه‌ای پیدا نشد، همان مقدار اصلی را برگردان
+        return translation !== key ? translation : cat;
+    };
+
     return (
         <div
             key={location.id}
@@ -11,47 +37,34 @@ export default function VisitCardV2({ location, index, onClick }: { location: an
             style={{ animationDelay: `${index * 0.1}s` }}
         >
             <div className="relative w-full h-[220px] sm:h-[310px]">
-                {/* <Image
-                    src={location.images[0]}
-                    alt={location.name}
-                    fill
-                    className="object-cover"
-                /> */}
                 <img
-                    // className="object-cover"
-                    className=" w-full h-[220px] sm:h-[310px]"
+                    className="w-full h-[220px] sm:h-[310px] object-cover"
                     src={process.env.NEXT_PUBLIC_API_URL + location?.images[location?.mainImageIndex || 0]}
+                    alt={name}
                 />
-                <div className="absolute z- top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
+                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
                     <span className="text-sm font-medium text-gray-700">
-                        {location.category === 'historical' && 'تاریخی'}
-                        {location.category === 'natural' && 'طبیعی'}
-                        {location.category === 'cultural' && 'فرهنگی'}
-                        {location.category === 'religious' && 'مذهبی'}
+                        {getCategoryLabel(location.category)}
                     </span>
                 </div>
             </div>
             <div className="p-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
-                    {location.name['fa']}
+                    {name}
                 </h3>
                 <p className="text-gray-600 mb-4 line-clamp-2">
-                    {location.description['fa']}
+                    {description}
                 </p>
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-1 space-x-reverse flex-wrap gap-2">
+                        {/* اگر خواستید امتیاز را نمایش دهید، اینجا فعال کنید */}
                         {/* <Star className="w-4 h-4 text-yellow-400 fill-current" />
                         <span className="text-sm font-medium text-gray-700">
                             {location.rating}
-                        </span>
-                        <span className="text-sm text-gray-500">
-                            ({location.reviews} نظر)
                         </span> */}
                     </div>
                     <Button size="sm" onClick={onClick}>
-                        {/* <Link  className="text-nowrap"> */}
-                            مشاهده جزئیات
-                        {/* </Link> */}
+                        {t('visitCard.details', 'مشاهده جزئیات')}
                     </Button>
                 </div>
             </div>

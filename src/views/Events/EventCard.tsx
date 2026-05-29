@@ -70,112 +70,202 @@
 //   });
 // }
 
-import React from 'react';
-import Image from 'next/image';
-import { Users, Calendar, MapPin, DollarSign } from 'lucide-react';
+'use client';
+import { Calendar, DollarSign, MapPin, Users } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
-import InfoRow from './InfoRow';
 import { Event } from '@/types';
+import { useTranslation } from 'react-i18next';
+import { useDirection } from '@/hooks/useDirection';
 
-type EventCardProps = {
+interface EventCardProps {
   event: Event;
-  onClick: (event: Event) => void;
-  lang?: string; // زبان فعال برای نمایش
-};
+  index?: number;
+  onClick: () => void;
+  locale?: string;
+}
 
-export default function EventCard({ event, onClick, lang = 'fa' }: EventCardProps) {
-  const getAvailableSpots = () => event.capacity - event.registered;
+export function EventCard({
+  event,
+  index = 0,
+  onClick,
+  locale = 'fa',
+}: EventCardProps) {
+  const { t, i18n } = useTranslation();
+  const { isRTL, dir } = useDirection();
 
-  // 📌 گرفتن اولین بازه زمانی برای نمایش ساده
-  const getFirstTimeRange = () => {
-    if (!event.timeRanges?.length) return null;
-    const tr = event.timeRanges[0];
-    if (tr.mode === 'continuous' && tr.startDate && tr.endDate) {
-      return `${formatDate(tr.startDate)} تا ${formatDate(tr.endDate)} (${tr.timeStart} - ${tr.timeEnd})`;
+  const lang = locale || i18n.language;
+
+  // داده‌های چندزبانه با fallback
+  const title = event.title?.[lang] || event.title?.fa || '';
+  const description = event.description?.[lang] || event.description?.fa || '';
+  const organizer = event.organizer?.[lang] || event.organizer?.fa || '';
+  const locationText = event.location?.[lang] || event.location?.fa || '';
+
+  // تصویر
+  const imgSrc = event.image
+    ? (process.env.NEXT_PUBLIC_API_URL || '') + event.image
+    : '';
+
+  // ظرفیت
+  const remaining = event.capacity - event.registered;
+  const isLow = remaining < 10;
+
+  // فرمت تاریخ عمومی
+  const formatDate = (d: string) =>
+    new Date(d).toLocaleDateString(lang, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+
+  // گرفتن اولین بازه زمانی
+  const getTimeLabel = () => {
+    if (!event.timeRanges?.length) return '';
+
+    const tr: any = event.timeRanges[0];
+
+    switch (tr.mode) {
+      case 'continuous':
+        return t('eventCard.time.continuous', {
+          start: formatDate(tr.startDate),
+          end: formatDate(tr.endDate),
+          from: tr.timeStart,
+          to: tr.timeEnd,
+        });
+
+      case 'daily':
+        return t('eventCard.time.daily', { from: tr.timeStart, to: tr.timeEnd });
+
+      case 'weekly':
+        return t('eventCard.time.weekly', {
+          days: tr.daysOfWeek,
+          from: tr.timeStart,
+          to: tr.timeEnd,
+        });
+
+      case 'specificDates':
+        return t('eventCard.time.specificDates', { dates: tr.specificDates });
+
+      default:
+        return '';
     }
-    if (tr.mode === 'daily' && tr.timeStart && tr.timeEnd) {
-      return `هر روز ${tr.timeStart} - ${tr.timeEnd}`;
-    }
-    if (tr.mode === 'weekly' && tr.daysOfWeek) {
-      return `روزهای ${tr.daysOfWeek} (${tr.timeStart} - ${tr.timeEnd})`;
-    }
-    if (tr.mode === 'specificDates' && tr.specificDates) {
-      return `تاریخ‌های خاص: ${tr.specificDates}`;
-    }
-    return null;
   };
 
   return (
     <div
-      className="bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer card-hover"
-      onClick={() => onClick(event)}
+      dir={dir}
+      onClick={onClick}
+      className={`
+        bg-white rounded-2xl shadow-lg overflow-hidden card-hover cursor-pointer
+        flex flex-col h-full
+        ${isRTL ? 'text-right' : 'text-left'}
+      `}
+      style={{ animationDelay: `${index * 0.1}s` }}
     >
-      {/* تصویر */}
-      <div className="relative h-48">
-        {/* {event.image && (
-          <Image src={event.image} alt={event.title[lang] || ''} fill className="object-cover" />
-        )} */}
-        {event.image && (
-          <img
-            className="w-full h-full object-cover"
-            src={process.env.NEXT_PUBLIC_API_URL + event.image}
-            alt={event.title['fa'] || ""}
-          />
-        )}
-        {/* دسته‌بندی */}
-        {event.organizer && (
-          <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-gray-700 text-sm font-medium">
-            {event.organizer[lang]}
+      {/* عکس */}
+      <div className="relative h-48 flex-shrink-0">
+        <img
+          src={imgSrc}
+          alt={title}
+          className="w-full h-full object-cover"
+        />
+
+        {/* برگزارکننده */}
+        {organizer && (
+          <div
+            className={`
+              absolute top-4 ${isRTL ? 'right-4' : 'left-4'}
+              bg-white/90 px-3 py-1 rounded-full shadow-sm text-sm font-medium text-gray-700
+            `}
+          >
+            {organizer}
           </div>
         )}
-        {/* ظرفیت باقی‌مانده */}
-        {getAvailableSpots() < 10 && (
-          <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-            {getAvailableSpots()} جای باقی‌مانده
+
+        {/* ظرفیت پایین */}
+        {isLow && (
+          <div
+            className={`
+              absolute top-4 ${isRTL ? 'left-4' : 'right-4'}
+              bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium
+            `}
+          >
+            {t('eventCard.remainingSpots', { count: remaining })}
           </div>
         )}
       </div>
 
-      {/* محتوا */}
-      <div className="p-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-2">{event.title[lang]}</h3>
-        <p className="text-gray-600 mb-4 line-clamp-2">{event.description[lang]}</p>
+      {/* متن */}
+      <div className="p-6 flex flex-col flex-grow">
+        <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-1">
+          {title}
+        </h3>
 
-        <div className="space-y-2 mb-4 text-gray-600 text-sm">
+        <p className="text-gray-600 mb-4 line-clamp-2 text-sm leading-relaxed flex-grow">
+          {description}
+        </p>
+
+        {/* اطلاعات */}
+        <div className="space-y-2 mb-4">
           {/* زمان */}
-          {getFirstTimeRange() && (
-            <InfoRow icon={<Calendar className="w-4 h-4" />} text={getFirstTimeRange()!} />
-          )}
-          {/* مکان */}
-          <InfoRow icon={<MapPin className="w-4 h-4" />} text={event.location[lang]} />
-          {/* قیمت */}
-          {event.price !== undefined && (
-            <InfoRow
-              icon={<DollarSign className="w-4 h-4" />}
-              text={event.price === 0 ? 'رایگان' : `${event.price?.toLocaleString('fa-IR')} تومان`}
-            />
-          )}
-        </div>
+          <div
+            className={`flex items-center gap-2 text-sm text-gray-600 ${isRTL ? 'flex-row-reverse' : ''
+              }`}
+          >
+            <Calendar className="w-4 h-4 flex-shrink-0" />
+            <span className="truncate">{getTimeLabel()}</span>
+          </div>
 
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-1 space-x-reverse text-gray-600 text-sm">
-            <Users className="w-4 h-4" />
-            <span>
-              {event.registered}/{event.capacity} نفر
+          {/* مکان */}
+          <div
+            className={`flex items-center gap-2 text-sm text-gray-600 ${isRTL ? 'flex-row-reverse' : ''
+              }`}
+          >
+            <MapPin className="w-4 h-4 flex-shrink-0" />
+            <span className="truncate">{locationText}</span>
+          </div>
+
+          {/* قیمت */}
+          <div
+            className={`flex items-center gap-2 text-sm text-gray-600 ${isRTL ? 'flex-row-reverse' : ''
+              }`}
+          >
+            <DollarSign className="w-4 h-4 flex-shrink-0" />
+            <span className="truncate">
+              {event.price === 0
+                ? t('eventCard.free')
+                : t('eventCard.price', {
+                  price: event.price?.toLocaleString(lang),
+                })}
             </span>
           </div>
-          <Button size="sm">مشاهده جزئیات</Button>
+        </div>
+
+        {/* ثبت‌نام / ظرفیت */}
+        <div
+          className={`
+            flex items-center justify-between mt-auto pt-4 border-t border-gray-100
+            ${isRTL ? 'flex-row-reverse' : ''}
+          `}
+        >
+          <div
+            className={`flex items-center gap-1 ${isRTL ? 'flex-row-reverse' : ''
+              }`}
+          >
+            <Users className="w-4 h-4 text-gray-600" />
+            <span className="text-sm font-medium text-gray-700">
+              {t('eventCard.registered', {
+                registered: event.registered,
+                capacity: event.capacity,
+              })}
+            </span>
+          </div>
+
+          <Button size="sm">
+            {t('eventCard.detailsButton')}
+          </Button>
         </div>
       </div>
     </div>
   );
-}
-
-// 📌 فرمت تاریخ شمسی
-function formatDate(dateString: string) {
-  return new Date(dateString).toLocaleDateString('fa-IR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
 }

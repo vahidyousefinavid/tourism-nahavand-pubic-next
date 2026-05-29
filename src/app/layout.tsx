@@ -1,23 +1,55 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Vazirmatn } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import Footer from "../views/Footer/Footer";
 import Navbar from "../components/Navbar";
+import LanguageProvider from "@/providers/LanguageProvider";
+import AppLoader from "@/components/AppLoader";
+import TopLoader from "@/components/TopLoader";
+// import ClientProgressBar from "@/components/ClientProgressBar";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const tanha = localFont({
+  src: [
+    {
+      path: "../../public/fonts/tanha/Tanha.woff2",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  variable: "--font-tanha",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const parastoo = localFont({
+  src: [
+    {
+      path: "../../public/fonts/parastoo/Parastoo.woff2",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  variable: "--font-parastoo",
 });
 
-const vazir = Vazirmatn({
-  subsets: ["arabic"], // یا ["latin", "arabic"] برای پشتیبانی دوزبانه
+const iranyekan = localFont({
+  src: [
+    {
+      path: "../../public/fonts/iranyekan/IRANYekan.woff2",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  variable: "--font-iranyekan",
+});
+
+const vazir = localFont({
+  src: [
+    {
+      path: "../../public/fonts/vazir/Vazir.woff2",
+      weight: "400",
+      style: "normal",
+    },
+  ],
   variable: "--font-vazir",
-  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -25,21 +57,24 @@ export const metadata: Metadata = {
   description: "گردشگری نهاوند",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fa">
+    <html lang="fa" dir="rtl">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${vazir.variable} font-sans`}
+        className={`${tanha.variable} ${parastoo.variable} ${iranyekan.variable} ${vazir.variable} font-sans`}
       >
-        <Navbar />
-        <div className="min-h-[100vh] pt-[100px]">
-          {children}
-        </div>
-        <Footer />
+        <TopLoader />
+
+        <LanguageProvider>
+          <AppLoader>
+            <Navbar />
+            {/* <ClientProgressBar /> */}
+            <div className="min-h-[100vh] pt-[100px]">
+              {children}
+            </div>
+            <Footer />
+          </AppLoader>
+        </LanguageProvider>
       </body>
     </html>
   );

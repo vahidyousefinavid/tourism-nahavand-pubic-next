@@ -43,6 +43,22 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+.font-tanha {
+  font-family: var(--font-tanha);
+}
+
+.font-parastoo {
+  font-family: var(--font-parastoo);
+}
+
+.font-iranyekan {
+  font-family: var(--font-iranyekan);
+}
+
+.font-vazir {
+  font-family: var(--font-vazir);
+}
+
 body {
   font-family: Vazirmatn, Arial, Helvetica, sans-serif;
   direction: rtl;
@@ -121,7 +137,13 @@ body {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* تعریف کلاس فونت وزیر */
+.font-vazir {
+  font-family: var(--font-vazir);
 }

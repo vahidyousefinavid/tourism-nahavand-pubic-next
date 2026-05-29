@@ -1,0 +1,494 @@
+{
+  "nav": {
+    "home": "首页",
+    "events": "活动",
+    "locations": "地点",
+    "nature": "自然",
+    "religious": "宗教",
+    "historical": "历史",
+    "cultural": "文化",
+    "history": "纳哈万德市历史",
+    "culture": "纳哈万德市文化",
+    "investment": "投资",
+    "investmentOpportunities": "投资机会",
+    "investmentGuide": "投资指南",
+    "about": "关于我们",
+    "menu": "菜单",
+    "close": "关闭",
+    "title": "纳哈万德旅游",
+    "language": "语言"
+  },
+  "typewriter": {
+    "phrases": [
+      "纳哈万德，泉水涌动的城市",
+      "在纳哈万德的大自然中寻找宁静",
+      "咆哮的瀑布和郁郁葱葱的平原",
+      "雄伟的山脉，古老的历史",
+      "自然爱好者的原始目的地",
+      "纳哈万德，伊朗西部的绿色宝石"
+    ]
+  },
+  "locations": {
+    "title": "特色地点",
+    "subtitle": "纳哈万德最美丽、最重要的旅游景点",
+    "viewAll": "查看所有地点"
+  },
+  "events": {
+    "title": "即将举行的活动",
+    "subtitle": "纳哈万德的文化和娱乐节目",
+    "viewAll": "查看所有活动"
+  },
+  "cityInfo": {
+    "population": {
+      "value": "120,000+",
+      "label": "纳哈万德居民"
+    },
+    "height": {
+      "value": "1,740",
+      "label": "海拔 (米)"
+    },
+    "area": {
+      "value": "1,524",
+      "label": "面积 (平方公里)"
+    },
+    "destinations": {
+      "title": "180+ 旅游目的地",
+      "subtitle": "当地人和游客的最佳体验",
+      "list": {
+        "1": "纳哈万德泉水",
+        "2": "萨拉布吉安瀑布",
+        "3": "当地文化",
+        "4": "历史花园"
+      }
+    }
+  },
+  "historyGallery": {
+    "items": {
+      "jamehMosque": "加米清真寺",
+      "sarabGian": "萨拉布吉安",
+      "nahavand": "纳哈万德"
+    }
+  },
+  "cta": {
+    "title": "准备好探索纳哈万德了吗？",
+    "subtitle": "加入我们，获得最佳旅行体验",
+    "aboutBtn": "关于我们",
+    "cultureBtn": "纳哈万德文化"
+  },
+  "footer": {
+    "brand": "纳哈万德市",
+    "aboutTitle": "关于纳哈万德",
+    "aboutCity": "城市介绍",
+    "history": "纳哈万德历史",
+    "culture": "文化与人民",
+    "travelGuideTitle": "旅行指南",
+    "locations": "地点",
+    "events": "活动",
+    "usefulLinksTitle": "实用链接",
+    "municipality": "纳哈万德市",
+    "copyright": "版权所有",
+    "brandName": "纳哈万德旅游",
+    "reserved": "。",
+    "designBy": "由 Radman Afzar Human 公司设计和开发（联系电话：09999096052）",
+    "rights": "版权所有。"
+  },
+  "visitCard": {
+    "details": "查看详情"
+  },
+  "categories": {
+    "historical": "历史",
+    "natural": "自然",
+    "cultural": "文化",
+    "religious": "宗教"
+  },
+  "locationModal": {
+    "description": "描述",
+    "generalInfo": "一般信息",
+    "visitingHours": "参观时间",
+    "entryFee": "入场费",
+    "rating": "评分",
+    "ratingOutOf": "/ 5",
+    "facilities": "设施",
+    "noFacilities": "无可用信息",
+    "location": "地理位置",
+    "viewOnMap": "在地图上查看"
+  },
+  "eventModal": {
+    "noImage": "无图片",
+    "description": "活动描述",
+    "details": "活动详情",
+    "registrationInfo": "注册信息",
+    "capacity": "容量",
+    "registered": "已注册",
+    "spotsLeft": "剩余名额",
+    "organizer": "组织者",
+    "currency": "图曼",
+    "registerBtn": "注册活动",
+    "capacityFull": "名额已满"
+  },
+  "locationsPage": {
+    "title": "纳哈凡德景点",
+    "subtitle": "探索纳哈凡德市的旅游和历史名胜",
+    "searchPlaceholder": "搜索地点...",
+    "sortByName": "按名称排序",
+    "sortByRating": "按评分排序",
+    "sortByReviews": "按评论排序",
+    "resultLabel": "找到地点"
+  },
+  "locationCard": {
+    "details": "查看详情",
+    "views": "访问"
+  },
+  "eventsPage": {
+    "title": "纳哈万德活动",
+    "subtitle": "城市的文化、体育和休闲活动",
+    "searchPlaceholder": "搜索活动...",
+    "sortByDate": "日期",
+    "sortByName": "标题",
+    "sortByPrice": "价格",
+    "resultLabel": "个活动找到"
+  },
+  "eventCard": {
+    "time": {
+      "continuous": "从 {{start}} 到 {{end}}（{{from}}–{{to}}）",
+      "daily": "每天 {{from}} 至 {{to}}",
+      "weekly": "每周：{{days}}，{{from}} 至 {{to}}",
+      "specificDates": "特定日期：{{dates}}"
+    },
+    "remainingSpots": "仅剩 {{count}} 个名额",
+    "registered": "已报名 {{registered}} / 名额上限 {{capacity}}",
+    "price": "{{price}} 图曼",
+    "free": "免费",
+    "detailsButton": "查看详情",
+    "noTime": "时间未定",
+    "details": "详情"
+  },
+  "historyPage": {
+    "hero": {
+      "title": "纳哈万德的历史",
+      "subtitle": "一次从古代到今日的历史之旅"
+    },
+    "introduction": {
+      "title": "历史中的纳哈万德",
+      "content": "纳哈万德是一座拥有辉煌历史的城市，2500 多年来见证了许多重要的历史事件。从阿契美尼德王朝至今，这座城市一直是伊朗重要的文化、政治和经济中心之一。"
+    },
+    "timeline": {
+      "title": "纳哈万德历史时间线",
+      "subtitle": "回顾这座古城的不同历史时期",
+      "period1": {
+        "title": "古代时期（伊斯兰教前）",
+        "years": "公元前 550 年 - 公元 651 年",
+        "event1": "阿契美尼德统治与大流士和薛西斯刻写的甘杰纳梅碑文",
+        "event2": "帕提亚与萨珊王朝时期",
+        "event3": "纳哈万德作为古代伊朗的重要中心之一",
+        "event4": "伊斯兰历 21 年的纳哈万德战役"
+      },
+      "period2": {
+        "title": "伊斯兰早期",
+        "years": "651 - 1000 公元",
+        "event1": "穆斯林征服纳哈万德",
+        "event2": "成为重要的行政中心",
+        "event3": "伊斯兰科学与文化发展",
+        "event4": "建造重要的清真寺和学校"
+      },
+      "period3": {
+        "title": "塞尔柱与蒙古时期",
+        "years": "1000 - 1500 公元",
+        "event1": "塞尔柱统治与建筑发展",
+        "event2": "蒙古入侵与破坏",
+        "event3": "城市重建与复兴",
+        "event4": "手工业与贸易发展"
+      },
+      "period4": {
+        "title": "萨法维至卡扎尔时期",
+        "years": "1500 - 1925 公元",
+        "event1": "拉勒金陶艺产业的发展",
+        "event2": "萨法维时期重要建筑的建造",
+        "event3": "农业与园艺的扩展",
+        "event4": "加强区域文化认同"
+      },
+      "period5": {
+        "title": "现代时期",
+        "years": "1925 - 至今",
+        "event1": "现代化与城市发展",
+        "event2": "历史遗迹保护与修复",
+        "event3": "旅游业增长",
+        "event4": "拉勒金手工艺列入联合国教科文组织名录"
+      }
+    },
+    "sites": {
+      "title": "重要历史遗址",
+      "subtitle": "讲述纳哈万德历史的建筑与地点",
+      "site1": {
+        "name": "纳哈万德甘杰纳梅",
+        "period": "阿契美尼德",
+        "description": "大流士与薛西斯的石刻铭文",
+        "significance": "伊朗最重要的阿契美尼德遗迹之一"
+      },
+      "site2": {
+        "name": "纳哈万德城堡",
+        "period": "萨珊 - 伊斯兰时期",
+        "description": "古城堡遗迹",
+        "significance": "纳哈万德大战的重要见证"
+      },
+      "site3": {
+        "name": "纳哈万德大清真寺",
+        "period": "伊斯兰时期",
+        "description": "该地区最古老的清真寺之一",
+        "significance": "早期伊斯兰建筑的典范"
+      },
+      "site4": {
+        "name": "拉勒金陶艺作坊",
+        "period": "萨法维 - 现代",
+        "description": "陶器与瓷器生产中心",
+        "significance": "伊朗手工艺的活态遗产"
+      },
+      "site": {
+        "periodLabel": "时期",
+        "significanceLabel": "重要性"
+      }
+    },
+    "battle": {
+      "title": "纳哈万德战役",
+      "description": "伊斯兰历 21 年（公元 642 年）的纳哈万德战役被认为是伊朗和伊斯兰历史上最重要的战役之一，被称为“胜中之胜”。这场战役标志着萨珊王朝的终结与伊斯兰时代在伊朗的开始。",
+      "commanderMuslim": "穆斯林指挥官：努曼·伊本·穆格林",
+      "commanderSasanian": "萨珊指挥官：菲鲁赞",
+      "outcome": "结果：穆斯林胜利并征服伊朗"
+    },
+    "modern": {
+      "title": "今日纳哈万德",
+      "content": "如今的纳哈万德是一座现代化城市，在保持历史身份的同时不断迈向发展与进步。拉勒金手工艺、旅游业和农业是该市最重要的经济领域。",
+      "item1": {
+        "title": "文化遗产",
+        "description": "历史遗迹的保护与修复"
+      },
+      "item2": {
+        "title": "手工艺",
+        "description": "陶器与瓷器生产中心"
+      },
+      "item3": {
+        "title": "旅游业",
+        "description": "吸引国内外游客"
+      }
+    }
+  },
+  "culturePage": {
+    "hero": {
+      "title": "纳哈万德丰富文化",
+      "description": "了解纳哈万德人民的传统、艺术和纯正文化"
+    },
+    "culturalAspects": {
+      "title": "文化方面",
+      "description": "探索纳哈万德文化和艺术的各个方面",
+      "handicrafts": {
+        "title": "手工艺品",
+        "description": "拉莱金陶器、地毯编织和木制品",
+        "details1": "拥有数千年历史的拉莱金陶器和陶瓷",
+        "details2": "带有当地图案的传统地毯编织",
+        "details3": "木工艺品和镶嵌工艺",
+        "details4": "金饰和银饰"
+      },
+      "localMusic": {
+        "title": "地方音乐",
+        "description": "纳哈万德的传统歌曲和地方舞蹈",
+        "details1": "该地区的库尔德和洛里音乐",
+        "details2": "达夫和坦布尔等传统乐器",
+        "details3": "节日期间的地方舞蹈",
+        "details4": "爱情和史诗般的民谣"
+      },
+      "traditionalFood": {
+        "title": "地方美食",
+        "description": "纳哈万德美食的正宗传统风味",
+        "details1": "当地的酸奶汤和粉丝汤",
+        "details2": "纳哈万德烤肉饭",
+        "details3": "酿葡萄叶和卷心菜卷",
+        "details4": "传统甜点，如巴克拉瓦"
+      },
+      "tradition": {
+        "title": "习俗与传统",
+        "description": "纳哈万德人民的传统和仪式",
+        "details1": "传统婚礼仪式",
+        "details2": "诺鲁兹节和恰哈尔尚贝节",
+        "details3": "宗教仪式和哀悼仪式",
+        "details4": "地道的伊朗待客之道"
+      }
+    },
+    "festivals": {
+      "title": "节日与文化活动",
+      "description": "保持纳哈万德文化活力的年度活动",
+      "festival1": {
+        "name": "陶器节",
+        "date": "九月",
+        "description": "陶器工艺品年度展览和节日",
+        "alt": "制作陶器的图片"
+      },
+      "festival2": {
+        "name": "玫瑰水节",
+        "date": "五月",
+        "description": "收获摩哈马迪玫瑰并生产玫瑰水",
+        "alt": "摩哈马迪玫瑰的图片"
+      },
+      "festival3": {
+        "name": "地方音乐节",
+        "date": "十月",
+        "description": "传统和地方音乐表演",
+        "alt": "地方音乐家图片"
+      }
+    },
+    "heritage": {
+      "title": "我们的文化遗产",
+      "description": "纳哈万德的文化是古老伊朗传统与地方影响的完美融合。从独特的手工艺品到迷人的音乐和美味的食物，都象征着这片古老土地的丰富性。我们很自豪能继承如此宝贵的遗产。"
+    },
+    "cta": {
+      "title": "体验地道的纳哈万德文化",
+      "description": "加入我们，亲身体验纳哈万德丰富的文化和美丽的传统",
+      "button1": "查看文化活动",
+      "button2": "参观手工艺品工坊"
+    }
+  },
+  "aboutPage": {
+    "hero": {
+      "title": "关于哈马丹纳万德之旅",
+      "description": "我们致力于介绍历史名城哈马丹纳万德独特的魅力和景点。"
+    },
+    "mission": {
+      "title": "我们的使命",
+      "description": "推广哈马丹纳万德的旅游景点，为游客和伊朗历史文化爱好者提供最佳旅游服务。"
+    },
+    "values": {
+      "title": "我们的价值观",
+      "description": "尊重文化遗产，提供优质服务，保护环境，为游客创造难忘的体验。"
+    },
+    "vision": {
+      "title": "我们的愿景",
+      "description": "成为哈马丹纳万德旅游信息的首要资源，并为该历史地区的旅游业可持续增长做出贡献。"
+    },
+    "aboutNahavand": {
+      "title": "为什么选择哈马丹纳万德？",
+      "p1": "哈马丹纳万德是一座拥有古老历史和丰富文化的城市，位于哈马丹省。它被认为是古伊朗文明的重要中心之一。",
+      "p2": "从大流士和薛西斯的宝藏到独特的哈马丹陶器，哈马丹纳万德是伊朗历史、艺术和文化的宝库。",
+      "p3": "在哈马丹纳万德之旅，我们致力于展示这些美景，并为您创造难忘的体验。"
+    },
+    "team": {
+      "title": "哈马丹纳万德市政府",
+      "mayor": {
+        "name": "Majid Yousefi Navid",
+        "role": "市长",
+        "imageAlt": "Majid Yousefi Navid"
+      }
+    },
+    "contact": {
+      "title": "联系我们",
+      "description": "如需更多信息和免费咨询，请联系我们。",
+      "phoneTitle": "电话",
+      "phone1": "081-33334444",
+      "phone2": "+989123456789",
+      "emailTitle": "邮箱",
+      "email1": "info@nahavandtour.ir",
+      "email2": "support@nahavandtour.ir",
+      "addressTitle": "地址",
+      "address": "哈马丹纳万德，哈马丹纳万德市政府"
+    }
+  },
+  "noResults": {
+    "title": "未找到位置",
+    "subtitle": "请调整您的过滤器，然后重试"
+  },
+   "noEvents": {
+    "title": "未找到事件",
+    "subtitle": "请调整您的过滤器，然后重试"
+  },
+  "investmentPage": {
+    "hero": {
+      "title": "在纳哈万德投资",
+      "description": "在历史名城纳哈万德投资，共创光明未来"
+    },
+    "opportunities": {
+      "title": "投资机会",
+      "description": "纳哈万德市活跃的投资机会列表",
+      "noResults": "目前没有活跃的投资机会",
+      "viewDetails": "查看详情",
+      "minInvestment": "最低投资",
+      "maxInvestment": "最高投资",
+      "expectedReturn": "预期回报",
+      "timeframe": "时间范围",
+      "description": "完整描述",
+      "features": "特点与优势",
+      "benefits": "收益",
+      "requirements": "条件与要求",
+      "contact": "联系信息",
+      "contactInquiry": "申请咨询",
+      "downloadBrochure": "下载宣传册",
+      "status": {
+        "active": "活跃",
+        "pending": "待处理",
+        "completed": "已完成"
+      },
+      "risk": {
+        "low": "低",
+        "medium": "中",
+        "high": "高"
+      },
+      "contact": {
+        "phone": "电话",
+        "email": "邮箱"
+      }
+    },
+    "areas": {
+      "title": "投资领域",
+      "description": "纳哈万德在各个经济领域具有高投资潜力"
+    },
+    "investmentAreas": {
+      "realEstate": {
+        "title": "房地产与建筑投资",
+        "description": "纳哈万德房地产和建筑市场稳定增长",
+        "detail1": "建造别墅和旅游住宿的机会",
+        "detail2": "近年来土地和房价增长",
+        "detail3": "市政府对建筑项目的支持"
+      },
+      "agriculture": {
+        "title": "农业投资",
+        "description": "纳哈万德是伊朗西北部橄榄油和园艺产品的生产中心",
+        "detail1": "种植橄榄、葡萄和季节性水果",
+        "detail2": "建立农产品加工工厂的潜力",
+        "detail3": "农产品出口的高潜力"
+      },
+      "tourism": {
+        "title": "旅游投资",
+        "description": "纳哈万德拥有自然和历史景点，是旅游的理想目的地",
+        "detail1": "建造酒店、招待所和生态旅馆",
+        "detail2": "发展旅游区旅游基础设施",
+        "detail3": "纳哈万德游客数量不断增长"
+      },
+      "handicrafts": {
+        "title": "手工艺投资",
+        "description": "纳哈万德附近的拉勒金市是伊朗陶器和陶瓷生产中心",
+        "detail1": "建立陶器和陶瓷生产工厂",
+        "detail2": "营销和出口纳哈万德手工艺品",
+        "detail3": "培训和赋能当地艺术家"
+      }
+    },
+    "advantages": {
+      "title": "在纳哈万德投资的优势",
+      "description": "纳哈万德拥有众多优势，是投资者的理想目的地",
+      "location": {
+        "title": "优越的地理位置",
+        "description": "靠近哈马丹和德黑兰，方便通往主干道"
+      },
+      "incentives": {
+        "title": "投资激励",
+        "description": "税收减免、银行便利和政府支持"
+      },
+      "potential": {
+        "title": "高增长潜力",
+        "description": "具有合适和可持续盈利潜力的增长市场"
+      }
+    },
+    "cta": {
+      "title": "立即投资",
+      "description": "了解更多投资机会和免费咨询，请联系我们的专家",
+      "button1": "申请咨询",
+      "button2": "下载投资手册"
+    }
+  }
+}

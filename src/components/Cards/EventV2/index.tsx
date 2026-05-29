@@ -122,6 +122,8 @@ import moment from 'jalali-moment';
 import { Calendar, MapPin } from "lucide-react";
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
+import { AppLocale } from '@/types'; // استفاده از تایپ مشترک
 
 type TimeRange = {
   startDate: string;
@@ -130,10 +132,26 @@ type TimeRange = {
   timeEnd?: string;
 };
 
-function formatTimeRange(range: TimeRange) {
+// تابع فرمت زمان با پشتیبانی از چند زبان
+function formatTimeRange(range: TimeRange, locale: AppLocale) {
   const { startDate, endDate, timeStart, timeEnd } = range;
-  const startDateFormatted = moment(startDate, 'YYYY-MM-DD').locale('fa').format('jD jMMMM jYYYY');
-  const endDateFormatted = endDate ? moment(endDate, 'YYYY-MM-DD').locale('fa').format('jD jMMMM jYYYY') : null;
+  
+  // تعیین فرمت تاریخ بر اساس زبان
+  // اگر فارسی بود شمسی، بقیه میلادی
+  const isPersian = locale === 'fa';
+  const momentDate = moment(startDate, 'YYYY-MM-DD');
+  
+  // تنظیم لوکال مومنت برای نمایش نام ماه‌ها و روزها
+  momentDate.locale(isPersian ? 'fa' : locale);
+
+  const startDateFormatted = momentDate.format(isPersian ? 'jD jMMMM jYYYY' : 'D MMMM YYYY');
+  
+  let endDateFormatted = null;
+  if (endDate) {
+    const momentEnd = moment(endDate, 'YYYY-MM-DD');
+    momentEnd.locale(isPersian ? 'fa' : locale);
+    endDateFormatted = momentEnd.format(isPersian ? 'jD jMMMM jYYYY' : 'D MMMM YYYY');
+  }
 
   let datePart = startDateFormatted;
   if (endDateFormatted && endDate !== startDate) {
@@ -141,8 +159,11 @@ function formatTimeRange(range: TimeRange) {
   }
 
   let timePart = '';
-  if (timeStart && timeEnd) timePart = ` | ساعت ${timeStart} تا ${timeEnd}`;
-  else if (timeStart) timePart = ` | ساعت ${timeStart}`;
+  if (timeStart && timeEnd) {
+    timePart = isPersian ? ` | ساعت ${timeStart} تا ${timeEnd}` : ` | ${timeStart} - ${timeEnd}`;
+  } else if (timeStart) {
+    timePart = isPersian ? ` | ساعت ${timeStart}` : ` | ${timeStart}`;
+  }
 
   return `${datePart}${timePart}`;
 }
@@ -166,10 +187,12 @@ export default function EventCardV2({
   timeRanges: TimeRange[];
   index: number;
   onClick?: () => void;
-  locale?: "fa" | "en" | "ar" | "zh";
+  locale?: AppLocale;
 }) {
+  const { t } = useTranslation();
+  
   const firstTime = timeRanges?.[0] || null;
-  const formattedTime = firstTime ? formatTimeRange(firstTime) : "بدون زمان مشخص";
+  const formattedTime = firstTime ? formatTimeRange(firstTime, locale) : t('eventCard.noTime', 'بدون زمان مشخص');
 
   return (
     <div
@@ -179,7 +202,7 @@ export default function EventCardV2({
     >
       <div className="grid grid-cols-1 md:grid-cols-3">
         {/* Image Section */}
-        <div className="relative w-full h-56"> {/* 👈 ارتفاع ثابت */}
+        <div className="relative w-full h-56">
           <img
             className="w-full h-full object-cover"
             src={process.env.NEXT_PUBLIC_API_URL + image}
@@ -211,9 +234,9 @@ export default function EventCardV2({
             </div>
             <Button size="sm" className="whitespace-nowrap">
               {onClick ? (
-                <span onClick={onClick}>جزئیات</span>
+                <span onClick={onClick}>{t('eventCard.details', 'جزئیات')}</span>
               ) : (
-                <Link href={`/events?id=${id}`}>جزئیات</Link>
+                <Link href={`/events?id=${id}`}>{t('eventCard.details', 'جزئیات')}</Link>
               )}
             </Button>
           </div>

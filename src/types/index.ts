@@ -62,3 +62,5 @@ export interface FilterOptions {
   category: string;
   sortBy: string;
 }
+
+export type AppLocale = "fa" | "en" | "ar" | "zh";
