@@ -1,128 +1,99 @@
 'use client';
 
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function TopLoader() {
   const pathname = usePathname();
-  const [loading, setLoading] = useState(false);
+  const [width, setWidth] = useState(0);
+  const [visible, setVisible] = useState(false);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const prevPathname = useRef(pathname);
+  const running = useRef(false);
 
+  const clearAll = () => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    if (hideTimer.current) clearTimeout(hideTimer.current);
+  };
+
+  const start = () => {
+    if (running.current) return;
+    running.current = true;
+    clearAll();
+    setVisible(true);
+    setWidth(0);
+
+    let w = 10;
+    setWidth(w);
+    intervalRef.current = setInterval(() => {
+      w += Math.random() * 12 + 3;
+      if (w >= 82) {
+        w = 82;
+        clearInterval(intervalRef.current!);
+      }
+      setWidth(w);
+    }, 220);
+  };
+
+  const finish = () => {
+    running.current = false;
+    clearAll();
+    setWidth(100);
+    hideTimer.current = setTimeout(() => {
+      setVisible(false);
+      setTimeout(() => setWidth(0), 250);
+    }, 320);
+  };
+
+  // Start on <a> click (before navigation happens)
   useEffect(() => {
-    setLoading(true);
+    const handleClick = (e: MouseEvent) => {
+      const anchor = (e.target as HTMLElement).closest('a');
+      if (!anchor) return;
+      const href = anchor.getAttribute('href');
+      if (!href) return;
+      if (href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:')) return;
+      if (anchor.target === '_blank') return;
+      // Same page navigation → skip
+      const stripped = href.split('?')[0].split('#')[0];
+      if (stripped === pathname || stripped === '') return;
+      start();
+    };
 
-    const timeout = setTimeout(() => {
-      setLoading(false);
-    }, 500); // زمان نمایش لودینگ
-
-    return () => clearTimeout(timeout);
+    document.addEventListener('click', handleClick);
+    return () => document.removeEventListener('click', handleClick);
   }, [pathname]);
+
+  // Finish when pathname actually changes
+  useEffect(() => {
+    if (pathname !== prevPathname.current) {
+      prevPathname.current = pathname;
+      finish();
+    }
+  }, [pathname]);
+
+  useEffect(() => () => clearAll(), []);
 
   return (
     <div
-      className={`fixed top-0 left-0 h-[3px] bg-blue-500 z-[9999] transition-all duration-500 ${
-        loading ? "w-full opacity-100" : "w-0 opacity-0"
-      }`}
-    />
+      className="fixed top-0 left-0 right-0 z-[9999] pointer-events-none"
+      style={{
+        height: '3px',
+        opacity: visible ? 1 : 0,
+        transition: 'opacity 0.25s ease',
+      }}
+    >
+      <div
+        style={{
+          height: '100%',
+          width: `${width}%`,
+          background: 'linear-gradient(to right, #10b981, #059669, #34d399)',
+          boxShadow: '0 0 10px #10b98188, 0 0 4px #10b98144',
+          borderRadius: '0 3px 3px 0',
+          transition: width === 100 ? 'width 0.2s ease-out' : 'width 0.22s ease',
+        }}
+      />
+    </div>
   );
 }
-// 'use client';
-
-// import { usePathname, useSearchParams } from 'next/navigation';
-// import { useEffect, useState } from 'react';
-
-// export default function TopLoader() {
-//   const pathname = usePathname();
-//   const searchParams = useSearchParams();
-//   const [isLoading, setIsLoading] = useState(false);
-//   const [progress, setProgress] = useState(0);
-//   const [mounted, setMounted] = useState(false);
-
-//   useEffect(() => {
-//     setMounted(true); // Mark as mounted on client-side
-//   }, []);
-
-//   useEffect(() => {
-//     if (!mounted) return; // Only run on client
-
-//     const handleRouteChangeStart = () => {
-//       setIsLoading(true);
-//       setProgress(10); // Start with a small progress
-//       const interval = setInterval(() => {
-//         setProgress((prev) => {
-//           if (prev < 90) {
-//             return prev + Math.random() * 5; // Increment progress randomly
-//           }
-//           return prev;
-//         });
-//       }, 100); // Update progress every 100ms
-
-//       // When the route actually starts changing (pathname changes),
-//       // we can increase progress faster or finalize it.
-//       // However, the exact "click" event isn't directly accessible here
-//       // without modifying Link components. This simulates progress during transition.
-
-//       return () => clearInterval(interval); // Cleanup interval on start
-//     };
-
-//     const handleRouteChangeComplete = () => {
-//       setIsLoading(false);
-//       setProgress(100); // Finalize progress
-//       setTimeout(() => setProgress(0), 300); // Reset after a short delay
-//     };
-
-//     // Detect route changes based on pathname and searchParams
-//     // This is a proxy for actual navigation events in App Router
-//     const initialPath = pathname + searchParams.toString();
-//     let previousPath = initialPath;
-
-//     const observer = new MutationObserver(() => {
-//         const currentPath = pathname + searchParams.toString();
-//         if (previousPath !== currentPath) {
-//             previousPath = currentPath;
-//             handleRouteChangeStart();
-//             // Simulate route completion after a delay
-//             setTimeout(() => {
-//                 handleRouteChangeComplete();
-//             }, 500); // Adjust this delay based on your perceived load times
-//         }
-//     });
-
-//     // Observe changes in the DOM that might indicate route changes.
-//     // This is a heuristic and might need adjustment.
-//     // A more robust solution would involve patching Link or using next/router events if available.
-//     // For now, let's just rely on the useEffect dependency array.
-
-//      // Trigger start when pathname or searchParams change
-//     if (pathname || searchParams) {
-//         handleRouteChangeStart();
-//          const timer = setTimeout(() => {
-//             handleRouteChangeComplete();
-//         }, 500); // Adjust delay as needed
-
-//         return () => {
-//             clearTimeout(timer);
-//             // Ensure cleanup if component unmounts before timer finishes
-//             setIsLoading(false);
-//             setProgress(0);
-//         };
-//     }
-
-//   }, [pathname, searchParams, mounted]);
-
-//   // Render the progress bar visually
-//   return (
-//     <div
-//       style={{
-//         height: '4px',
-//         backgroundColor: isLoading ? 'red' : 'transparent', // Red when loading, transparent otherwise
-//         width: `${progress}%`,
-//         position: 'fixed',
-//         top: 0,
-//         left: 0,
-//         right: 0,
-//         zIndex: 9999,
-//         transition: 'width 0.3s ease-out, background-color 0.3s ease-out',
-//       }}
-//     />
-//   );
-// }

@@ -184,7 +184,11 @@ export default function InvestmentSection() {
               <InvestmentCardCompact
                 opportunity={inv}
                 locale={i18n.language}
-                onClick={() => setSelected(inv)}
+                onClick={() => {
+                  setSelected(inv);
+                  const base = process.env.NEXT_PUBLIC_API_URL || '';
+                  fetch(`${base}/api/investments/${inv.id}/view`, { method: 'POST' }).catch(() => {});
+                }}
               />
             </SwiperSlide>
           ))}

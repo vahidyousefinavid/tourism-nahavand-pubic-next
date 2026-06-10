@@ -22,6 +22,11 @@ export default function InvestmentOpportunitiesPage() {
   const [loading, setLoading] = useState(true);
   const [selectedOpportunity, setSelectedOpportunity] = useState<InvestmentOpportunity | null>(null);
 
+  const trackView = (id: string) => {
+    const base = process.env.NEXT_PUBLIC_API_URL || '';
+    fetch(`${base}/api/investments/${id}/view`, { method: 'POST' }).catch(() => {});
+  };
+
   // Fetch opportunities from API
   useEffect(() => {
     const loadOpportunities = async () => {
@@ -50,11 +55,6 @@ export default function InvestmentOpportunitiesPage() {
       }
     }
   }, [searchParams, opportunities]);
-
-  const trackView = (id: string) => {
-    const base = process.env.NEXT_PUBLIC_API_URL || '';
-    fetch(`${base}/api/investments/${id}/view`, { method: 'POST' }).catch(() => {});
-  };
 
   const handleOpportunityClick = (opportunity: InvestmentOpportunity) => {
     setSelectedOpportunity(opportunity);
