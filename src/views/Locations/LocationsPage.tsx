@@ -167,6 +167,10 @@ export default function LocationsPage() {
     sortBy: 'name',
   });
 
+  const trackView = (id: string) => {
+    fetch(`/api/locations/${id}/view`, { method: 'POST' }).catch(() => {});
+  };
+
   // 📌 گرفتن دیتا از API
   const fetchLocations = async () => {
     setLoading(true);
@@ -195,12 +199,16 @@ export default function LocationsPage() {
     const locationId = searchParams.get('id');
     if (locationId && locations.length > 0) {
       const found = locations.find((l) => l.id === locationId);
-      if (found) setSelectedLocation(found);
+      if (found && found.id !== selectedLocation?.id) {
+        setSelectedLocation(found);
+        trackView(found.id!);
+      }
     }
   }, [searchParams, locations]);
 
   const handleLocationClick = (location: Location) => {
     setSelectedLocation(location);
+    trackView(location.id!);
     router.push(`/locations?id=${location.id}`, { scroll: false });
   };
 

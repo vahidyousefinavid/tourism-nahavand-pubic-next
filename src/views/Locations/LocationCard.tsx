@@ -1,7 +1,7 @@
 'use client';
-import Image from 'next/image';
-import { Clock, DollarSign, Star } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
+import { motion } from 'framer-motion';
+import { Clock, DollarSign, Star, Eye } from 'lucide-react';
+import { formatMoney } from '@/lib/format-money';
 import { Location } from '@/types';
 import { useTranslation } from 'react-i18next';
 import { useDirection } from '@/hooks/useDirection';
@@ -13,88 +13,121 @@ interface LocationCardProps {
   locale?: string;
 }
 
-export function LocationCard({
-  location,
-  index,
-  onClick,
-  locale = 'fa',
-}: LocationCardProps) {
-  const { t } = useTranslation();
+const CATEGORY_COLORS: Record<string, { badge: string; button: string; bg: string }> = {
+  historical: {
+    badge: 'bg-amber-500/90 text-white',
+    button: 'bg-amber-50 text-amber-700 hover:bg-amber-100',
+    bg: 'bg-amber-100',
+  },
+  natural: {
+    badge: 'bg-emerald-500/90 text-white',
+    button: 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100',
+    bg: 'bg-emerald-100',
+  },
+  cultural: {
+    badge: 'bg-blue-500/90 text-white',
+    button: 'bg-blue-50 text-blue-700 hover:bg-blue-100',
+    bg: 'bg-blue-100',
+  },
+  religious: {
+    badge: 'bg-purple-500/90 text-white',
+    button: 'bg-purple-50 text-purple-700 hover:bg-purple-100',
+    bg: 'bg-purple-100',
+  },
+};
+
+export function LocationCard({ location, index, onClick, locale = 'fa' }: LocationCardProps) {
+  const { t, i18n } = useTranslation();
   const { isRTL, dir } = useDirection();
 
-  // دریافت نام و توضیحات با فال‌بک
-  const name = location.name?.[locale] || location.name?.fa || '';
-  const description = location.description?.[locale] || location.description?.fa || '';
-  const openingHours = location.openingHours?.[locale] || location.openingHours?.fa || '';
-  const entryFee = location.entryFee?.[locale] || location.entryFee?.fa || '';
+  const lang = locale || i18n.language;
 
-  // دریافت ترجمه دسته‌بندی
+  const name = location.name?.[lang] || location.name?.fa || '';
+  const description = location.description?.[lang] || location.description?.fa || '';
+  const openingHours = location.openingHours?.[lang] || location.openingHours?.fa || '';
+  const entryFee = location.entryFee
+    ? (location.entryFee as any)?.amount === 0
+      ? t('locationCard.free', 'رایگان')
+      : formatMoney(location.entryFee as any, lang)
+    : '';
   const categoryLabel = t(`categories.${location.category}`);
 
-  // انتخاب تصویر اصلی
-  const imageSrc = location.images?.[location.mainImageIndex || 0] || location.images?.[0] || '';
+  const imageSrc = location.images?.[location.mainImageIndex ?? 0] || location.images?.[0] || '';
   const fullImageSrc = process.env.NEXT_PUBLIC_API_URL
     ? process.env.NEXT_PUBLIC_API_URL + imageSrc
     : imageSrc;
 
+  const colors = CATEGORY_COLORS[location.category] || CATEGORY_COLORS.historical;
+
   return (
-    <div
+    <motion.div
       dir={dir}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: index * 0.08 }}
       onClick={onClick}
-      className={`bg-white rounded-2xl shadow-lg overflow-hidden card-hover cursor-pointer flex flex-col h-full ${isRTL ? 'text-right' : 'text-left'}`}
-      style={{ animationDelay: `${index * 0.1}s` }}
+      className={`bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer flex flex-col h-full hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${isRTL ? 'text-right' : 'text-left'}`}
     >
-      {/* تصویر اصلی */}
-      <div className="relative h-48 flex-shrink-0">
+      {/* تصویر */}
+      <div className="relative h-52 flex-shrink-0 overflow-hidden">
         <img
-          className="w-full h-full object-cover"
           src={fullImageSrc}
           alt={name}
+          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
         />
-        <div className={`absolute top-4 ${isRTL ? 'right-4' : 'left-4'} bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-sm`}>
-          <span className="text-sm font-medium text-gray-700">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+
+        {/* badge دسته‌بندی */}
+        <div className={`absolute top-3 ${isRTL ? 'right-3' : 'left-3'}`}>
+          <span className={`${colors.badge} px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm shadow-sm`}>
             {categoryLabel}
           </span>
         </div>
-      </div>
 
-      {/* متن */}
-      <div className="p-6 flex flex-col flex-grow">
-        <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-1">
-          {name}
-        </h3>
-        <p className="text-gray-600 mb-4 line-clamp-2 text-sm leading-relaxed flex-grow">
-          {description}
-        </p>
-
-        {/* اطلاعات زمان و هزینه */}
-        <div className="space-y-2 mb-4">
-          <div className={`flex items-center gap-2 text-sm text-gray-600 ${isRTL ? 'flex-row-reverse' : ''}`}>
-            <Clock className="w-4 h-4 flex-shrink-0" />
-            <span className="truncate">{openingHours}</span>
-          </div>
-          <div className={`flex items-center gap-2 text-sm text-gray-600 ${isRTL ? 'flex-row-reverse' : ''}`}>
-            <DollarSign className="w-4 h-4 flex-shrink-0" />
-            <span className="truncate">{entryFee}</span>
-          </div>
+        {/* امتیاز */}
+        <div className={`absolute top-3 ${isRTL ? 'left-3' : 'right-3'}`}>
+          <span className="bg-black/50 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+            <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
+            {location.rating}
+          </span>
         </div>
 
-        {/* امتیاز و دکمه */}
-        <div className={`flex items-center justify-between mt-auto pt-4 border-t border-gray-100 ${isRTL ? 'flex-row-reverse' : ''}`}>
-          <div className={`flex items-center gap-1 ${isRTL ? 'flex-row-reverse' : ''}`}>
-            <Star className="w-4 h-4 text-yellow-400 fill-current" />
-            <span className="text-sm font-medium text-gray-700">
-              {location.rating}
-            </span>
-            <span className="text-sm text-gray-500">
-              ({location.views} {t('locationCard.views')})
-            </span>
-          </div>
-          <Button size="sm">
-            {t('locationCard.details')}
-          </Button>
+        {/* بازدیدها — پایین تصویر */}
+        <div className={`absolute bottom-3 ${isRTL ? 'right-3' : 'left-3'} flex items-center gap-1 text-white/80 text-xs`}>
+          <Eye className="w-3.5 h-3.5" />
+          <span>{location.views?.toLocaleString(lang)}</span>
         </div>
       </div>
-    </div>
+
+      {/* محتوا */}
+      <div className="p-5 flex flex-col flex-grow">
+        <h3 className="text-lg font-bold text-gray-900 mb-1.5 line-clamp-1">{name}</h3>
+        <p className="text-gray-500 text-sm leading-relaxed line-clamp-3 flex-grow mb-4">{description}</p>
+
+        {/* اطلاعات */}
+        <div className="space-y-1.5 mb-4">
+          {openingHours && (
+            <div className={`flex items-center gap-2 text-sm text-gray-600 ${isRTL ? 'flex-row-reverse' : ''}`}>
+              <Clock className="w-4 h-4 flex-shrink-0 text-gray-400" />
+              <span className="truncate">{openingHours}</span>
+            </div>
+          )}
+          {entryFee && (
+            <div className={`flex items-center gap-2 text-sm text-gray-600 ${isRTL ? 'flex-row-reverse' : ''}`}>
+              <DollarSign className="w-4 h-4 flex-shrink-0 text-gray-400" />
+              <span className="truncate">{entryFee}</span>
+            </div>
+          )}
+        </div>
+
+        {/* دکمه */}
+        <button
+          className={`w-full py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 ${colors.button}`}
+          onClick={(e) => { e.stopPropagation(); onClick(); }}
+        >
+          {t('locationCard.details', 'مشاهده جزئیات')}
+        </button>
+      </div>
+    </motion.div>
   );
 }

@@ -20,7 +20,14 @@ export function LocationModalContent({ location, openInMaps, locale }: LocationM
   const name = location.name?.[locale] || location.name?.fa || '';
   const description = location.description?.[locale] || location.description?.fa || '';
   const openingHours = location.openingHours?.[locale] || location.openingHours?.fa || '';
-  const entryFee = location.entryFee?.[locale] || location.entryFee?.fa || '';
+  const entryFeeRaw = location.entryFee as any;
+  const entryFee = !entryFeeRaw
+    ? ''
+    : entryFeeRaw?.amount === 0
+      ? t('locationModal.free', 'رایگان')
+      : entryFeeRaw?.amount
+        ? new Intl.NumberFormat(locale === 'fa' ? 'fa-IR' : 'en-US').format(entryFeeRaw.amount) + (entryFeeRaw.currency === 'IRT' ? ' تومان' : entryFeeRaw.currency === 'IRR' ? ' ریال' : ` ${entryFeeRaw.currency}`)
+        : '';
   const facilities = location.facilities?.[locale] || location.facilities?.fa || [];
 
   // انتخاب تصویر اصلی

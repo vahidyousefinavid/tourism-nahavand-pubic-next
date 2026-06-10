@@ -30,6 +30,10 @@ export default function EventsPage() {
     sortBy: 'date',
   });
 
+  const trackView = (id: string) => {
+    fetch(`/api/events/${id}/view`, { method: 'POST' }).catch(() => {});
+  };
+
   // 📌 گرفتن دیتا از API
   const fetchEvents = async () => {
     setLoading(true);
@@ -58,12 +62,16 @@ export default function EventsPage() {
     const eventId = searchParams.get('id');
     if (eventId && events.length > 0) {
       const found = events.find((e) => e.id === eventId);
-      if (found) setSelectedEvent(found);
+      if (found && found.id !== selectedEvent?.id) {
+        setSelectedEvent(found);
+        trackView(found.id);
+      }
     }
   }, [searchParams, events]);
 
   const handleEventClick = (event: Event) => {
     setSelectedEvent(event);
+    trackView(event.id);
     router.push(`/events?id=${event.id}`, { scroll: false });
   };
 

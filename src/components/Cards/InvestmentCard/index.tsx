@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useDirection } from '@/hooks/useDirection';
 import { InvestmentOpportunity } from '@/types/investment';
+import { formatMoney } from '@/lib/format-money';
 
 interface InvestmentCardProps {
   opportunity: InvestmentOpportunity;
@@ -32,9 +33,12 @@ export function InvestmentCard({
   const categoryLabel = getCategoryLabel(opportunity.category, lang);
   const riskLabel = getRiskLabel(opportunity.riskLevel, lang);
 
-  // ساخت URL تصویر
-  const imageUrl = opportunity.image
-    ? `${process.env.NEXT_PUBLIC_API_URL || ''}${opportunity.image}`
+  // ساخت URL تصویر اصلی
+  const mainImg = opportunity.images?.length
+    ? opportunity.images[opportunity.mainImageIndex ?? 0]
+    : opportunity.image;
+  const imageUrl = mainImg
+    ? `${process.env.NEXT_PUBLIC_API_URL || ''}${mainImg}`
     : '/images/back2.jpg';
 
   // رنگ‌بندی بر اساس دسته‌بندی
@@ -95,7 +99,7 @@ export function InvestmentCard({
         <div className="absolute bottom-3 left-0 right-0 px-4 flex items-center justify-between">
           {opportunity.minInvestment && (
             <div className="text-white text-sm font-medium">
-              {t('investmentPage.opportunities.minInvestment')}: {opportunity.minInvestment}
+              {t('investmentPage.opportunities.minInvestment')}: {formatMoney(opportunity.minInvestment, lang)}
             </div>
           )}
           {opportunity.riskLevel && (
@@ -162,14 +166,14 @@ export function InvestmentCard({
           }}
         >
           <span>{t('investmentPage.opportunities.viewDetails')}</span>
-          <svg
+          {/* <svg
             className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`}
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
+          </svg> */}
         </button>
       </div>
     </motion.div>

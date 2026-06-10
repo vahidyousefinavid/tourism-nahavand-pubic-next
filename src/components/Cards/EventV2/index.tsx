@@ -1,129 +1,9 @@
-// import React from 'react';
-// import moment from 'jalali-moment';
-// import { Calendar, MapPin, MapPinCheckInside } from "lucide-react";
-// import { Button } from '@/components/ui/Button';
-// import Link from 'next/link';
-
-// type TimeType = {
-//     startDate: string;
-//     startTime?: string;
-//     endDate?: string;
-//     endTime?: string;
-// };
-
-// function formatTimeRange(startTime?: string, endTime?: string) {
-//     if (startTime && endTime) return `ساعت ${startTime} تا ${endTime}`;
-//     if (startTime) return `ساعت ${startTime}`;
-//     return '';
-// }
-
-// function formatDate(date: string) {
-//     return moment(date, 'YYYY-MM-DD').locale('fa').format('jD jMMMM jYYYY');
-// }
-
-// function getFormattedTime(time: TimeType) {
-//     const { startDate, startTime, endDate, endTime } = time;
-
-//     const startDateFormatted = formatDate(startDate);
-//     const endDateFormatted = endDate ? formatDate(endDate) : null;
-
-//     if (!endDateFormatted || startDate === endDate) {
-//         // یک روزه یا بدون endDate
-//         const timeRange = formatTimeRange(startTime, endTime);
-//         return timeRange ? `${startDateFormatted}\n${timeRange}` : startDateFormatted;
-//     }
-
-//     // چند روزه با یا بدون ساعت متفاوت
-//     if (startTime || endTime) {
-//         const startPart = `${startDateFormatted}${startTime ? ' ساعت ' + startTime : ''}`;
-//         const endPart = `${endDateFormatted}${endTime ? ' ساعت ' + endTime : ''}`;
-//         return `${startPart}\n--------\n${endPart}`;
-//     }
-
-//     // چند روزه بدون ساعت
-//     return `${startDateFormatted}\n--------\n${endDateFormatted}`;
-// }
-
-// export default function EventCardV2({
-//     image,
-//     description,
-//     title,
-//     index,
-//     date,
-//     id,
-//     location,
-//     onClick
-// }: {
-//     id: any;
-//     image: string;
-//     title: string;
-//     description: string;
-//     index: any;
-//     date: any;
-//     location: string;
-//     onClick?: any
-// }) {
-//     return (
-//         <div
-//             key={id}
-//             className="bg-white rounded-2xl shadow-lg overflow-hidden card-hover"
-//             style={{ animationDelay: `${index * 0.1}s` }}
-//         >
-//             <div className="md:flex">
-//                 <div className="md:w-1/3">
-//                     <div className="relative h-48 md:h-full">
-//                         {/* <Image
-//                             src={event.image}
-//                             alt={event.title}
-//                             fill
-//                             className="object-cover"
-//                         /> */}
-//                         <img
-//                             // className="object-cover"
-//                             className=" w-full h-[200px] sm:h-[210px]"
-//                             src={'/images/pexels.jpg'}
-//                         />
-//                     </div>
-//                 </div>
-//                 <div className="md:w-2/3 p-6">
-//                     <div className="flex items-center space-x-2 space-x-reverse mb-2">
-//                         <Calendar className="w-4 h-4 text-blue-600" />
-//                         <span className="text-sm text-gray-600">
-//                             {new Date(date).toLocaleDateString('fa-IR')}
-//                         </span>
-//                     </div>
-//                     <h3 className="text-xl font-bold text-gray-900 mb-2">
-//                         {title}
-//                     </h3>
-//                     <p className="text-gray-600 mb-4 line-clamp-2">
-//                         {description}
-//                     </p>
-//                     <div className="flex items-center justify-between">
-//                         <div className="flex items-center space-x-2 space-x-reverse">
-//                             <MapPin className="w-4 h-4 text-gray-400" />
-//                             <span className="text-sm text-gray-600">
-//                                 {location}
-//                             </span>
-//                         </div>
-//                         <Button size="sm" onClick={onClick}>
-//                             {!onClick && <Link href={`/events?id=${id}`}>
-//                                 جزئیات
-//                             </Link>}
-//                         </Button>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// }
-
+'use client';
 import React from 'react';
 import moment from 'jalali-moment';
-import { Calendar, MapPin } from "lucide-react";
-import { Button } from '@/components/ui/Button';
-import Link from 'next/link';
+import { Calendar, MapPin } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { AppLocale } from '@/types'; // استفاده از تایپ مشترک
+import { AppLocale } from '@/types';
 
 type TimeRange = {
   startDate: string;
@@ -132,40 +12,13 @@ type TimeRange = {
   timeEnd?: string;
 };
 
-// تابع فرمت زمان با پشتیبانی از چند زبان
-function formatTimeRange(range: TimeRange, locale: AppLocale) {
-  const { startDate, endDate, timeStart, timeEnd } = range;
-  
-  // تعیین فرمت تاریخ بر اساس زبان
-  // اگر فارسی بود شمسی، بقیه میلادی
-  const isPersian = locale === 'fa';
-  const momentDate = moment(startDate, 'YYYY-MM-DD');
-  
-  // تنظیم لوکال مومنت برای نمایش نام ماه‌ها و روزها
-  momentDate.locale(isPersian ? 'fa' : locale);
-
-  const startDateFormatted = momentDate.format(isPersian ? 'jD jMMMM jYYYY' : 'D MMMM YYYY');
-  
-  let endDateFormatted = null;
-  if (endDate) {
-    const momentEnd = moment(endDate, 'YYYY-MM-DD');
-    momentEnd.locale(isPersian ? 'fa' : locale);
-    endDateFormatted = momentEnd.format(isPersian ? 'jD jMMMM jYYYY' : 'D MMMM YYYY');
+function formatShortDate(date: string, locale: AppLocale): string {
+  try {
+    const m = moment(date, 'YYYY-MM-DD').locale(locale === 'fa' ? 'fa' : locale);
+    return locale === 'fa' ? m.format('jD jMMMM') : m.format('D MMM');
+  } catch {
+    return date;
   }
-
-  let datePart = startDateFormatted;
-  if (endDateFormatted && endDate !== startDate) {
-    datePart = `${startDateFormatted} - ${endDateFormatted}`;
-  }
-
-  let timePart = '';
-  if (timeStart && timeEnd) {
-    timePart = isPersian ? ` | ساعت ${timeStart} تا ${timeEnd}` : ` | ${timeStart} - ${timeEnd}`;
-  } else if (timeStart) {
-    timePart = isPersian ? ` | ساعت ${timeStart}` : ` | ${timeStart}`;
-  }
-
-  return `${datePart}${timePart}`;
 }
 
 export default function EventCardV2({
@@ -177,7 +30,7 @@ export default function EventCardV2({
   location,
   timeRanges,
   onClick,
-  locale = "fa",
+  locale = 'fa',
 }: {
   id: string;
   image: string;
@@ -190,56 +43,49 @@ export default function EventCardV2({
   locale?: AppLocale;
 }) {
   const { t } = useTranslation();
-  
-  const firstTime = timeRanges?.[0] || null;
-  const formattedTime = firstTime ? formatTimeRange(firstTime, locale) : t('eventCard.noTime', 'بدون زمان مشخص');
+  const firstTime = timeRanges?.[0] ?? null;
+  const dateText = firstTime ? formatShortDate(firstTime.startDate, locale) : '';
 
   return (
     <div
-      key={id}
-      className="bg-white rounded-2xl shadow-md hover:shadow-xl overflow-hidden transform hover:-translate-y-1 transition-all duration-300"
-      style={{ animationDelay: `${index * 0.1}s` }}
+      onClick={onClick}
+      className="bg-white rounded-2xl shadow-md hover:shadow-xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 w-full select-none"
     >
-      <div className="grid grid-cols-1 md:grid-cols-3">
-        {/* Image Section */}
-        <div className="relative w-full h-56">
-          <img
-            className="w-full h-full object-cover"
-            src={process.env.NEXT_PUBLIC_API_URL + image}
-            alt={title[locale] || ""}
-          />
-        </div>
+      {/* Image */}
+      <div className="relative h-40 overflow-hidden">
+        <img
+          src={(process.env.NEXT_PUBLIC_API_URL || '') + image}
+          alt={title[locale] || ''}
+          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = '/images/pexels.jpg';
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+        {dateText && (
+          <span className="absolute top-3 right-3 inline-flex items-center gap-1 bg-white/90 backdrop-blur-sm text-gray-700 text-[11px] font-semibold px-2.5 py-1 rounded-full">
+            <Calendar className="w-3 h-3 text-purple-500" />
+            {dateText}
+          </span>
+        )}
+      </div>
 
-        {/* Content Section */}
-        <div className="md:col-span-2 flex flex-col justify-between p-4 md:p-6">
-          <div>
-            <div className="flex items-center gap-2 text-gray-600 text-sm mb-3">
-              <Calendar className="w-4 h-4 text-blue-600" />
-              <span>{formattedTime}</span>
-            </div>
-
-            <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2 line-clamp-1">
-              {title[locale]}
-            </h3>
-
-            <p className="text-gray-600 text-sm md:text-base mb-4 line-clamp-3">
-              {description[locale]}
-            </p>
+      {/* Content */}
+      <div className="p-3.5">
+        <h3 className="font-bold text-gray-900 text-sm line-clamp-1 mb-1">
+          {title[locale] || title.fa}
+        </h3>
+        <p className="text-gray-400 text-[12px] line-clamp-2 leading-relaxed mb-3">
+          {description[locale] || description.fa}
+        </p>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1 text-gray-400 text-[11px] truncate max-w-[130px]">
+            <MapPin className="w-3 h-3 flex-shrink-0" />
+            <span className="truncate">{location?.[locale] || location?.fa}</span>
           </div>
-
-          <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-            <div className="flex items-center gap-2 text-gray-500 text-sm">
-              <MapPin className="w-4 h-4" />
-              <span className="truncate max-w-[150px] sm:max-w-[200px]">{location[locale]}</span>
-            </div>
-            <Button size="sm" className="whitespace-nowrap">
-              {onClick ? (
-                <span onClick={onClick}>{t('eventCard.details', 'جزئیات')}</span>
-              ) : (
-                <Link href={`/events?id=${id}`}>{t('eventCard.details', 'جزئیات')}</Link>
-              )}
-            </Button>
-          </div>
+          <button className="text-[11px] font-semibold text-purple-600 hover:text-purple-700 bg-purple-50 hover:bg-purple-100 px-3 py-1 rounded-full transition-colors whitespace-nowrap">
+            {t('eventCard.details', 'جزئیات')}
+          </button>
         </div>
       </div>
     </div>

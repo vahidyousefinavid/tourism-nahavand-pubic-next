@@ -18,7 +18,7 @@ export interface Location {
   facilities?: Record<string, string[]>; // { fa: ['وای‌فای'], en: ['Wi-Fi'] }
 
   openingHours: Record<string, string>; // { fa: '۸-۲۰', en: '8am-8pm' }
-  entryFee: Record<string, string>; // { fa: 'رایگان', en: 'Free' }
+  entryFee?: { amount: number; currency: string } | null;
 
   rating: number;
   views: number;
@@ -47,7 +47,7 @@ export interface Event {
   image?: string;
   location: Record<string, string>; // چندزبانه مثل Location.name
   latlng?: { lat: number; lng: number };
-  price?: number;
+  price?: { amount: number; currency: string } | null;
   capacity: number;
   registered: number;
   organizer: Record<string, string>;

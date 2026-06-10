@@ -2,10 +2,12 @@
 
 import { Modal } from '@/components/ui/Modal';
 import { InvestmentOpportunity } from '@/types/investment';
+import { formatMoney } from '@/lib/format-money';
 import { useTranslation } from 'react-i18next';
 import { useDirection } from '@/hooks/useDirection';
-import { X, MapPin, Clock, TrendingUp, Shield, CheckCircle, AlertCircle, Phone, Mail } from 'lucide-react';
+import { X, MapPin, Clock, TrendingUp, Shield, CheckCircle, AlertCircle, Phone, Mail, ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
+import { useState } from 'react';
 
 interface InvestmentModalProps {
   opportunity: InvestmentOpportunity | null;
@@ -24,6 +26,7 @@ export default function InvestmentModal({
   const { isRTL, dir } = useDirection();
 
   const lang = locale || i18n.language;
+  const [activeImg, setActiveImg] = useState(0);
 
   const getLocalizedValue = (value: Record<string, string> | undefined) => {
     if (!value) return '';
@@ -39,9 +42,15 @@ export default function InvestmentModal({
 
   const title = opportunity.title?.[lang] || opportunity.title?.fa || '';
   const fullDescription = opportunity.fullDescription?.[lang] || opportunity.fullDescription?.fa || '';
-  const imageUrl = opportunity.image
-    ? `${process.env.NEXT_PUBLIC_API_URL || ''}${opportunity.image}`
+
+  const images = opportunity.images?.length ? opportunity.images : (opportunity.image ? [opportunity.image] : []);
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
+  const currentImageUrl = images.length
+    ? `${apiUrl}${images[activeImg]}`
     : '/images/back2.jpg';
+
+  const prevImg = () => setActiveImg((i) => (i - 1 + images.length) % images.length);
+  const nextImg = () => setActiveImg((i) => (i + 1) % images.length);
 
   // رنگ‌بندی بر اساس دسته‌بندی
   const getCategoryAccent = () => {
@@ -79,15 +88,27 @@ export default function InvestmentModal({
       title={title}
     >
       <div dir={dir} className={`space-y-6 ${isRTL ? 'text-right' : 'text-left'}`}>
-        {/* تصویر اصلی */}
+        {/* carousel تصاویر */}
         <div className="relative h-64 rounded-xl overflow-hidden">
-          <Image
-            src={imageUrl}
-            alt={title}
-            fill
-            className="object-cover"
-          />
+          <Image src={currentImageUrl} alt={title} fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+
+          {images.length > 1 && (
+            <>
+              <button onClick={prevImg} className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 text-white rounded-full p-1 z-10">
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button onClick={nextImg} className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 text-white rounded-full p-1 z-10">
+                <ChevronRight className="w-5 h-5" />
+              </button>
+              <div className="absolute bottom-12 left-0 right-0 flex justify-center gap-1 z-10">
+                {images.map((_, i) => (
+                  <button key={i} onClick={() => setActiveImg(i)} className={`w-2 h-2 rounded-full transition-all ${i === activeImg ? 'bg-white' : 'bg-white/50'}`} />
+                ))}
+              </div>
+            </>
+          )}
+
           <div className="absolute bottom-4 left-4 right-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -109,6 +130,21 @@ export default function InvestmentModal({
           </div>
         </div>
 
+        {/* thumbnails */}
+        {images.length > 1 && (
+          <div className="flex gap-2 flex-wrap">
+            {images.map((img, i) => (
+              <button key={i} onClick={() => setActiveImg(i)}>
+                <img
+                  src={`${apiUrl}${img}`}
+                  className={`w-16 h-16 object-cover rounded-lg border-2 transition-all ${i === activeImg ? 'border-blue-500' : i === (opportunity.mainImageIndex ?? 0) ? 'border-yellow-400' : 'border-gray-200'}`}
+                  alt=""
+                />
+              </button>
+            ))}
+          </div>
+        )}
+
         {/* توضیحات کامل */}
         <div>
           <h3 className="text-lg font-semibold text-gray-900 mb-3">{t('investmentPage.opportunities.description')}</h3>
@@ -124,7 +160,7 @@ export default function InvestmentModal({
               </div>
               <div>
                 <p className="text-sm text-gray-500">{t('investmentPage.opportunities.minInvestment')}</p>
-                <p className="font-semibold text-gray-900">{opportunity.minInvestment}</p>
+                <p className="font-semibold text-gray-900">{formatMoney(opportunity.minInvestment, lang)}</p>
               </div>
             </div>
           )}
@@ -157,7 +193,7 @@ export default function InvestmentModal({
               </div>
               <div>
                 <p className="text-sm text-gray-500">{t('investmentPage.opportunities.maxInvestment')}</p>
-                <p className="font-semibold text-gray-900">{opportunity.maxInvestment}</p>
+                <p className="font-semibold text-gray-900">{formatMoney(opportunity.maxInvestment, lang)}</p>
               </div>
             </div>
           )}
@@ -224,7 +260,7 @@ export default function InvestmentModal({
         {/* اطلاعات تماس */}
         {(opportunity.supportPhone || opportunity.contactInfo) && (
           <div className={`p-5 bg-green-50 rounded-xl ${isRTL ? 'text-right' : 'text-left'}`}>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('investmentPage.opportunities.contact')}</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('investmentPage.opportunities.contactTitle')}</h3>
             <div className={`grid grid-cols-1 md:grid-cols-2 gap-4 ${isRTL ? 'md:grid-flow-row-reverse' : ''}`}>
               {opportunity.supportPhone && (
                 <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>

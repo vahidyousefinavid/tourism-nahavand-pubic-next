@@ -1,15 +1,24 @@
+export type Currency = 'IRT' | 'IRR' | 'USD' | 'EUR' | 'AED' | 'CNY' | 'GBP';
+
+export interface MoneyValue {
+  amount: number;
+  currency: Currency;
+}
+
 export interface InvestmentOpportunity {
   id: string;
   title: Record<string, string>; // { fa: '...', en: '...', ... }
   shortDescription: Record<string, string>; // خلاصه کوتاه برای کارت
   fullDescription: Record<string, string>; // توضیح کامل و کاربرپسند
-  image: string;
+  images?: string[];
+  mainImageIndex?: number;
+  image?: string; // deprecated – use images[mainImageIndex]
   category: 'real-estate' | 'agriculture' | 'tourism' | 'handicrafts' | 'industry' | 'technology';
   icon: string; // نام آیکون از lucide-react
-  
+
   // اطلاعات سرمایه‌گذاری
-  minInvestment?: string; // حداقل سرمایه
-  maxInvestment?: string; // حداکثر سرمایه
+  minInvestment?: MoneyValue | null;
+  maxInvestment?: MoneyValue | null;
   expectedReturn?: string; // بازدهی مورد انتظار
   timeframe?: string; // بازه زمانی
   riskLevel?: 'low' | 'medium' | 'high'; // سطح ریسک

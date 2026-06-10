@@ -44,12 +44,21 @@ export default function InvestmentOpportunitiesPage() {
     const opportunityId = searchParams.get('id');
     if (opportunityId && opportunities.length > 0) {
       const found = opportunities.find((o) => o.id === opportunityId);
-      if (found) setSelectedOpportunity(found);
+      if (found && found.id !== selectedOpportunity?.id) {
+        setSelectedOpportunity(found);
+        trackView(found.id);
+      }
     }
   }, [searchParams, opportunities]);
 
+  const trackView = (id: string) => {
+    const base = process.env.NEXT_PUBLIC_API_URL || '';
+    fetch(`${base}/api/investments/${id}/view`, { method: 'POST' }).catch(() => {});
+  };
+
   const handleOpportunityClick = (opportunity: InvestmentOpportunity) => {
     setSelectedOpportunity(opportunity);
+    trackView(opportunity.id);
     router.push(`/investment/opportunities?id=${opportunity.id}`, { scroll: false });
   };
 

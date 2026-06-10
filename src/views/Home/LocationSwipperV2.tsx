@@ -4,113 +4,125 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
-import { Button } from "@/components/ui/Button";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, MapPin } from "lucide-react";
 import axios from "axios";
 import VisitCardV2 from "@/components/Cards/VisitV2";
 import { Modal } from "@/components/ui/Modal";
 import { LocationModalContent } from "../Locations/LocationModalContent";
 import { useTranslation } from "react-i18next";
 import { AppLocale } from "@/types";
+import { motion } from "framer-motion";
 
 export default function LocationSwipperV2() {
-    const { t, i18n } = useTranslation();
-    const [locations, setLocations] = useState<any[]>([]);
-    const [selectedLocation, setSelectedLocation] = useState<any | null>(null);
+  const { t, i18n } = useTranslation();
+  const [locations, setLocations] = useState<any[]>([]);
+  const [selectedLocation, setSelectedLocation] = useState<any | null>(null);
 
-    useEffect(() => {
-        const fetchTopLocations = async () => {
-            try {
-                const res = await axios.get(`/api/locations/top/views`);
-                setLocations(res.data);
-            } catch (error) {
-                console.error("Error fetching top locations:", error);
-            }
-        };
-        fetchTopLocations();
-    }, []);
+  useEffect(() => {
+    axios.get("/api/locations/top/views").then((res) => {
+      setLocations(res.data);
+    }).catch(() => {});
+  }, []);
 
-    const openInMaps = (coordinates: [number, number]) => {
-        const [lat, lng] = coordinates;
-        window.open(`https://www.google.com/maps?q=${lat},${lng}`, "_blank");
-    };
+  const openInMaps = (coordinates: [number, number]) => {
+    const [lat, lng] = coordinates;
+    window.open(`https://www.google.com/maps?q=${lat},${lng}`, "_blank");
+  };
 
-    // تابع کمکی برای تشخیص جهت صفحه
-    const isRTL = i18n.language === 'fa' || i18n.language === 'ar';
-    const ArrowIcon = isRTL ? ArrowLeft : ArrowRight;
+  const isRTL = i18n.language === "fa" || i18n.language === "ar";
+  const ArrowIcon = isRTL ? ArrowLeft : ArrowRight;
 
-    return (
-        <section className="py-16 px-4 bg-gray-50">
-            <div className="mx-auto">
-                {/* Title */}
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                        {t('locations.title', 'مکان‌های برجسته')}
-                    </h2>
-                    <p className="text-lg text-gray-600">
-                        {t('locations.subtitle', 'زیباترین و مهم‌ترین جاذبه‌های گردشگری نهاوند')}
-                    </p>
-                </div>
+  return (
+    <section className="relative pt-12 sm:pt-16 pb-0 px-4 bg-gray-50">
+      <div className="max-w-7xl mx-auto">
 
-                {/* Swiper */}
-                <Swiper
-                    modules={[Navigation]}
-                    navigation
-                    centeredSlides
-                    centeredSlidesBounds
-                    slidesPerView="auto"
-                    spaceBetween={35}
-                    className="!py-8"
-                    dir={isRTL ? 'rtl' : 'ltr'} // تنظیم جهت اسلایدر
-                >
-                    {locations.map((location, index) => (
-                        <SwiperSlide
-                            key={location.id}
-                            className="!w-[260px] sm:!w-[390px] flex justify-center"
-                        >
-                            <VisitCardV2
-                                location={location}
-                                index={index}
-                                locale={i18n.language as AppLocale}
-                                onClick={() => setSelectedLocation(location)}
-                            />
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8">
+          <div>
+            <motion.span
+              initial={{ opacity: 0, y: -8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-700 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-full mb-3"
+            >
+              <MapPin className="w-3.5 h-3.5" />
+              جاذبه‌های گردشگری
+            </motion.span>
+            <motion.h2
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900"
+            >
+              {t("locations.title", "مکان‌های برجسته")}
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.15 }}
+              className="text-gray-500 text-sm mt-1"
+            >
+              {t("locations.subtitle", "زیباترین و مهم‌ترین جاذبه‌های گردشگری نهاوند")}
+            </motion.p>
+          </div>
+          <Link
+            href="/locations"
+            className="inline-flex items-center gap-2 text-emerald-600 hover:text-emerald-700 font-semibold text-sm border border-emerald-200 hover:border-emerald-400 px-5 py-2.5 rounded-full transition-all hover:bg-emerald-50 whitespace-nowrap self-start sm:self-auto"
+          >
+            {t("locations.viewAll", "مشاهده همه")}
+            <ArrowIcon className="w-4 h-4" />
+          </Link>
+        </div>
 
-                {/* View All Button */}
-                <div className="text-center mt-12 flex justify-center">
-                    <Link
-                        href="/locations"
-                        className="flex items-center space-x-2 space-x-reverse text-gray-900 group-hover:text-gray-700 transition-colors duration-300"
-                    >
-                        <Button
-                            size="lg"
-                            variant="outline"
-                            className="group gap-2 hover:border-gray-700 transition-colors duration-300 cursor-pointer"
-                        >
-                            <span>{t('locations.viewAll', 'مشاهده همه مکان‌ها')}</span>
-                            <ArrowIcon className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" />
-                        </Button>
-                    </Link>
-                </div>
+        {/* Swiper */}
+        <Swiper
+          modules={[Navigation]}
+          navigation
+          centeredSlides
+          centeredSlidesBounds
+          slidesPerView="auto"
+          spaceBetween={16}
+          className="!py-4 !-mx-1 !px-1"
+          dir={isRTL ? "rtl" : "ltr"}
+        >
+          {locations.map((location, index) => (
+            <SwiperSlide
+              key={location.id}
+              className="!w-[220px] sm:!w-[240px]"
+            >
+              <VisitCardV2
+                location={location}
+                index={index}
+                locale={i18n.language as AppLocale}
+                onClick={() => {
+                  setSelectedLocation(location);
+                  fetch(`/api/locations/${location.id}/view`, { method: 'POST' }).catch(() => {});
+                }}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
 
-                {/* Modal */}
-                <Modal
-                    isOpen={!!selectedLocation}
-                    onClose={() => setSelectedLocation(null)}
-                    title={selectedLocation?.name?.[i18n.language] || selectedLocation?.name?.fa}
-                >
-                    {selectedLocation && (
-                        <LocationModalContent
-                            location={selectedLocation}
-                            openInMaps={openInMaps}
-                            locale={i18n.language as AppLocale}
-                        />
-                    )}
-                </Modal>
-            </div>
-        </section>
-    );
+      {/* Wave → bg-white (EventSwipperV2) */}
+
+      {/* Modal */}
+      <Modal
+        isOpen={!!selectedLocation}
+        onClose={() => setSelectedLocation(null)}
+        title={selectedLocation?.name?.[i18n.language] || selectedLocation?.name?.fa}
+      >
+        {selectedLocation && (
+          <LocationModalContent
+            location={selectedLocation}
+            openInMaps={openInMaps}
+            locale={i18n.language as AppLocale}
+          />
+        )}
+      </Modal>
+    </section>
+  );
 }
