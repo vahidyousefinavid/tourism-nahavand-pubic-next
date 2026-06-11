@@ -266,7 +266,7 @@ export default function LocationsPage() {
               className="w-18 h-18 rounded-full bg-blue-10 shadow-lg"
             >
               <img
-                src="/images/noah.png"
+                src="/images/Noah.png"
                 alt="logo"
                 className="w-[80px] h-full object-contain"
               />

@@ -222,7 +222,7 @@ export default function Navbar() {
           </div>
 
           <img
-            src="/images/noah.png"
+            src="/images/Noah.png"
             alt="logo"
             className="w-[50px] h-full object-contain"
           />
@@ -421,7 +421,7 @@ export default function Navbar() {
                       {/* Noah image */}
                       <div className="p-4 pb-6 shrink-0 flex justify-center bg-white">
                         <img
-                          src="/images/noah.png"
+                          src="/images/Noah.png"
                           alt="Noah"
                           className="w-16 h-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
                         />

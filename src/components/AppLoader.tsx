@@ -34,7 +34,7 @@ export default function AppLoader({ children }: { children: React.ReactNode }) {
                         className="w-18 h-18 rounded-full bg-blue-10 shadow-lg"
                     >
                         <img
-                            src="/images/noah.png"
+                            src="/images/Noah.png"
                             alt="loading"
                             className="w-[80px] h-full object-contain"
                         />
