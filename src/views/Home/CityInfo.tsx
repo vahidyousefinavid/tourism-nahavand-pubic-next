@@ -35,7 +35,7 @@ export default function CityInfo() {
       gradient: 'from-amber-500 to-orange-500',
       bg: 'bg-amber-50',
       value: '۱۸۰+',
-      label: 'مقصد گردشگری',
+      label: t('cityInfo.destinationsLabel', 'مقصد گردشگری'),
     },
   ];
 
@@ -58,7 +58,7 @@ export default function CityInfo() {
             viewport={{ once: true }}
             className="inline-block bg-emerald-50 text-emerald-700 text-sm font-semibold px-4 py-1.5 rounded-full mb-4"
           >
-            آمار و اطلاعات شهر
+            {t('cityInfo.sectionTag', 'آمار و اطلاعات شهر')}
           </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 10 }}
@@ -67,9 +67,9 @@ export default function CityInfo() {
             transition={{ delay: 0.1 }}
             className="text-3xl md:text-4xl font-black text-gray-900 mb-3 leading-tight"
           >
-            نهاوند،{' '}
+            {t('cityInfo.titleMain', 'نهاوند،')}{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500">
-              شهری کهن در دل زاگرس
+              {t('cityInfo.titleAccent', 'شهری کهن در دل زاگرس')}
             </span>
           </motion.h2>
           <motion.p
@@ -79,7 +79,7 @@ export default function CityInfo() {
             transition={{ delay: 0.2 }}
             className="text-gray-500 max-w-xl mx-auto text-base"
           >
-            هزاران سال تاریخ، طبیعتی بکر و فرهنگی غنی در قلب ایران
+            {t('cityInfo.description', 'هزاران سال تاریخ، طبیعتی بکر و فرهنگی غنی در قلب ایران')}
           </motion.p>
         </div>
 

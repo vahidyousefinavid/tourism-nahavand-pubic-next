@@ -11,10 +11,10 @@ export default function HeroSection() {
   const { dir } = useDirection();
 
   const stats = [
-    { icon: <Users className="w-4 h-4 sm:w-5 sm:h-5" />, value: t('cityInfo.population.value', '۱۲۰,۰۰۰+'), label: 'ساکن' },
-    { icon: <Mountain className="w-4 h-4 sm:w-5 sm:h-5" />, value: t('cityInfo.height.value', '۱,۷۴۰'), label: 'متر ارتفاع' },
-    { icon: <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />, value: t('cityInfo.area.value', '۱,۵۲۴'), label: 'کیلومتر مربع' },
-    { icon: <Compass className="w-4 h-4 sm:w-5 sm:h-5" />, value: '۱۸۰+', label: 'مقصد گردشگری' },
+    { icon: <Users className="w-4 h-4 sm:w-5 sm:h-5" />, value: t('cityInfo.population.value', '۱۲۰,۰۰۰+'), label: t('hero.statResident', 'ساکن') },
+    { icon: <Mountain className="w-4 h-4 sm:w-5 sm:h-5" />, value: t('cityInfo.height.value', '۱,۷۴۰'), label: t('hero.statElevation', 'متر ارتفاع') },
+    { icon: <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />, value: t('cityInfo.area.value', '۱,۵۲۴'), label: t('hero.statArea', 'کیلومتر مربع') },
+    { icon: <Compass className="w-4 h-4 sm:w-5 sm:h-5" />, value: '۱۸۰+', label: t('hero.statDestinations', 'مقصد گردشگری') },
   ];
 
   return (
@@ -47,7 +47,7 @@ export default function HeroSection() {
         >
           <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white/90 px-4 py-1.5 rounded-full text-xs sm:text-sm tracking-wide">
             <MapPin className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-400 flex-shrink-0" />
-            نهاوند · استان همدان · غرب ایران
+            {t('hero.locationBadge', 'نهاوند · استان همدان · غرب ایران')}
           </span>
         </motion.div>
 
@@ -63,7 +63,7 @@ export default function HeroSection() {
             letterSpacing: '-0.02em',
           }}
         >
-          نهاوند
+          {t('hero.cityName', 'نهاوند')}
         </motion.h1>
 
         {/* Accent line */}
@@ -81,7 +81,7 @@ export default function HeroSection() {
           transition={{ delay: 0.55 }}
           className="text-white/70 text-sm sm:text-lg md:text-xl font-light mb-3"
         >
-          نگین سبز غرب ایران
+          {t('hero.tagline', 'نگین سبز غرب ایران')}
         </motion.p>
 
         {/* Typewriter */}

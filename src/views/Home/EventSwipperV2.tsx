@@ -29,7 +29,7 @@ export default function EventSwipperV2() {
   const ArrowIcon = isRTL ? ArrowLeft : ArrowRight;
 
   return (
-    <section className="relative pt-12 sm:pt-16 pb-0 px-4 bg-white">
+    <section dir={isRTL ? "rtl" : "ltr"} className="relative pt-12 sm:pt-16 pb-0 px-4 bg-white">
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
@@ -42,7 +42,7 @@ export default function EventSwipperV2() {
               className="inline-flex items-center gap-1.5 bg-purple-100 text-purple-700 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-full mb-3"
             >
               <CalendarDays className="w-3.5 h-3.5" />
-              تقویم رویدادها
+              {t("events.sectionTag", "تقویم رویدادها")}
             </motion.span>
             <motion.h2
               initial={{ opacity: 0, y: 10 }}

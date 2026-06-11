@@ -12,15 +12,15 @@ import { useDirection } from '@/hooks/useDirection';
 
 
 const gallery = [
-  { src: '/images/back32.jpg', caption: 'مسجد جامع نهاوند', sub: 'یادگاری از معماری اسلامی ایران' },
-  { src: '/images/back31.jpg', caption: 'سراب گیان', sub: 'چشمه‌ای کهن در دل طبیعت نهاوند' },
-  { src: '/images/back3.jpg',  caption: 'طبیعت بکر نهاوند', sub: 'کوه‌های باشکوه و دشت‌های سرسبز' },
-  { src: '/images/back4.jpg',  caption: 'چشم‌اندازهای شهر', sub: 'نهاوند، شهری در آغوش طبیعت' },
-  { src: '/images/back1.jpg',  caption: 'مناظر زیبا', sub: 'هر گوشه‌ای از این شهر داستانی دارد' },
+  { src: '/images/back32.jpg', captionKey: 'historyGallery.items.jamehMosque', subKey: 'historyGallery.items.jamehMosqueSub' },
+  { src: '/images/back31.jpg', captionKey: 'historyGallery.items.sarabGian',   subKey: 'historyGallery.items.sarabGianSub' },
+  { src: '/images/back3.jpg',  captionKey: 'historyGallery.items.nature',      subKey: 'historyGallery.items.natureSub' },
+  { src: '/images/back4.jpg',  captionKey: 'historyGallery.items.cityView',    subKey: 'historyGallery.items.cityViewSub' },
+  { src: '/images/back1.jpg',  captionKey: 'historyGallery.items.landscape',   subKey: 'historyGallery.items.landscapeSub' },
 ];
 
 export default function HistoryGallery() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { dir, isRTL } = useDirection();
   const ArrowIcon = isRTL ? ArrowLeft : ArrowRight;
 
@@ -36,7 +36,7 @@ export default function HistoryGallery() {
           className="inline-flex items-center gap-1.5 bg-white/10 border border-white/15 text-white/75 text-xs sm:text-sm font-medium px-4 py-1.5 rounded-full mb-4"
         >
           <Camera className="w-3.5 h-3.5" />
-          گالری تصاویر
+          {t('historyGallery.sectionTag', 'گالری تصاویر')}
         </motion.span>
         <motion.h2
           initial={{ opacity: 0, y: 10 }}
@@ -45,7 +45,7 @@ export default function HistoryGallery() {
           transition={{ delay: 0.1 }}
           className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-2"
         >
-          نهاوند از نگاه دوربین
+          {t('historyGallery.title', 'نهاوند از نگاه دوربین')}
         </motion.h2>
         <motion.p
           initial={{ opacity: 0 }}
@@ -54,7 +54,7 @@ export default function HistoryGallery() {
           transition={{ delay: 0.2 }}
           className="text-white/40 text-sm"
         >
-          لحظاتی ناب از طبیعت، تاریخ و فرهنگ این شهر
+          {t('historyGallery.subtitle', 'لحظاتی ناب از طبیعت، تاریخ و فرهنگ این شهر')}
         </motion.p>
       </div>
 
@@ -81,14 +81,14 @@ export default function HistoryGallery() {
               <div className="relative w-full aspect-[16/9] overflow-hidden rounded-2xl group">
                 <Image
                   src={item.src}
-                  alt={item.caption}
+                  alt={t(item.captionKey)}
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
                 <div className={`absolute bottom-0 left-0 right-0 p-4 sm:p-6 ${isRTL ? 'text-right' : 'text-left'}`}>
-                  <p className="text-white font-bold text-base sm:text-xl mb-0.5">{item.caption}</p>
-                  <p className="text-white/55 text-xs sm:text-sm">{item.sub}</p>
+                  <p className="text-white font-bold text-base sm:text-xl mb-0.5">{t(item.captionKey)}</p>
+                  <p className="text-white/55 text-xs sm:text-sm">{t(item.subKey)}</p>
                 </div>
               </div>
             </SwiperSlide>
@@ -102,7 +102,7 @@ export default function HistoryGallery() {
           href="/history"
           className="inline-flex items-center gap-2 bg-white/8 hover:bg-white/15 border border-white/15 text-white/80 hover:text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-all hover:scale-105"
         >
-          مشاهده تاریخ شهر
+          {t('historyGallery.viewHistory', 'مشاهده تاریخ شهر')}
           <ArrowIcon className="w-4 h-4" />
         </Link>
       </div>

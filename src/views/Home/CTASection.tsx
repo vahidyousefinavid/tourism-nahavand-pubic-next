@@ -40,7 +40,7 @@ export default function CTASection() {
           viewport={{ once: true }}
           className="inline-block bg-emerald-500/15 border border-emerald-400/25 text-emerald-300 text-xs sm:text-sm font-semibold px-4 py-1.5 rounded-full mb-6"
         >
-          سفر به نهاوند
+          {t('cta.badge', 'سفر به نهاوند')}
         </motion.span>
 
         <motion.h2
@@ -96,13 +96,13 @@ export default function CTASection() {
         >
           <span className="flex items-center gap-2">
             <Phone className="w-4 h-4 text-emerald-500" />
-            سازمان گردشگری نهاوند
+            {t('cta.contactOrg', 'سازمان گردشگری نهاوند')}
           </span>
           <span className="hidden sm:block w-px h-4 bg-white/20" />
-          <span>شهرستان نهاوند، استان همدان</span>
+          <span>{t('cta.contactAddress', 'شهرستان نهاوند، استان همدان')}</span>
           <span className="hidden sm:block w-px h-4 bg-white/20" />
           <Link href="/contact" className="text-emerald-400 hover:text-emerald-300 transition-colors">
-            تماس با ما
+            {t('cta.contactLink', 'تماس با ما')}
           </Link>
         </motion.div>
       </div>

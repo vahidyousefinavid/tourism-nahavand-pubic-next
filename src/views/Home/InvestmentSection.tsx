@@ -15,13 +15,13 @@ import { InvestmentOpportunity } from '@/types/investment';
 import { AppLocale } from '@/types';
 import { formatMoney } from '@/lib/format-money';
 
-const CATEGORY_STYLES: Record<string, { bg: string; text: string; label: string }> = {
-  'real-estate': { bg: 'bg-blue-100', text: 'text-blue-700', label: 'ملکی' },
-  agriculture:   { bg: 'bg-emerald-100', text: 'text-emerald-700', label: 'کشاورزی' },
-  tourism:       { bg: 'bg-purple-100', text: 'text-purple-700', label: 'گردشگری' },
-  handicrafts:   { bg: 'bg-amber-100', text: 'text-amber-700', label: 'صنایع دستی' },
-  industry:      { bg: 'bg-gray-100', text: 'text-gray-700', label: 'صنعت' },
-  technology:    { bg: 'bg-cyan-100', text: 'text-cyan-700', label: 'فناوری' },
+const CATEGORY_STYLES: Record<string, { bg: string; text: string; labelKey: string }> = {
+  'real-estate': { bg: 'bg-blue-100', text: 'text-blue-700', labelKey: 'investmentPage.categories.realEstate' },
+  agriculture:   { bg: 'bg-emerald-100', text: 'text-emerald-700', labelKey: 'investmentPage.categories.agriculture' },
+  tourism:       { bg: 'bg-purple-100', text: 'text-purple-700', labelKey: 'investmentPage.categories.tourism' },
+  handicrafts:   { bg: 'bg-amber-100', text: 'text-amber-700', labelKey: 'investmentPage.categories.handicrafts' },
+  industry:      { bg: 'bg-gray-100', text: 'text-gray-700', labelKey: 'investmentPage.categories.industry' },
+  technology:    { bg: 'bg-cyan-100', text: 'text-cyan-700', labelKey: 'investmentPage.categories.technology' },
 };
 
 function InvestmentCardCompact({
@@ -33,6 +33,7 @@ function InvestmentCardCompact({
   locale: string;
   onClick: () => void;
 }) {
+  const { t } = useTranslation();
   const title = opportunity.title?.[locale] || opportunity.title?.fa || '';
   const shortDesc = opportunity.shortDescription?.[locale] || opportunity.shortDescription?.fa || '';
   const mainImg = opportunity.images?.length
@@ -44,7 +45,7 @@ function InvestmentCardCompact({
   const cat = CATEGORY_STYLES[opportunity.category] ?? {
     bg: 'bg-gray-100',
     text: 'text-gray-700',
-    label: opportunity.category,
+    labelKey: '',
   };
 
   return (
@@ -66,12 +67,12 @@ function InvestmentCardCompact({
         <span
           className={`absolute top-3 right-3 text-[11px] font-semibold px-2.5 py-1 rounded-full ${cat.bg} ${cat.text}`}
         >
-          {cat.label}
+          {cat.labelKey ? t(cat.labelKey, opportunity.category) : opportunity.category}
         </span>
         {opportunity.status === 'active' && (
           <span className="absolute top-3 left-3 flex items-center gap-1 bg-emerald-500 text-white text-[10px] font-semibold px-2 py-0.5 rounded-full">
             <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
-            فعال
+            {t('investmentPage.active', 'فعال')}
           </span>
         )}
       </div>
@@ -88,12 +89,12 @@ function InvestmentCardCompact({
               </span>
             ) : opportunity.expectedReturn ? (
               <span className="text-emerald-600 text-[11px] font-medium">
-                بازده: {opportunity.expectedReturn}
+                {t('investmentPage.return', 'بازده:')} {opportunity.expectedReturn}
               </span>
             ) : null}
           </div>
           <button className="text-[11px] font-semibold text-amber-600 hover:text-amber-700 bg-amber-50 hover:bg-amber-100 px-3 py-1 rounded-full transition-colors whitespace-nowrap flex-shrink-0">
-            بیشتر
+            {t('investmentPage.more', 'بیشتر')}
           </button>
         </div>
       </div>
@@ -119,8 +120,6 @@ export default function InvestmentSection() {
       .catch(() => {});
   }, []);
 
-  if (investments.length === 0) return null;
-
   return (
     <section dir={dir} className="py-12 sm:py-16 px-4 bg-gradient-to-b from-amber-50/60 to-white relative">
       <div className="max-w-7xl mx-auto">
@@ -135,7 +134,7 @@ export default function InvestmentSection() {
               className="inline-flex items-center gap-1.5 bg-amber-100 text-amber-700 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-full mb-3"
             >
               <TrendingUp className="w-3.5 h-3.5" />
-              فرصت‌های سرمایه‌گذاری
+              {t('investmentPage.sectionTag', 'فرصت‌های سرمایه‌گذاری')}
             </motion.span>
             <motion.h2
               initial={{ opacity: 0, y: 10 }}
@@ -153,14 +152,14 @@ export default function InvestmentSection() {
               transition={{ delay: 0.15 }}
               className="text-gray-500 text-sm mt-1"
             >
-              بهترین فرصت‌های رشد و سودآوری در قلب غرب ایران
+              {t('investmentPage.homeSubtitle', 'بهترین فرصت‌های رشد و سودآوری در قلب غرب ایران')}
             </motion.p>
           </div>
           <Link
             href="/investment/opportunities"
             className="inline-flex items-center gap-2 text-amber-600 hover:text-amber-700 font-semibold text-sm border border-amber-200 hover:border-amber-400 px-5 py-2.5 rounded-full transition-all hover:bg-amber-50 whitespace-nowrap self-start sm:self-auto"
           >
-            مشاهده همه
+            {t('investmentPage.viewAll', 'مشاهده همه')}
             <ArrowIcon className="w-4 h-4" />
           </Link>
         </div>

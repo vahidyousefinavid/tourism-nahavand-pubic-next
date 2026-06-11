@@ -250,7 +250,7 @@ export default function EventModalContent({ event, locale = 'fa' }: EventModalCo
       </section>
 
       {/* CTA Button */}
-      <section className="border-t pt-6 mt-6">
+      {/* <section className="border-t pt-6 mt-6">
         {getAvailableSpots() > 0 ? (
           <Button size="lg" className="w-full">
             {t('eventModal.registerBtn')}
@@ -260,7 +260,7 @@ export default function EventModalContent({ event, locale = 'fa' }: EventModalCo
             {t('eventModal.capacityFull')}
           </Button>
         )}
-      </section>
+      </section> */}
     </div>
   );
 }

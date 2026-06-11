@@ -34,7 +34,7 @@ export default function LocationSwipperV2() {
   const ArrowIcon = isRTL ? ArrowLeft : ArrowRight;
 
   return (
-    <section className="relative pt-12 sm:pt-16 pb-0 px-4 bg-gray-50">
+    <section dir={isRTL ? "rtl" : "ltr"} className="relative pt-12 sm:pt-16 pb-0 px-4 bg-gray-50">
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
@@ -47,7 +47,7 @@ export default function LocationSwipperV2() {
               className="inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-700 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-full mb-3"
             >
               <MapPin className="w-3.5 h-3.5" />
-              جاذبه‌های گردشگری
+              {t("locations.sectionTag", "جاذبه‌های گردشگری")}
             </motion.span>
             <motion.h2
               initial={{ opacity: 0, y: 10 }}

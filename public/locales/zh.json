@@ -28,12 +28,25 @@
       "纳哈万德，伊朗西部的绿色宝石"
     ]
   },
+  "hero": {
+    "locationBadge": "纳哈万德 · 哈马丹省 · 伊朗西部",
+    "cityName": "纳哈万德",
+    "tagline": "伊朗西部的绿色宝石",
+    "ctaLocations": "探索地点",
+    "ctaEvents": "即将举行的活动",
+    "statResident": "居民",
+    "statElevation": "米海拔",
+    "statArea": "平方公里",
+    "statDestinations": "旅游目的地"
+  },
   "locations": {
+    "sectionTag": "旅游景点",
     "title": "特色地点",
     "subtitle": "纳哈万德最美丽、最重要的旅游景点",
     "viewAll": "查看所有地点"
   },
   "events": {
+    "sectionTag": "活动日历",
     "title": "即将举行的活动",
     "subtitle": "纳哈万德的文化和娱乐节目",
     "viewAll": "查看所有活动"
@@ -60,20 +73,42 @@
         "3": "当地文化",
         "4": "历史花园"
       }
-    }
+    },
+    "sectionTag": "城市统计数据",
+    "titleMain": "纳哈万德，",
+    "titleAccent": "扎格罗斯山脉中的古城",
+    "description": "数千年历史、原始自然和丰富文化，位于伊朗腹地",
+    "destinationsLabel": "旅游目的地"
   },
   "historyGallery": {
+    "sectionTag": "图片画廊",
+    "title": "镜头中的纳哈万德",
+    "subtitle": "这座城市的自然、历史与文化的纯粹瞬间",
+    "viewHistory": "查看城市历史",
     "items": {
       "jamehMosque": "加米清真寺",
+      "jamehMosqueSub": "伊朗伊斯兰建筑的见证",
       "sarabGian": "萨拉布吉安",
+      "sarabGianSub": "纳哈万德大自然中的古泉",
+      "nature": "纳哈万德原始自然",
+      "natureSub": "雄伟的山脉和郁郁葱葱的平原",
+      "cityView": "城市景色",
+      "cityViewSub": "纳哈万德，被自然环抱的城市",
+      "landscape": "美丽风景",
+      "landscapeSub": "这座城市的每个角落都有故事",
       "nahavand": "纳哈万德"
     }
   },
   "cta": {
+    "badge": "纳哈万德之旅",
     "title": "准备好探索纳哈万德了吗？",
     "subtitle": "加入我们，获得最佳旅行体验",
+    "locationsBtn": "旅游景点",
     "aboutBtn": "关于我们",
-    "cultureBtn": "纳哈万德文化"
+    "cultureBtn": "纳哈万德文化",
+    "contactOrg": "纳哈万德旅游组织",
+    "contactAddress": "纳哈万德县，哈马丹省",
+    "contactLink": "联系我们"
   },
   "footer": {
     "brand": "纳哈万德市",
@@ -399,6 +434,21 @@
     "subtitle": "请调整您的过滤器，然后重试"
   },
   "investmentPage": {
+    "title": "在纳哈万德投资",
+    "sectionTag": "投资机会",
+    "homeSubtitle": "伊朗西部中心的最佳增长和盈利机会",
+    "viewAll": "查看全部",
+    "active": "活跃",
+    "return": "回报:",
+    "more": "更多",
+    "categories": {
+      "realEstate": "房地产",
+      "agriculture": "农业",
+      "tourism": "旅游",
+      "handicrafts": "手工艺",
+      "industry": "工业",
+      "technology": "技术"
+    },
     "hero": {
       "title": "在纳哈万德投资",
       "description": "在历史名城纳哈万德投资，共创光明未来"

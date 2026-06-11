@@ -28,12 +28,25 @@
       "Nahavand, the green gem of western Iran"
     ]
   },
+  "hero": {
+    "locationBadge": "Nahavand · Hamadan Province · Western Iran",
+    "cityName": "Nahavand",
+    "tagline": "Green Gem of Western Iran",
+    "ctaLocations": "Discover Locations",
+    "ctaEvents": "Upcoming Events",
+    "statResident": "Residents",
+    "statElevation": "m Elevation",
+    "statArea": "km² Area",
+    "statDestinations": "Destinations"
+  },
   "locations": {
+    "sectionTag": "Tourist Attractions",
     "title": "Featured Locations",
     "subtitle": "The most beautiful and important tourist attractions in Nahavand",
     "viewAll": "View All Locations"
   },
   "events": {
+    "sectionTag": "Events Calendar",
     "title": "Upcoming Events",
     "subtitle": "Cultural and recreational programs in Nahavand",
     "viewAll": "View All Events"
@@ -60,20 +73,42 @@
         "3": "Local Culture",
         "4": "Historic Gardens"
       }
-    }
+    },
+    "sectionTag": "City Statistics",
+    "titleMain": "Nahavand,",
+    "titleAccent": "Ancient City in the Heart of the Zagros",
+    "description": "Thousands of years of history, pristine nature, and rich culture in the heart of Iran",
+    "destinationsLabel": "Destinations"
   },
   "historyGallery": {
+    "sectionTag": "Photo Gallery",
+    "title": "Nahavand Through the Lens",
+    "subtitle": "Pure moments of nature, history and culture of this city",
+    "viewHistory": "View City History",
     "items": {
       "jamehMosque": "Jameh Mosque",
+      "jamehMosqueSub": "A testament to Iranian Islamic architecture",
       "sarabGian": "Sarab Gian",
+      "sarabGianSub": "An ancient spring in the heart of Nahavand's nature",
+      "nature": "Pristine Nature of Nahavand",
+      "natureSub": "Majestic mountains and lush green plains",
+      "cityView": "City Views",
+      "cityViewSub": "Nahavand, a city embraced by nature",
+      "landscape": "Beautiful Landscapes",
+      "landscapeSub": "Every corner of this city has a story to tell",
       "nahavand": "Nahavand"
     }
   },
   "cta": {
+    "badge": "Journey to Nahavand",
     "title": "Ready to discover Nahavand?",
     "subtitle": "Join us and have the best travel experience",
+    "locationsBtn": "Tourist Locations",
     "aboutBtn": "About Us",
-    "cultureBtn": "Nahavand Culture"
+    "cultureBtn": "Nahavand Culture",
+    "contactOrg": "Nahavand Tourism Organization",
+    "contactAddress": "Nahavand County, Hamadan Province",
+    "contactLink": "Contact Us"
   },
   "footer": {
     "brand": "Nahavand Municipality",
@@ -399,6 +434,21 @@
     "subtitle": "Please adjust your filters and try again"
   },
   "investmentPage": {
+    "title": "Investment in Nahavand",
+    "sectionTag": "Investment Opportunities",
+    "homeSubtitle": "The best growth and profitability opportunities in the heart of western Iran",
+    "viewAll": "View All",
+    "active": "Active",
+    "return": "Return:",
+    "more": "More",
+    "categories": {
+      "realEstate": "Real Estate",
+      "agriculture": "Agriculture",
+      "tourism": "Tourism",
+      "handicrafts": "Handicrafts",
+      "industry": "Industry",
+      "technology": "Technology"
+    },
     "hero": {
       "title": "Investment in Nahavand",
       "description": "Investment opportunities in the historic city of Nahavand for a brighter future"

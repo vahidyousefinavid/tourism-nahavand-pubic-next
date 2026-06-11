@@ -289,7 +289,7 @@ export default function InvestmentModal({
         )}
 
         {/* دکمه اقدام */}
-        <div className={`flex flex-col sm:flex-row gap-3 pt-4 border-t ${isRTL ? 'flex-row-reverse' : ''}`}>
+        {/* <div className={`flex flex-col sm:flex-row gap-3 pt-4 border-t ${isRTL ? 'flex-row-reverse' : ''}`}>
           <button className="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-xl font-medium hover:from-green-600 hover:to-emerald-700 transition-all flex items-center justify-center gap-2">
             <Phone className="w-5 h-5" />
             {t('investmentPage.opportunities.contactInquiry')}
@@ -298,7 +298,7 @@ export default function InvestmentModal({
             <Mail className="w-5 h-5" />
             {t('investmentPage.opportunities.downloadBrochure')}
           </button>
-        </div>
+        </div> */}
       </div>
     </Modal>
   );
