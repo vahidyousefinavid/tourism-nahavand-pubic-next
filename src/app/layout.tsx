@@ -11,7 +11,7 @@ import TopLoader from "@/components/TopLoader";
 const tanha = localFont({
   src: [
     {
-      path: "../../public/fonts/tanha/Tanha.woff2",
+      path: "../../public/fonts/Tanha/Tanha.woff2",
       weight: "400",
       style: "normal",
     },
@@ -22,7 +22,7 @@ const tanha = localFont({
 const parastoo = localFont({
   src: [
     {
-      path: "../../public/fonts/parastoo/Parastoo.woff2",
+      path: "../../public/fonts/Parastoo/Parastoo.woff2",
       weight: "400",
       style: "normal",
     },
@@ -33,7 +33,7 @@ const parastoo = localFont({
 const iranyekan = localFont({
   src: [
     {
-      path: "../../public/fonts/iranyekan/IRANYekan.woff2",
+      path: "../../public/fonts/IRANYekan/IRANYekan.woff2",
       weight: "400",
       style: "normal",
     },
@@ -44,7 +44,7 @@ const iranyekan = localFont({
 const vazir = localFont({
   src: [
     {
-      path: "../../public/fonts/vazir/Vazir.woff2",
+      path: "../../public/fonts/Vazir/Vazir.woff2",
       weight: "400",
       style: "normal",
     },
