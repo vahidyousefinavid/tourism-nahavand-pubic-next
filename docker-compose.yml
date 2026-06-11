@@ -5,6 +5,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        DOMAIN_API: http://tourism-nahavand-api-nest:4000
+        NEXT_PUBLIC_API_URL: http://tourism-nahavand-api-nest:4000
     container_name: tourism-nahavand-public-next
     restart: unless-stopped
     ports:
