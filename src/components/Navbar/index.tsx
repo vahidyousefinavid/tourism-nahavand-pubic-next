@@ -22,27 +22,32 @@ const menuItems = [
     href: '/events',
     icon: CalendarDays,
   },
+  // {
+  //   labelKey: 'nav.locations',
+  //   icon: Map,
+  //   children: [
+  //     {
+  //       labelKey: 'nav.nature',
+  //       href: '/locations?filter.place=nature',
+  //     },
+  //     {
+  //       labelKey: 'nav.religious',
+  //       href: '/locations?filter.place=religious',
+  //     },
+  //     {
+  //       labelKey: 'nav.historical',
+  //       href: '/locations?filter.place=historical',
+  //     },
+  //     {
+  //       labelKey: 'nav.cultural',
+  //       href: '/locations?filter.place=cultural',
+  //     },
+  //   ],
+  // },
   {
     labelKey: 'nav.locations',
+    href: '/locations',
     icon: Map,
-    children: [
-      {
-        labelKey: 'nav.nature',
-        href: '/locations?filter.place=nature',
-      },
-      {
-        labelKey: 'nav.religious',
-        href: '/locations?filter.place=religious',
-      },
-      {
-        labelKey: 'nav.historical',
-        href: '/locations?filter.place=historical',
-      },
-      {
-        labelKey: 'nav.cultural',
-        href: '/locations?filter.place=cultural',
-      },
-    ],
   },
   {
     labelKey: 'nav.history',
