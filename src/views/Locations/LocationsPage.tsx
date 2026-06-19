@@ -1,146 +1,9 @@
 'use client';
-// 'use client';
-
-// import { useState, useEffect } from 'react';
-// import { useSearchParams, useRouter } from 'next/navigation';
-// import { Location, FilterOptions } from '@/types';
-// import { locations } from '@/data/location';
-
-
-// import { FilterPanel } from '@/components/FilterPanel/FilterPanel';
-// import { Modal } from '@/components/ui/Modal';
-// import { NoResults } from './NoResults';
-// import { LocationCard } from './LocationCard';
-// import { LocationModalContent } from './LocationModalContent';
-
-// export default function LocationsPage() {
-//   const searchParams = useSearchParams();
-//   const router = useRouter();
-
-//   const [filteredLocations, setFilteredLocations] = useState<Location[]>(locations);
-//   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
-//   const [filters, setFilters] = useState<FilterOptions>({
-//     search: '',
-//     category: '',
-//     sortBy: 'name',
-//   });
-
-//   // Handle URL params open location modal
-//   useEffect(() => {
-//     const locationId = searchParams.get('id');
-//     if (locationId) {
-//       const found = locations.find(l => l.id === locationId);
-//       if (found) setSelectedLocation(found);
-//     }
-//   }, [searchParams]);
-
-//   // Filter & sort locations based on filters
-//   useEffect(() => {
-//     let filtered = locations.filter(location => {
-//       const matchesSearch =
-//         location.name.toLowerCase().includes(filters.search.toLowerCase()) ||
-//         location.description.toLowerCase().includes(filters.search.toLowerCase());
-
-//       const matchesCategory = !filters.category || location.category === filters.category;
-
-//       return matchesSearch && matchesCategory;
-//     });
-
-//     filtered.sort((a, b) => {
-//       switch (filters.sortBy) {
-//         case 'rating':
-//           return b.rating - a.rating;
-//         case 'reviews':
-//           return b.reviews - a.reviews;
-//         default:
-//           return a.name.localeCompare(b.name, 'fa');
-//       }
-//     });
-
-//     setFilteredLocations(filtered);
-//   }, [filters]);
-
-//   const handleLocationClick = (location: Location) => {
-//     setSelectedLocation(location);
-//     router.push(`/locations?id=${location.id}`, { scroll: false });
-//   };
-
-//   const handleCloseModal = () => {
-//     setSelectedLocation(null);
-//     router.push('/locations', { scroll: false });
-//   };
-
-//   const openInMaps = (coordinates: [number, number]) => {
-//     const [lat, lng] = coordinates;
-//     window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
-//   };
-
-//   return (
-//     <div className="min-h-screen py-8">
-//       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-//         {/* Header */}
-//         <div className="text-center mb-12">
-//           <h1 className="text-4xl font-bold text-gray-900 mb-4">مکان‌های دیدنی نهاوند</h1>
-//           <p className="text-lg text-gray-600">کشف جاذبه‌های گردشگری و تاریخی شهر نهاوند</p>
-//         </div>
-
-//         {/* Filters */}
-//         <FilterPanel
-//           filters={filters}
-//           onChange={setFilters}
-//           searchPlaceholder="جستجو در مکان‌ها..."
-//           categoryOptions={[
-//             { label: 'تاریخی', value: 'historical' },
-//             { label: 'طبیعی', value: 'natural' },
-//             { label: 'فرهنگی', value: 'cultural' },
-//             { label: 'مذهبی', value: 'religious' },
-//           ]}
-//           sortOptions={[
-//             { label: 'مرتب‌سازی بر اساس نام', value: 'name' },
-//             { label: 'مرتب‌سازی بر اساس امتیاز', value: 'rating' },
-//             { label: 'مرتب‌سازی بر اساس نظرات', value: 'reviews' },
-//           ]}
-//           resultCount={filteredLocations.length}
-//           resultLabel="مکان یافت شد"
-//         />
-
-//         {/* Locations Grid */}
-//         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-//           {filteredLocations.length === 0 ? (
-//             <NoResults />
-//           ) : (
-//             filteredLocations.map((location, index) => (
-//               <LocationCard
-//                 key={location.id}
-//                 location={location}
-//                 index={index}
-//                 onClick={() => handleLocationClick(location)}
-//               />
-//             ))
-//           )}
-//         </div>
-//       </div>
-
-//       {/* Modal */}
-//       <Modal
-//         isOpen={!!selectedLocation}
-//         onClose={handleCloseModal}
-//         title={selectedLocation?.name}
-//       >
-//         {selectedLocation && (
-//           <LocationModalContent location={selectedLocation} openInMaps={openInMaps} />
-//         )}
-//       </Modal>
-//     </div>
-//   );
-// }
-
-
-'use client';
 import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import { useSearchParams, useRouter } from 'next/navigation';
 import axios from 'axios';
-import { Location, FilterOptions } from '@/types';
+import { Location, FilterOptions, AppLocale } from '@/types';
 import { Modal } from '@/components/ui/Modal';
 import { NoResults } from './NoResults';
 import { LocationCard } from './LocationCard';
@@ -149,6 +12,21 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useDirection } from '@/hooks/useDirection';
 import i18n from '@/lib/i18n';
+import { LayoutGrid, Map } from 'lucide-react';
+
+const MapView = dynamic(() => import('@/views/Home/MapView'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 animate-pulse flex items-center justify-center">
+      <div className="text-center">
+        <div className="w-12 h-12 border-4 border-emerald-400 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+        <p className="text-gray-400 text-sm">در حال بارگذاری نقشه...</p>
+      </div>
+    </div>
+  ),
+});
+
+type ViewMode = 'grid' | 'map';
 
 export default function LocationsPage() {
   const { t } = useTranslation();
@@ -160,8 +38,9 @@ export default function LocationsPage() {
   const [locations, setLocations] = useState<Location[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
+  const [viewMode, setViewMode] = useState<ViewMode>('grid');
 
-  const [filters, setFilters] = useState<FilterOptions>({
+  const [filters] = useState<FilterOptions>({
     search: '',
     category: '',
     sortBy: 'name',
@@ -171,7 +50,6 @@ export default function LocationsPage() {
     fetch(`/api/locations/${id}/view`, { method: 'POST' }).catch(() => {});
   };
 
-  // 📌 گرفتن دیتا از API
   const fetchLocations = async () => {
     setLoading(true);
     try {
@@ -194,7 +72,6 @@ export default function LocationsPage() {
     fetchLocations();
   }, [filters]);
 
-  // 📌 باز کردن مودال بر اساس query
   useEffect(() => {
     const locationId = searchParams.get('id');
     if (locationId && locations.length > 0) {
@@ -222,13 +99,15 @@ export default function LocationsPage() {
     window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
   };
 
-  // دریافت زبان فعلی برای پاس دادن به کامپوننت‌ها
+  const locale = i18n.language as AppLocale;
+  const mapLocations = locations.filter((l) => l.latlng);
 
   return (
     <div dir={dir} className={`min-h-screen py-8 ${isRTL ? 'text-right' : 'text-left'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
             {t('locationsPage.title')}
           </h1>
@@ -237,53 +116,70 @@ export default function LocationsPage() {
           </p>
         </div>
 
-        {/* Filters */}
-        {/* <FilterPanel
-          filters={filters}
-          onChange={setFilters}
-          searchPlaceholder={t('locationsPage.searchPlaceholder')}
-          categoryOptions={[
-            { label: t('categories.historical'), value: 'historical' },
-            { label: t('categories.natural'), value: 'natural' },
-            { label: t('categories.cultural'), value: 'cultural' },
-            { label: t('categories.religious'), value: 'religious' },
-          ]}
-          sortOptions={[
-            { label: t('locationsPage.sortByName'), value: 'name' },
-            { label: t('locationsPage.sortByRating'), value: 'rating' },
-            { label: t('locationsPage.sortByReviews'), value: 'reviews' },
-          ]}
-          resultCount={locations.length}
-          resultLabel={t('locationsPage.resultLabel')}
-        /> */}
+        {/* View Toggle */}
+        <div className={`flex ${isRTL ? 'justify-start' : 'justify-end'} mb-6`}>
+          <div className="inline-flex rounded-xl border border-gray-200 bg-gray-50 p-1 gap-1">
+            <button
+              onClick={() => setViewMode('grid')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+                viewMode === 'grid'
+                  ? 'bg-white text-gray-900 shadow-sm'
+                  : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              <LayoutGrid className="w-4 h-4" />
+              {t('locationsPage.gridView', 'نمای کارت')}
+            </button>
+            <button
+              onClick={() => setViewMode('map')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+                viewMode === 'map'
+                  ? 'bg-white text-gray-900 shadow-sm'
+                  : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              <Map className="w-4 h-4" />
+              {t('locationsPage.mapView', 'نمای نقشه')}
+            </button>
+          </div>
+        </div>
 
-        {/* Locations Grid */}
+        {/* Content */}
         {loading ? (
           <div className="flex justify-center items-center h-64">
             <motion.div
               animate={{ scale: [1, 1.2, 1], opacity: [1, 0.8, 1] }}
-              transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
-              className="w-18 h-18 rounded-full bg-blue-10 shadow-lg"
+              transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
+              className="w-18 h-18 rounded-full shadow-lg"
             >
-              <img
-                src="/images/Noah.png"
-                alt="logo"
-                className="w-[80px] h-full object-contain"
-              />
+              <img src="/images/Noah.png" alt="logo" className="w-[80px] h-full object-contain" />
             </motion.div>
+          </div>
+        ) : viewMode === 'map' ? (
+          <div
+            className="rounded-2xl overflow-hidden shadow-xl border border-gray-200"
+            style={{ height: '600px' }}
+          >
+            <MapView
+              locations={mapLocations}
+              locale={locale}
+              activeCategory={filters.category || null}
+              selectedId={selectedLocation?.id ?? null}
+              onSelectLocation={handleLocationClick}
+            />
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {locations.length === 0 && !loading ? (
+            {locations.length === 0 ? (
               <NoResults />
             ) : (
-              locations.map((location: Location, index: any) => (
+              locations.map((location: Location, index: number) => (
                 <LocationCard
                   key={location.id}
                   location={location}
                   index={index}
                   onClick={() => handleLocationClick(location)}
-                  locale={i18n.language as any}
+                  locale={locale}
                 />
               ))
             )}
@@ -295,13 +191,13 @@ export default function LocationsPage() {
       <Modal
         isOpen={!!selectedLocation}
         onClose={handleCloseModal}
-        title={selectedLocation?.name[i18n.language] || selectedLocation?.name.fa}
+        title={selectedLocation?.name[i18n.language] || selectedLocation?.name?.fa}
       >
         {selectedLocation && (
           <LocationModalContent
             location={selectedLocation}
             openInMaps={openInMaps}
-            locale={i18n.language as any}
+            locale={locale}
           />
         )}
       </Modal>

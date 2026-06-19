@@ -1,5 +1,5 @@
 import HeroSection from '@/views/Home/HeroSection';
-import LocationSwipperV2 from '@/views/Home/LocationSwipperV2';
+import TourismMap from '@/views/Home/TourismMap';
 import EventSwipperV2 from '@/views/Home/EventSwipperV2';
 import InvestmentSection from '@/views/Home/InvestmentSection';
 import CityInfo from '@/views/Home/CityInfo';
@@ -12,8 +12,8 @@ export default function HomePage() {
       {/* ── Hero – dark bg, wave into gray-50 ── */}
       <HeroSection />
 
-      {/* ── Locations – bg-gray-50, wave into white ── */}
-      <LocationSwipperV2 />
+      {/* ── Tourism Map – interactive map with location markers ── */}
+      <TourismMap />
 
       {/* ── Events – bg-white, wave into amber-50 ── */}
       <EventSwipperV2 />

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import "leaflet/dist/leaflet.css";
 import Footer from "../views/Footer/Footer";
 import Navbar from "../components/Navbar";
 import LanguageProvider from "@/providers/LanguageProvider";

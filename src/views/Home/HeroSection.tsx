@@ -4,18 +4,19 @@ import { useTranslation } from 'react-i18next';
 import { useDirection } from '@/hooks/useDirection';
 import TourismTypewriter from './TourismTypewriter';
 import Link from 'next/link';
-import { MapPin, Calendar, ChevronDown, Mountain, Users, Compass } from 'lucide-react';
+import { MapPin, Calendar, Leaf, TrendingUp, Sparkles } from 'lucide-react';
+
+const QUICK_LINKS = [
+  { href: '/places',                    icon: MapPin,     key: 'places',       color: 'text-blue-300' },
+  { href: '/events',                    icon: Calendar,   key: 'events',       color: 'text-amber-300' },
+  { href: '/nature',                    icon: Leaf,       key: 'nature',       color: 'text-emerald-300' },
+  { href: '/investment',                icon: TrendingUp, key: 'investment',   color: 'text-violet-300' },
+  { href: '/creative-city/secretariat', icon: Sparkles,   key: 'creativeCity', color: 'text-fuchsia-300' },
+];
 
 export default function HeroSection() {
   const { t } = useTranslation();
   const { dir } = useDirection();
-
-  const stats = [
-    { icon: <Users className="w-4 h-4 sm:w-5 sm:h-5" />, value: t('cityInfo.population.value', '۱۲۰,۰۰۰+'), label: t('hero.statResident', 'ساکن') },
-    { icon: <Mountain className="w-4 h-4 sm:w-5 sm:h-5" />, value: t('cityInfo.height.value', '۱,۷۴۰'), label: t('hero.statElevation', 'متر ارتفاع') },
-    { icon: <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />, value: t('cityInfo.area.value', '۱,۵۲۴'), label: t('hero.statArea', 'کیلومتر مربع') },
-    { icon: <Compass className="w-4 h-4 sm:w-5 sm:h-5" />, value: '۱۸۰+', label: t('hero.statDestinations', 'مقصد گردشگری') },
-  ];
 
   return (
     <div dir={dir} className="relative min-h-[calc(100vh-100px)] flex flex-col overflow-hidden">
@@ -118,24 +119,29 @@ export default function HeroSection() {
         </motion.div>
       </div>
 
-      {/* ── Stats strip ── */}
+      {/* ── Quick links strip ── */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.0 }}
         className="relative z-10 w-full px-3 sm:px-4 pb-[128px] sm:pb-[120px]"
       >
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 max-w-3xl mx-auto">
-          {stats.map((stat, i) => (
-            <div
-              key={i}
-              className="bg-white/10 backdrop-blur-md border border-white/15 rounded-xl sm:rounded-2xl p-3 sm:p-4 text-center text-white hover:bg-white/18 transition-colors duration-200"
-            >
-              <div className="text-emerald-400 flex justify-center mb-1 sm:mb-1.5">{stat.icon}</div>
-              <div className="text-base sm:text-xl md:text-2xl font-black tabular-nums">{stat.value}</div>
-              <div className="text-[9px] sm:text-[11px] text-white/55 mt-0.5 leading-snug">{stat.label}</div>
-            </div>
-          ))}
+        <div className="grid grid-cols-5 gap-2 sm:gap-3 max-w-2xl mx-auto">
+          {QUICK_LINKS.map((link, i) => {
+            const Icon = link.icon;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="group bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/15 hover:border-white/30 rounded-xl sm:rounded-2xl p-2.5 sm:p-3.5 flex flex-col items-center gap-1.5 text-white transition-all duration-200 hover:-translate-y-1"
+              >
+                <Icon className={`w-4 h-4 sm:w-5 sm:h-5 ${link.color} group-hover:scale-110 transition-transform`} />
+                <span className="text-[9px] sm:text-[11px] text-white/70 group-hover:text-white/90 text-center leading-tight transition-colors">
+                  {t(`hero.quickLinks.${link.key}`)}
+                </span>
+              </Link>
+            );
+          })}
         </div>
       </motion.div>
       

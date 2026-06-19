@@ -1,6 +1,33 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Leaflet tile fade-in — reduces the "piece by piece" visual */
+.leaflet-tile {
+  transition: opacity 0.25s ease !important;
+}
+.leaflet-container {
+  background: #e8ead8;
+  isolation: isolate; /* keep Leaflet's internal z-indexes from escaping above the navbar */
+}
+
+/* Nature trail animated dash */
+@keyframes natureDash {
+  to { stroke-dashoffset: -26; }
+}
+.nature-trail path {
+  stroke-dasharray: 18, 8;
+  animation: natureDash 2s linear infinite;
+}
+
+/* Nature marker pulse ring */
+@keyframes naturePulse {
+  0%   { transform: scale(0.85); opacity: 0.8; }
+  100% { transform: scale(1.6);  opacity: 0; }
+}
+.nature-pulse {
+  animation: naturePulse 1.8s ease-out infinite;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

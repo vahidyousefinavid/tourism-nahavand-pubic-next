@@ -94,9 +94,7 @@ export default function CityInfo() {
               transition={{ duration: 0.5, delay: i * 0.1 }}
               className={`${stat.bg} rounded-2xl p-6 flex flex-col items-center text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1`}
             >
-              <div
-                className={`w-14 h-14 bg-gradient-to-br ${stat.gradient} text-white rounded-2xl flex items-center justify-center mb-4 shadow-md`}
-              >
+              <div className={`w-14 h-14 bg-gradient-to-br ${stat.gradient} text-white rounded-2xl flex items-center justify-center mb-4 shadow-md`}>
                 {stat.icon}
               </div>
               <div className="text-3xl font-black text-gray-900 mb-1">{stat.value}</div>
@@ -114,31 +112,15 @@ export default function CityInfo() {
           className="bg-gradient-to-br from-gray-50 to-emerald-50 rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8"
         >
           <div className="flex-1 w-full">
-            <h3
-              className={`text-2xl font-black text-gray-900 mb-2 ${
-                isRTL ? 'text-right' : 'text-left'
-              }`}
-            >
+            <h3 className={`text-2xl font-black text-gray-900 mb-2 ${isRTL ? 'text-right' : 'text-left'}`}>
               {t('cityInfo.destinations.title', '۱۸۰+ مقصد گردشگری')}
             </h3>
-            <p
-              className={`text-gray-500 text-sm mb-6 ${
-                isRTL ? 'text-right' : 'text-left'
-              }`}
-            >
-              {t(
-                'cityInfo.destinations.subtitle',
-                'برترین تجربه‌ها از مردم و گردشگران'
-              )}
+            <p className={`text-gray-500 text-sm mb-6 ${isRTL ? 'text-right' : 'text-left'}`}>
+              {t('cityInfo.destinations.subtitle', 'برترین تجربه‌ها از مردم و گردشگران')}
             </p>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {highlights.map((item, i) => (
-                <li
-                  key={i}
-                  className={`flex items-center gap-2 text-gray-700 font-medium ${
-                    isRTL ? 'flex-row-reverse' : ''
-                  }`}
-                >
+                <li key={i} className={`flex items-center gap-2 text-gray-700 font-medium ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0" />
                   {item}
                 </li>
@@ -148,11 +130,7 @@ export default function CityInfo() {
 
           <div className="flex-shrink-0">
             <div className="w-40 h-40 md:w-52 md:h-52 rounded-full overflow-hidden border-4 border-white shadow-xl">
-              <img
-                src="/images/back32.jpg"
-                alt="نهاوند"
-                className="w-full h-full object-cover"
-              />
+              <img src="/images/back32.jpg" alt="نهاوند" className="w-full h-full object-cover" />
             </div>
           </div>
         </motion.div>

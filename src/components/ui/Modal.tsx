@@ -32,7 +32,7 @@ export function Modal({ isOpen, onClose, children, title }: ModalProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 z-40"
+            className="fixed inset-0 bg-black/50 z-[1001]"
             onClick={onClose}
           />
           <motion.div
@@ -40,7 +40,7 @@ export function Modal({ isOpen, onClose, children, title }: ModalProps) {
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 max-h-[90vh] overflow-y-auto md:max-h-[80vh] md:max-w-4xl md:mx-auto md:bottom-auto md:top-1/2 md:left-1/2 md:right-auto md:transform md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-2xl"
+            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-[1002] max-h-[90vh] overflow-y-auto md:max-h-[80vh] md:max-w-4xl md:mx-auto md:bottom-auto md:top-1/2 md:left-1/2 md:right-auto md:transform md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-2xl"
           >
             <div className="sticky top-0 bg-white z-[100] border-b border-gray-200 p-4 flex items-center justify-between rounded-t-2xl">
               {title && <h2 className="text-xl font-bold text-gray-900">{title}</h2>}

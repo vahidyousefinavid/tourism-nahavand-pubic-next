@@ -797,5 +797,54 @@
   "categories_title": "Kategorientitel",
   "translate": "übersetzen",
   "preview": "Vorschau",
-  "hide_preview": "Vorschau ausblenden"
+  "hide_preview": "Vorschau ausblenden",
+  "newsPage": {
+    "title": "Nachrichten der Kreativstadt Nahavand",
+    "subtitle": "Neueste Veranstaltungen, Programme und Errungenschaften der Kreativstadt Nahavand",
+    "tag": "Sekretariat der Kreativstadt",
+    "searchPlaceholder": "Nachrichten suchen...",
+    "all": "Alle",
+    "resultLabel": "Nachrichten",
+    "readMore": "Mehr lesen",
+    "noResults": "Keine Nachrichten gefunden",
+    "clearFilter": "Löschen",
+    "backLink": "Zurück zum Sekretariat",
+    "categories": {
+      "event": "Veranstaltung",
+      "announcement": "Ankündigung",
+      "program": "Programm",
+      "achievement": "Leistung"
+    }
+  },
+  "initiativesPage": {
+    "title": "Aktive Initiativen der Kreativstadt",
+    "subtitle": "Kreative Initiativen und Projekte in Nahavand",
+    "tag": "Kreativität in der Stadt",
+    "searchPlaceholder": "Suchen...",
+    "all": "Alle",
+    "resultLabel": "Initiativen",
+    "allStatuses": "Alle Status",
+    "noResults": "Keine Initiativen gefunden",
+    "clearFilter": "Löschen",
+    "backLink": "Zurück zur Kreativität in der Stadt",
+    "progress": "Fortschritt",
+    "participants": "Teilnehmer",
+    "startYear": "Startjahr",
+    "status": {
+      "active": "Aktiv",
+      "ongoing": "Laufend",
+      "planned": "Geplant",
+      "completed": "Abgeschlossen"
+    },
+    "sectors": {
+      "handicrafts": "Kunsthandwerk",
+      "music": "Musik",
+      "gastronomy": "Gastronomie",
+      "tech": "Technologie",
+      "education": "Bildung",
+      "literature": "Literatur",
+      "architecture": "Architektur",
+      "visualArts": "Bildende Kunst"
+    }
+  }
 }

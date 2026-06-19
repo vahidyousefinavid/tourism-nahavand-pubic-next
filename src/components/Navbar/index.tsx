@@ -6,7 +6,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import clsx from 'clsx';
 import BorderDecoration from '../BorderDecoration';
 import {
-  Menu, X, ChevronDown, Home, Map, BookOpen, Info, Phone, Landmark, CalendarDays, Languages, Globe, TrendingUp
+  Menu, X, ChevronDown, Home, Map, Info, Landmark, CalendarDays, Globe, TrendingUp,
+  MapPin, Play, Lightbulb, Leaf, Sparkles, BookOpen, Palette, Heart
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useDirection } from '@/hooks/useDirection';
@@ -50,29 +51,36 @@ const menuItems = [
     icon: Map,
   },
   {
-    labelKey: 'nav.history',
-    href: '/history',
-    icon: Landmark,
-  },
-  {
-    labelKey: 'nav.culture',
-    href: '/culture',
-    icon: BookOpen,
+    labelKey: 'nav.nature',
+    href: '/nature',
+    icon: Leaf,
   },
   {
     labelKey: 'nav.investment',
     href: '/investment',
     icon: TrendingUp,
     children: [
-      {
-        labelKey: 'nav.investmentGuide',
-        href: '/investment',
-      },
-      {
-        labelKey: 'nav.investmentOpportunities',
-        href: '/investment/opportunities',
-      },
+      { labelKey: 'nav.investmentGuide',         href: '/investment',                icon: TrendingUp },
+      { labelKey: 'nav.investmentAtlas',          href: '/investment/atlas',          icon: MapPin     },
+      { labelKey: 'nav.investmentOpportunities',  href: '/investment/opportunities',  icon: TrendingUp },
+      { labelKey: 'nav.investmentOngoing',        href: '/investment/ongoing',        icon: Play       },
+      { labelKey: 'nav.investmentSuggest',        href: '/investment/suggest',        icon: Lightbulb  },
     ],
+  },
+  {
+    labelKey: 'nav.creativeCity',
+    href: '/creative-city/secretariat',
+    icon: Sparkles,
+    children: [
+      { labelKey: 'nav.creativeSecretariat', href: '/creative-city/secretariat', icon: BookOpen  },
+      { labelKey: 'nav.creativeInCity',      href: '/creative-city/in-city',     icon: Palette   },
+      { labelKey: 'nav.creativeYou',         href: '/creative-city/you',         icon: Heart     },
+    ],
+  },
+  {
+    labelKey: 'nav.historyCulture',
+    href: '/history',
+    icon: Landmark,
   },
   {
     labelKey: 'nav.about',
@@ -167,13 +175,19 @@ export default function Navbar() {
                   <div className="flex items-center h-full gap-1 hover:text-blue-600">
                     <span>{t(item.labelKey)}</span>
                   </div>
-                  <div className="absolute top-[70px] right-0 bg-white/95 backdrop-blur-lg shadow-md rounded-xl w-48 p-2 opacity-0 group-hover:opacity-100 group-hover:visible invisible transition duration-200 z-40">
+                  <div className="absolute top-[70px] start-0 bg-white/95 backdrop-blur-lg shadow-md rounded-xl w-56 p-2 opacity-0 group-hover:opacity-100 group-hover:visible invisible transition duration-200 z-40">
                     <BorderDecoration isRTL={isRTL} />
-                    {item.children.map((child) => (
-                      <Link prefetch key={child.labelKey} href={child.href} className="block py-1 px-4 hover:text-blue-600">
-                        {t(child.labelKey)}
-                      </Link>
-                    ))}
+                    {item.children.map((child) => {
+                      const ChildIcon = (child as any).icon;
+                      return (
+                        <Link prefetch key={child.labelKey} href={child.href}
+                          className="flex items-center gap-2.5 py-2 px-3 rounded-lg hover:bg-blue-50 hover:text-blue-700 text-gray-700 text-sm transition-colors"
+                        >
+                          {ChildIcon && <ChildIcon size={14} className="text-gray-400 flex-shrink-0" />}
+                          <span>{t(child.labelKey)}</span>
+                        </Link>
+                      );
+                    })}
                   </div>
                 </div>
               ) : (
@@ -256,9 +270,10 @@ export default function Navbar() {
                   </Dialog.Overlay>
                   <Dialog.Content asChild>
                     <motion.div
+                      dir={dir}
                       className={clsx(
                         "fixed top-0 h-full w-[280px] bg-white shadow-xl z-50 flex flex-col",
-                        dir === 'rtl' ? 'right-0' : 'left-0' // تعیین موقعیت پنل
+                        dir === 'rtl' ? 'right-0' : 'left-0'
                       )}
                       initial={{ x: panelInitial.x }}
                       animate={{ x: panelAnimation.x, opacity: panelAnimation.opacity }}
@@ -267,14 +282,7 @@ export default function Navbar() {
                       onClick={(e) => e.stopPropagation()}
                     >
                       {/* Header */}
-                      <div className={clsx(
-                        "flex justify-between items-center p-5 border-b border-gray-100 shrink-0",
-                        // برای RTL، عنوان باید به راست و دکمه بستن به چپ برود
-                        // با justify-between این حالت به طور خودکار اتفاق می افتد
-                        // اما می توانیم متن را هم تنظیم کنیم
-                        dir === 'rtl' ? 'text-right' : 'text-left',
-                        isRTL ? "flex-row" : "flex-row-reverse"
-                      )}>
+                      <div className="flex justify-between items-center p-5 border-b border-gray-100 shrink-0">
                         <h2 className="text-lg font-bold text-gray-900">{t('nav.menu')}</h2>
                         <button onClick={() => setDrawerOpen(false)} aria-label={t('nav.close')} className="p-2 hover:bg-gray-100 rounded-full">
                           <X size={20} />
@@ -290,15 +298,9 @@ export default function Navbar() {
                               <li key={item.labelKey}>
                                 <button
                                   onClick={() => toggleSubmenu(item.labelKey)}
-                                  className={clsx(
-                                    "flex justify-between w-full text-gray-800 hover:text-blue-600 items-center p-3 rounded-lg hover:bg-gray-50 transition-colors", // ترکیب همه کلاس ها در یک className
-                                    "flex items-center gap-3", // کلاس های مربوط به چیدمان فلکس
-                                    isRTL ? "flex-row" : "flex-row-reverse" // منطق صحیح برای ترتیب آیکون و متن
-                                  )}                                >
-                                  <span className={clsx(
-                                    "flex items-center gap-3 font-medium text-sm",
-                                    isRTL ? "flex-row" : "flex-row-reverse"
-                                  )} >
+                                  className="flex justify-between w-full text-gray-800 hover:text-blue-600 items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors"
+                                >
+                                  <span className="flex items-center gap-3 font-medium text-sm">
                                     {Icon && <Icon size={18} className="text-gray-500" />}
                                     {t(item.labelKey)}
                                   </span>
@@ -313,39 +315,31 @@ export default function Navbar() {
                                 <AnimatePresence initial={false}>
                                   {submenuOpen[item.labelKey] && (
                                     <motion.ul
-                                      // برای تنظیم padding سمت راست و چپ بر اساس جهت
-                                      className={clsx(
-                                        "pr-8 pl-2 py-2 space-y-1 overflow-hidden",
-                                        dir === 'rtl' ? 'pr-8 pl-2' : 'pr-2 pl-8' // اگر RTL بود padding راست بیشتر، اگر LTR بود padding چپ بیشتر
-                                        // نکته: ممکن است نیاز باشد این منطق را برعکس کنید یا padding ها را به دلخواه تنظیم کنید.
-                                        // مثال: برای RTL، ممکن است بخواهید padding سمت راست بیشتر باشد تا آیتم‌ها کمی به سمت راست متمایل شوند.
-                                        // اما اگر آیتم‌های زیرمنو باید دقیقاً زیر آیتم اصلی قرار بگیرند، ممکن است نیاز به padding یکسان در دو طرف و استفاده از margin باشد.
-                                        // این بخش را بر اساس ظاهر دلخواه خود تنظیم کنید.
-                                      )}
+                                      className="ps-8 pe-2 py-2 space-y-1 overflow-hidden"
                                       initial={{ opacity: 0, height: 0 }}
                                       animate={{ opacity: 1, height: 'auto' }}
                                       exit={{ opacity: 0, height: 0 }}
                                       transition={{ duration: 0.3 }}
                                     >
-                                      {item.children.map((child) => (
-                                        <li key={child.labelKey}>
-                                          <Link
-                                            prefetch
-                                            href={child.href}
-                                            className={clsx(
-                                              "flex items-center gap-2 text-gray-600 hover:text-blue-600 py-2 text-sm",
-                                              isRTL ? "flex-row" : "flex-row-reverse"
-                                            )}
-                                          >
-                                            {/* این نقطه برای نشان دادن زیرمنو است، می توان آن را هم بر اساس جهت تنظیم کرد */}
-                                            <span className={clsx(
-                                              "w-1.5 h-1.5 rounded-full bg-gray-300 inline-block",
-                                              dir === 'rtl' ? 'ml-3' : 'mr-3' // margin بر اساس جهت
-                                            )} />
-                                            {t(child.labelKey)}
-                                          </Link>
-                                        </li>
-                                      ))}
+                                      {item.children.map((child) => {
+                                        const ChildIcon = (child as any).icon;
+                                        return (
+                                          <li key={child.labelKey}>
+                                            <Link
+                                              prefetch
+                                              href={child.href}
+                                              onClick={() => setDrawerOpen(false)}
+                                              className="flex items-center gap-2.5 text-gray-600 hover:text-blue-600 hover:bg-blue-50 py-2 px-3 rounded-lg text-sm transition-colors"
+                                            >
+                                              {ChildIcon
+                                                ? <ChildIcon size={14} className="text-gray-400 flex-shrink-0" />
+                                                : <span className="w-1.5 h-1.5 rounded-full bg-gray-300 flex-shrink-0" />
+                                              }
+                                              {t(child.labelKey)}
+                                            </Link>
+                                          </li>
+                                        );
+                                      })}
                                     </motion.ul>
                                   )}
                                 </AnimatePresence>
@@ -354,10 +348,7 @@ export default function Navbar() {
                               <li key={item.labelKey}>
                                 <Link
                                   href={item.href}
-                                  className={clsx(
-                                    "flex items-center gap-3 text-gray-800 hover:text-blue-600 p-3 rounded-lg hover:bg-gray-50 transition-colors font-medium text-sm",
-                                    isRTL ? "flex-row" : "flex-row-reverse"
-                                  )}
+                                  className="flex items-center gap-3 text-gray-800 hover:text-blue-600 p-3 rounded-lg hover:bg-gray-50 transition-colors font-medium text-sm"
                                 >
                                   {Icon && <Icon size={18} className="text-gray-500" />}
                                   {t(item.labelKey)}
@@ -372,16 +363,9 @@ export default function Navbar() {
                       <div className="shrink-0 border-t border-gray-100 bg-gray-50/50">
                         <button
                           onClick={() => setMobileLangOpen(!mobileLangOpen)}
-                          className={clsx(
-                            "w-full flex items-center justify-between p-4 text-sm font-bold text-gray-700 hover:bg-gray-100 transition-colors",
-                            dir === 'rtl' ? 'text-right' : 'text-left',
-                            isRTL ? "flex-row" : "flex-row-reverse"
-                          )}
+                          className="w-full flex items-center justify-between p-4 text-sm font-bold text-gray-700 hover:bg-gray-100 transition-colors"
                         >
-                          <span className={clsx(
-                            "flex items-center gap-2",
-                            isRTL ? "flex-row" : "flex-row-reverse"
-                          )}>
+                          <span className="flex items-center gap-2">
                             <Globe size={18} />
                             {t('nav.language')}
                           </span>
@@ -395,10 +379,7 @@ export default function Navbar() {
                               exit={{ height: 0 }}
                               className="overflow-hidden"
                             >
-                              <div className={clsx(
-                                "grid grid-cols-4 gap-1 p-2 pt-0",
-                                // می توانید اینجا هم چیدمان grid را بر اساس جهت تنظیم کنید، اما معمولا grid نیازی به تنظیم ندارد.
-                              )}>
+                              <div className="grid grid-cols-4 gap-1 p-2 pt-0">
                                 {languages.map((lng) => (
                                   <button
                                     key={lng.code}

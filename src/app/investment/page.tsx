@@ -1,10 +1,10 @@
 import { Suspense } from "react";
-import InvestmentGuidePage from "@/views/Investment/InvestmentGuidePage";
+import InvestmentHubPage from "@/views/Investment/InvestmentHubPage";
 
 export default function InvestmentPage() {
   return (
     <Suspense>
-      <InvestmentGuidePage />
+      <InvestmentHubPage />
     </Suspense>
   );
 }
