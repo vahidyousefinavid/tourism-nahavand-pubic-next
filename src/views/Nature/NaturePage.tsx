@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Route, Moon, Sun, RefreshCw } from 'lucide-react';
+import { FallbackImage } from '@/components/ui/FallbackImage';
 import { useTranslation } from 'react-i18next';
 import { useDirection } from '@/hooks/useDirection';
 
@@ -283,16 +284,7 @@ export default function NaturePage() {
                       }`}
                     >
                       <div className="flex items-start gap-3">
-                        {place.imageUrl ? (
-                          <img src={`${API_URL}${place.imageUrl}`} alt="" className="w-9 h-9 rounded-full object-cover flex-shrink-0 shadow-sm" />
-                        ) : (
-                          <div
-                            className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-base shadow-sm"
-                            style={{ background: cfg?.color + '20' }}
-                          >
-                            {cfg?.emoji}
-                          </div>
-                        )}
+                        <FallbackImage src={place.imageUrl ? `${API_URL}${place.imageUrl}` : null} alt="" className="w-9 h-9 rounded-full object-cover flex-shrink-0 shadow-sm" />
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">
                             <span className="font-bold text-sm text-gray-900 truncate">{placeName}</span>
@@ -389,11 +381,7 @@ export default function NaturePage() {
                 className="sm:hidden absolute bottom-0 left-0 right-0 z-[1000] bg-white rounded-t-2xl shadow-2xl p-4 border-t border-gray-100"
               >
                 <div className="flex items-start gap-3">
-                  {selectedPlace.imageUrl ? (
-                    <img src={`${API_URL}${selectedPlace.imageUrl}`} alt="" className="w-10 h-10 rounded-xl object-cover flex-shrink-0" />
-                  ) : (
-                    <div className="text-2xl">{CAT_CFG[selectedPlace.category]?.emoji}</div>
-                  )}
+                  <FallbackImage src={selectedPlace.imageUrl ? `${API_URL}${selectedPlace.imageUrl}` : null} alt="" className="w-10 h-10 rounded-xl object-cover flex-shrink-0" />
                   <div className="flex-1">
                     <div className="font-bold text-gray-900">{ml(selectedPlace.name, locale)}</div>
                     <p className="text-xs text-gray-500 mt-1 line-clamp-2">{ml(selectedPlace.desc, locale)}</p>

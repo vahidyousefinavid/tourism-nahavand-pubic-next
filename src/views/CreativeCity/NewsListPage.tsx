@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useDirection } from '@/hooks/useDirection';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Calendar, Search, X, RefreshCw, Newspaper, ChevronRight, ChevronLeft } from 'lucide-react';
+import { FallbackImage } from '@/components/ui/FallbackImage';
 
 interface NewsItem {
   id: string;
@@ -64,13 +65,7 @@ function NewsCard({ item, onClick, t, locale }: { item: NewsItem; onClick: () =>
       className="bg-white rounded-2xl shadow-md overflow-hidden cursor-pointer flex flex-col hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
     >
       <div className="relative h-48 flex-shrink-0 overflow-hidden bg-gradient-to-br from-purple-100 to-indigo-100">
-        {imgSrc ? (
-          <img src={imgSrc} alt={title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <Newspaper className="w-16 h-16 text-purple-200" />
-          </div>
-        )}
+        <FallbackImage src={imgSrc} alt={title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
         {catColor && catLabel && (
           <span className={`absolute top-3 right-3 text-xs font-bold px-3 py-1 rounded-full ${catColor} backdrop-blur-sm`}>
@@ -113,11 +108,9 @@ function NewsModal({ item, onClose, t, locale }: { item: NewsItem; onClose: () =
         className="relative bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
         dir="rtl"
       >
-        {imgSrc && (
-          <div className="h-56 overflow-hidden rounded-t-3xl">
-            <img src={imgSrc} alt={title} className="w-full h-full object-cover" />
-          </div>
-        )}
+        <div className="h-56 overflow-hidden rounded-t-3xl">
+          <FallbackImage src={imgSrc} alt={title} className="w-full h-full object-cover" />
+        </div>
         <button onClick={onClose} className="absolute top-4 left-4 w-8 h-8 bg-black/40 hover:bg-black/60 text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-colors">
           <X className="w-4 h-4" />
         </button>

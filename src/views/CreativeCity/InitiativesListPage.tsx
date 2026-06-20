@@ -9,6 +9,7 @@ import {
   Palette, Music, Utensils, Cpu, GraduationCap, Pen, Building, Star,
   Users, Zap, Search, X, RefreshCw, ChevronRight, ChevronLeft,
 } from 'lucide-react';
+import { FallbackImage } from '@/components/ui/FallbackImage';
 
 interface Initiative {
   id: string;
@@ -71,13 +72,7 @@ function InitiativeCard({ item, onClick, t, locale }: { item: Initiative; onClic
       className="bg-white rounded-2xl shadow-md overflow-hidden cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col"
     >
       <div className="relative h-44 flex-shrink-0 overflow-hidden">
-        {imgSrc ? (
-          <img src={imgSrc} alt={title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
-        ) : (
-          <div className={`w-full h-full bg-gradient-to-br ${meta.gradient} flex items-center justify-center`}>
-            <Icon className="w-16 h-16 text-white/40" />
-          </div>
-        )}
+        <FallbackImage src={imgSrc} alt={title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
         <span className={`absolute top-3 right-3 text-[10px] font-bold px-2.5 py-1 rounded-full ${STATUS_CLS[item.status] ?? STATUS_CLS.active} backdrop-blur-sm`}>
           {t(`initiativesPage.status.${item.status}`)}
@@ -133,13 +128,7 @@ function InitiativeModal({ item, onClose, t, locale }: { item: Initiative; onClo
         dir="rtl"
       >
         <div className="relative h-52 rounded-t-3xl overflow-hidden">
-          {imgSrc ? (
-            <img src={imgSrc} alt={item.title} className="w-full h-full object-cover" />
-          ) : (
-            <div className={`w-full h-full bg-gradient-to-br ${meta.gradient} flex items-center justify-center`}>
-              <Icon className="w-24 h-24 text-white/30" />
-            </div>
-          )}
+          <FallbackImage src={imgSrc} alt={title} className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           <button onClick={onClose} className="absolute top-4 left-4 w-8 h-8 bg-black/40 hover:bg-black/60 text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-colors">
             <X className="w-4 h-4" />

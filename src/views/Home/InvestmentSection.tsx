@@ -14,6 +14,7 @@ import InvestmentModal from '@/components/Modals/InvestmentModal';
 import { InvestmentOpportunity } from '@/types/investment';
 import { AppLocale } from '@/types';
 import { formatMoney } from '@/lib/format-money';
+import { FallbackImage } from '@/components/ui/FallbackImage';
 
 const CATEGORY_STYLES: Record<string, { bg: string; text: string; labelKey: string }> = {
   'real-estate': { bg: 'bg-blue-100', text: 'text-blue-700', labelKey: 'investmentPage.categories.realEstate' },
@@ -55,13 +56,10 @@ function InvestmentCardCompact({
     >
       {/* Image */}
       <div className="relative h-44 overflow-hidden">
-        <img
+        <FallbackImage
           src={imageUrl}
           alt={title}
           className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = '/images/back2.jpg';
-          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/35 to-transparent" />
         <span

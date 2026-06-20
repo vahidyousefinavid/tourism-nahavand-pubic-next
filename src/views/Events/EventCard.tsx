@@ -5,6 +5,7 @@ import { formatMoney } from '@/lib/format-money';
 import { Event } from '@/types';
 import { useTranslation } from 'react-i18next';
 import { useDirection } from '@/hooks/useDirection';
+import { FallbackImage } from '@/components/ui/FallbackImage';
 
 interface EventCardProps {
   event: Event;
@@ -83,15 +84,11 @@ export function EventCard({ event, index = 0, onClick, locale = 'fa' }: EventCar
     >
       {/* تصویر */}
       <div className="relative h-52 flex-shrink-0 overflow-hidden">
-        {imgSrc ? (
-          <img
-            src={imgSrc}
-            alt={title}
-            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-          />
-        ) : (
-          <div className={`w-full h-full ${colors.bg}`} />
-        )}
+        <FallbackImage
+          src={imgSrc || null}
+          alt={title}
+          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
 
         {/* badge برگزارکننده/دسته‌بندی */}

@@ -9,6 +9,7 @@ import {
   TrendingUp, Globe, Award, Lightbulb, Calendar, RefreshCw,
   Newspaper, ChevronLeft, ChevronRight,
 } from 'lucide-react';
+import { FallbackImage } from '@/components/ui/FallbackImage';
 
 interface NewsItem {
   id: string;
@@ -235,13 +236,7 @@ export default function SecretariatPage() {
                   >
                     {/* تصویر */}
                     <div className="relative h-40 flex-shrink-0 overflow-hidden bg-gradient-to-br from-purple-100 to-indigo-100">
-                      {imgSrc ? (
-                        <img src={imgSrc} alt={ml(item.title as any, locale)} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <Newspaper className="w-12 h-12 text-purple-200" />
-                        </div>
-                      )}
+                      <FallbackImage src={imgSrc} alt={ml(item.title as any, locale)} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                       {item.category && (
                         <span className={`absolute top-2.5 right-2.5 text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${catCls}`}>

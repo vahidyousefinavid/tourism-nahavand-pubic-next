@@ -8,6 +8,7 @@ import {
   Palette, Music, Utensils, Cpu, GraduationCap, Pen, Building, Star,
   Users, Zap, ChevronLeft, ChevronRight, RefreshCw,
 } from 'lucide-react';
+import { FallbackImage } from '@/components/ui/FallbackImage';
 
 const INITIATIVES_PREVIEW_COUNT = 6;
 
@@ -261,13 +262,7 @@ export default function InCityPage() {
                       >
                         {/* تصویر یا gradient header */}
                         <div className="relative h-36 flex-shrink-0 overflow-hidden">
-                          {imgSrc ? (
-                            <img src={imgSrc} alt={mlText(item.title as any, locale)} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                          ) : (
-                            <div className={`w-full h-full bg-gradient-to-br ${meta.gradient} flex items-center justify-center`}>
-                              <SectorIcon className="w-12 h-12 text-white/30" />
-                            </div>
-                          )}
+                          <FallbackImage src={imgSrc} alt={mlText(item.title as any, locale)} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                           <span className={`absolute top-2.5 right-2.5 text-[10px] px-2.5 py-0.5 rounded-full font-bold ${stCfg.cls}`}>
                             {t(`initiativesPage.status.${item.status}`)}

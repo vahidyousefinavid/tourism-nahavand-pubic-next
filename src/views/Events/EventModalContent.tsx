@@ -77,6 +77,7 @@ import { Button } from '@/components/ui/Button';
 import { Event } from '@/types';
 import { useTranslation } from 'react-i18next';
 import { useDirection } from '@/hooks/useDirection';
+import { FallbackImage } from '@/components/ui/FallbackImage';
 
 type EventModalContentProps = {
   event: Event;
@@ -160,21 +161,11 @@ export default function EventModalContent({ event, locale = 'fa' }: EventModalCo
     >
       {/* Image */}
       <div className="relative h-64 rounded-lg overflow-hidden w-full bg-gray-100">
-        {event.image ? (
-          <img
-            src={
-              process.env.NEXT_PUBLIC_API_URL
-                ? `${process.env.NEXT_PUBLIC_API_URL}${event.image}`
-                : event.image
-            }
-            alt={getLocalizedValue(event.title)}
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-gray-400">
-            {t('eventModal.noImage')}
-          </div>
-        )}
+        <FallbackImage
+          src={event.image ? `${process.env.NEXT_PUBLIC_API_URL || ''}${event.image}` : null}
+          alt={getLocalizedValue(event.title)}
+          className="w-full h-full object-cover"
+        />
       </div>
 
       {/* Description */}
