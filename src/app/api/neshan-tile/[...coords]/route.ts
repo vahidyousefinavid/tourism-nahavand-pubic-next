@@ -1,16 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-/**
- * Neshan map tile proxy.
- * Keeps NESHAN_API_KEY server-side so it never leaks to the browser.
- *
- * Tile URL template used in MapView: /api/neshan-tile/{z}/{x}/{y}
- * Activate by setting NEXT_PUBLIC_MAP_PROVIDER=neshan + NESHAN_API_KEY=<key>
- */
-
-// Neshan map styles — change here to switch the map look
-const NESHAN_STYLE = 'standard-day'; // options: standard-day | standard-night | dreamy | osm-bright
-
+const NESHAN_STYLE = 'standard-day';
 const TILE_BASE = `https://api.neshan.org/v1/map-tiles/${NESHAN_STYLE}`;
 
 export async function GET(
@@ -31,7 +21,6 @@ export async function GET(
   try {
     const upstream = await fetch(`${TILE_BASE}/${z}/${x}/${y}.png`, {
       headers: { 'Api-Key': apiKey },
-      // reuse connections — tiles are fetched very frequently
       cache: 'force-cache',
     });
 
@@ -44,7 +33,7 @@ export async function GET(
     return new NextResponse(buffer, {
       headers: {
         'Content-Type': 'image/png',
-        'Cache-Control': 'public, max-age=604800, stale-while-revalidate=86400', // 7 days
+        'Cache-Control': 'public, max-age=604800, stale-while-revalidate=86400',
       },
     });
   } catch {

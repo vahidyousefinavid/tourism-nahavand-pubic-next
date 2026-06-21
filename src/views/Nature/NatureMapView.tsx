@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Polyline, useMap } from 'react-leaflet';
+import { Marker, Polyline, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import type { NaturalPlace } from './NaturePage';
+import BaseMap from '@/components/Map/BaseMap';
 
 const CAT_COLOR: Record<string, string> = {
   waterfall: '#0891b2',
@@ -78,29 +79,16 @@ interface Props {
 export default function NatureMapView({ places, allPlaces, selectedId, onSelect, showTrail, trailPath, darkMap }: Props) {
   const selectedPlace = allPlaces.find(p => p.id === selectedId) ?? null;
 
-  const tileUrl = darkMap
-    ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-    : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+  const darkTileUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
 
   return (
-    <MapContainer
+    <BaseMap
       center={[34.183, 48.355]}
       zoom={11}
-      style={{ height: '100%', width: '100%' }}
-      scrollWheelZoom
-      zoomControl
+      zoomPosition="bottomright"
+      tileUrl={darkMap ? darkTileUrl : undefined}
+      tileAttribution={darkMap ? '&copy; OpenStreetMap &copy; CARTO' : undefined}
     >
-      <TileLayer
-        key={tileUrl}
-        url={tileUrl}
-        attribution='&copy; OpenStreetMap &copy; CARTO'
-        subdomains="abcd"
-        maxZoom={19}
-        keepBuffer={4}
-        updateWhenIdle={false}
-        detectRetina
-        crossOrigin="anonymous"
-      />
 
       {places.map(place => (
         <Marker
@@ -125,6 +113,6 @@ export default function NatureMapView({ places, allPlaces, selectedId, onSelect,
       )}
 
       <FlyToSelected place={selectedPlace} />
-    </MapContainer>
+    </BaseMap>
   );
 }

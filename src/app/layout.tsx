@@ -7,6 +7,7 @@ import Navbar from "../components/Navbar";
 import LanguageProvider from "@/providers/LanguageProvider";
 import AppLoader from "@/components/AppLoader";
 import TopLoader from "@/components/TopLoader";
+import SwRegister from "@/components/Map/SwRegister";
 // import ClientProgressBar from "@/components/ClientProgressBar";
 
 const tanha = localFont({
@@ -65,6 +66,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         className={`${tanha.variable} ${parastoo.variable} ${iranyekan.variable} ${vazir.variable} font-sans`}
       >
         <TopLoader />
+        <SwRegister />
 
         <LanguageProvider>
           <AppLoader>

@@ -13,11 +13,9 @@ import i18n from '@/lib/i18n';
 import { AppLocale } from '@/types';
 import L from 'leaflet';
 
-const MapContainer = dynamic(() => import('react-leaflet').then(m => m.MapContainer), { ssr: false });
-const TileLayer   = dynamic(() => import('react-leaflet').then(m => m.TileLayer),    { ssr: false });
-const Marker      = dynamic(() => import('react-leaflet').then(m => m.Marker),       { ssr: false });
-const Tooltip     = dynamic(() => import('react-leaflet').then(m => m.Tooltip),      { ssr: false });
-const ZoomControl = dynamic(() => import('react-leaflet').then(m => m.ZoomControl),  { ssr: false });
+const BaseMap = dynamic(() => import('@/components/Map/BaseMap'), { ssr: false });
+const Marker  = dynamic(() => import('react-leaflet').then(m => m.Marker),  { ssr: false });
+const Tooltip = dynamic(() => import('react-leaflet').then(m => m.Tooltip), { ssr: false });
 
 const NAHAVAND: [number, number] = [34.183, 48.355];
 
@@ -169,18 +167,7 @@ export default function InvestmentAtlasPage() {
               </div>
             </div>
           ) : (
-            <MapContainer center={NAHAVAND} zoom={12} style={{ height: '100%', width: '100%' }} scrollWheelZoom zoomControl={false} preferCanvas>
-              <ZoomControl position="bottomleft" />
-              <TileLayer
-                url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-                attribution='&copy; OpenStreetMap &copy; CARTO'
-                subdomains="abcd"
-                maxZoom={19}
-                keepBuffer={4}
-                updateWhenIdle={false}
-                detectRetina
-                crossOrigin="anonymous"
-              />
+            <BaseMap center={NAHAVAND} zoom={12} preferCanvas>
               {filtered.map(inv => {
                 if (!inv.latlng) return null;
                 const isActive = selected?.id === inv.id;
@@ -202,7 +189,7 @@ export default function InvestmentAtlasPage() {
                   </Marker>
                 );
               })}
-            </MapContainer>
+            </BaseMap>
           )}
         </div>
 

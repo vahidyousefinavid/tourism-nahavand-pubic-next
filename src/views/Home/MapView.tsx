@@ -1,9 +1,9 @@
 'use client';
 
-import { MapContainer, TileLayer, Marker, Tooltip, ZoomControl } from 'react-leaflet';
+import { Marker, Tooltip } from 'react-leaflet';
 import L from 'leaflet';
 import { Location, AppLocale } from '@/types';
-import { ACTIVE_TILE } from '@/config/map-provider';
+import BaseMap from '@/components/Map/BaseMap';
 
 // Nahavand city center
 const NAHAVAND_CENTER: [number, number] = [34.183, 48.355];
@@ -74,26 +74,7 @@ export default function MapView({ locations, locale, activeCategory, selectedId,
     : locations;
 
   return (
-    <MapContainer
-      center={NAHAVAND_CENTER}
-      zoom={12}
-      style={{ height: '100%', width: '100%' }}
-      scrollWheelZoom
-      zoomControl={false}
-      preferCanvas
-    >
-      <ZoomControl position="bottomleft" />
-      <TileLayer
-        url={ACTIVE_TILE.url}
-        attribution={ACTIVE_TILE.attribution}
-        subdomains={ACTIVE_TILE.subdomains}
-        maxZoom={ACTIVE_TILE.maxZoom ?? 19}
-        keepBuffer={4}
-        updateWhenIdle={false}
-        detectRetina
-        crossOrigin="anonymous"
-      />
-
+    <BaseMap center={NAHAVAND_CENTER} zoom={12} preferCanvas>
       {filtered.map(location => {
         if (!location.latlng) return null;
         const isActive = location.id === selectedId;
@@ -126,6 +107,6 @@ export default function MapView({ locations, locale, activeCategory, selectedId,
           </Marker>
         );
       })}
-    </MapContainer>
+    </BaseMap>
   );
 }
