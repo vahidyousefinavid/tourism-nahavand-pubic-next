@@ -7,11 +7,11 @@ import Link from 'next/link';
 import { MapPin, Calendar, Leaf, TrendingUp, Sparkles } from 'lucide-react';
 
 const QUICK_LINKS = [
-  { href: '/places',                    icon: MapPin,     key: 'places',       color: 'text-blue-300' },
-  { href: '/events',                    icon: Calendar,   key: 'events',       color: 'text-amber-300' },
-  { href: '/nature',                    icon: Leaf,       key: 'nature',       color: 'text-emerald-300' },
-  { href: '/investment',                icon: TrendingUp, key: 'investment',   color: 'text-violet-300' },
-  { href: '/creative-city/secretariat', icon: Sparkles,   key: 'creativeCity', color: 'text-fuchsia-300' },
+  { href: '/places',                    icon: MapPin,     key: 'places',       color: 'text-blue-300',    label: 'مکان‌های گردشگری' },
+  { href: '/events',                    icon: Calendar,   key: 'events',       color: 'text-amber-300',   label: 'رویدادها' },
+  { href: '/nature',                    icon: Leaf,       key: 'nature',       color: 'text-emerald-300', label: 'طبیعت‌گردی' },
+  { href: '/investment',                icon: TrendingUp, key: 'investment',   color: 'text-violet-300',  label: 'سرمایه‌گذاری' },
+  { href: '/creative-city/secretariat', icon: Sparkles,   key: 'creativeCity', color: 'text-fuchsia-300', label: 'شهر خلاق' },
 ];
 
 export default function HeroSection() {
@@ -137,7 +137,7 @@ export default function HeroSection() {
               >
                 <Icon className={`w-4 h-4 sm:w-5 sm:h-5 ${link.color} group-hover:scale-110 transition-transform`} />
                 <span className="text-[9px] sm:text-[11px] text-white/70 group-hover:text-white/90 text-center leading-tight transition-colors">
-                  {t(`hero.quickLinks.${link.key}`)}
+                  {t(`hero.quickLinks.${link.key}`, link.label)}
                 </span>
               </Link>
             );
