@@ -1,4 +1,4 @@
-﻿{
+{
   "nav": {
     "home": "Home",
     "events": "Events",
@@ -17,10 +17,10 @@
     "investmentAtlas": "Investment Atlas",
     "investmentOngoing": "Ongoing Projects",
     "investmentSuggest": "Your Suggestion",
-    "creativeCity":        "Creative City",
+    "creativeCity": "Creative City",
     "creativeSecretariat": "Creative City Secretariat",
-    "creativeInCity":      "Creativity in the City",
-    "creativeYou":         "You & Creativity",
+    "creativeInCity": "Creativity in the City",
+    "creativeYou": "You & Creativity",
     "about": "About Us",
     "menu": "Menu",
     "close": "Close",
@@ -38,27 +38,53 @@
     ]
   },
   "hero": {
-    "locationBadge": "Nahavand · Hamadan Province · Western Iran",
+    "locationBadge": "Hamadan Province · Western Iran",
     "cityName": "Nahavand",
     "tagline": "Where City, History, and Nature Intertwine",
-    "ctaLocations": "Discover Locations",
-    "ctaEvents": "Upcoming Events",
+    "ctaLocations": "Places to see in Nahavand",
+    "ctaEvents": "Upcoming events",
     "statResident": "Residents",
     "statElevation": "m Elevation",
     "statArea": "km² Area",
     "statDestinations": "Destinations",
     "quickLinks": {
-      "places": "Tourist Sites",
+      "places": "Places to see",
       "events": "Events",
-      "nature": "Nature Tours",
+      "nature": "Nature",
       "investment": "Investment",
-      "creativeCity": "Creative City"
-    }
+      "creativeCity": "Creative City",
+      "history": "History & culture"
+    },
+    "lead": "A city at 1,740 m in a bowl of the Zagros, where the headwaters of the Gamasiab rise straight out of the rock and Tepe Giyan holds seven thousand years of settlement under the soil.",
+    "facts": {
+      "elevation": {
+        "value": "1,740",
+        "unit": "metres",
+        "label": "Above sea level"
+      },
+      "population": {
+        "value": "120",
+        "unit": "thousand",
+        "label": "City population"
+      },
+      "springs": {
+        "value": "3",
+        "unit": "major springs",
+        "label": "Giyan, Faresban, Gamasiab"
+      },
+      "settled": {
+        "value": "7,000",
+        "unit": "years",
+        "label": "Continuous settlement since Tepe Giyan"
+      }
+    },
+    "coords": "34°11′ N · 48°22′ E",
+    "globeAlt": "Globe with Iran highlighted and Nahavand marked on it"
   },
   "tourismMap": {
-    "badge": "Tourism Map",
-    "title": "Discover Nahavand on the Map",
-    "subtitle": "Explore Nahavand's tourist attractions on an interactive map",
+    "badge": "Tourism map",
+    "title": "Where in the city?",
+    "subtitle": "Every marker is an attraction. Tap one for its address and directions.",
     "loading": "Loading map...",
     "locationsShown": "tourist attraction(s) shown",
     "categories": {
@@ -67,7 +93,10 @@
       "natural": "Natural",
       "cultural": "Cultural",
       "religious": "Religious"
-    }
+    },
+    "unlockTouch": "Tap once to use the map",
+    "unlockMouse": "Click to use the map",
+    "unlockAria": "Activate the map"
   },
   "locations": {
     "sectionTag": "Tourist Attractions",
@@ -76,10 +105,14 @@
     "viewAll": "View All Locations"
   },
   "events": {
-    "sectionTag": "Events Calendar",
-    "title": "Upcoming Events",
-    "subtitle": "Cultural and recreational programs in Nahavand",
-    "viewAll": "View All Events"
+    "sectionTag": "Event calendar",
+    "title": "On in Nahavand",
+    "subtitle": "Festivals, fairs and cultural programmes — with exact dates and addresses.",
+    "viewAll": "All events",
+    "emptyTitle": "Nothing in the calendar yet",
+    "emptyBody": "New city programmes appear here as soon as they are listed. In the meantime, start with the places to see in Nahavand.",
+    "emptyCta": "Browse places to see",
+    "moreNote": "The full city calendar"
   },
   "cityInfo": {
     "population": {
@@ -104,17 +137,43 @@
         "4": "Historic Gardens"
       }
     },
-    "sectionTag": "City Statistics",
+    "sectionTag": "Before you go",
     "titleMain": "Nahavand,",
     "titleAccent": "Ancient City in the Heart of the Zagros",
-    "description": "Thousands of years of history, pristine nature, and rich culture in the heart of Iran",
-    "destinationsLabel": "Destinations"
+    "description": "Nahavand sits in the southernmost corner of Hamadan province, between Mount Garin and the Gamasiab plain. The altitude keeps summers mild, and the winter snow is exactly what fills the springs the following year. Most attractions are a short drive from the centre, so several fit into one day.",
+    "destinationsLabel": "Destinations",
+    "title": "When to come, and how",
+    "photoAlt": "Giyan Spring, Nahavand",
+    "photoTitle": "Giyan Spring",
+    "photoNote": "One of the Gamasiab headwaters, 15 minutes from the centre",
+    "practical": {
+      "season": {
+        "label": "Best season",
+        "value": "May to September",
+        "note": "Springs run full, plains are green"
+      },
+      "access": {
+        "label": "Getting there",
+        "value": "90 km from Hamadan",
+        "note": "About 400 km from Tehran"
+      },
+      "terrain": {
+        "label": "Terrain",
+        "value": "Mountainous",
+        "note": "City 1,740 m, Garin up to 3,623 m"
+      },
+      "climate": {
+        "label": "Climate",
+        "value": "Mild summers",
+        "note": "Cold, snowy winters"
+      }
+    }
   },
   "historyGallery": {
-    "sectionTag": "Photo Gallery",
-    "title": "Nahavand Through the Lens",
-    "subtitle": "Pure moments of nature, history and culture of this city",
-    "viewHistory": "View City History",
+    "sectionTag": "Photo gallery",
+    "title": "Nahavand, frame by frame",
+    "subtitle": "Every photograph is of Nahavand itself — captioned with the place you are looking at.",
+    "viewHistory": "City history",
     "items": {
       "jamehMosque": "Jameh Mosque",
       "jamehMosqueSub": "A testament to Iranian Islamic architecture",
@@ -126,15 +185,28 @@
       "cityViewSub": "Nahavand, a city embraced by nature",
       "landscape": "Beautiful Landscapes",
       "landscapeSub": "Every corner of this city has a story to tell",
-      "nahavand": "Nahavand"
-    }
+      "nahavand": "Nahavand",
+      "sarabGiyan": "Giyan Spring",
+      "sarabGiyanSub": "Rising at the foot of Tepe Giyan",
+      "faresban": "Faresban Spring",
+      "faresbanSub": "Cold mountain water",
+      "mosque": "Haj Khoda Rahm Mosque",
+      "mosqueSub": "Qajar-era tilework",
+      "bamSpring": "Bam-e Nahavand in spring",
+      "bamSpringSub": "Red cliffs above the lake",
+      "meadow": "The Garin plains",
+      "meadowSub": "Spring pasture below the snowline",
+      "kayserye": "Nahavand Qeysarieh",
+      "kayseryeSub": "Brickwork of the old bazaar"
+    },
+    "credit": "Images: Wikimedia Commons — CC BY-SA / CC BY / CC0"
   },
   "cta": {
-    "badge": "Journey to Nahavand",
-    "title": "Ready to discover Nahavand?",
-    "subtitle": "Join us and have the best travel experience",
-    "locationsBtn": "Tourist Locations",
-    "aboutBtn": "About Us",
+    "badge": "Visit Nahavand",
+    "title": "One day is not enough",
+    "subtitle": "The springs, the ancient tells and the old bazaar are all close together. Start from the list of places and build your own route.",
+    "locationsBtn": "Browse places to see",
+    "aboutBtn": "About Nahavand",
     "cultureBtn": "Nahavand Culture",
     "contactOrg": "Nahavand Tourism Organization",
     "contactAddress": "Nahavand County, Hamadan Province",
@@ -176,7 +248,10 @@
     "facilities": "Facilities",
     "noFacilities": "No info available",
     "location": "Location",
-    "viewOnMap": "View on Map"
+    "viewOnMap": "View on Map",
+    "free": "Free",
+    "currencyIRT": "toman",
+    "currencyIRR": "rial"
   },
   "eventModal": {
     "noImage": "No Image",
@@ -468,10 +543,22 @@
     "title": "Investment Center",
     "subtitle": "Investment opportunities, ongoing projects and your suggestions — all at a glance",
     "enterSection": "Enter Section",
-    "atlas": { "label": "Investment Atlas", "desc": "Geographic overview of all investment opportunities" },
-    "opportunities": { "label": "Proposed Investments", "desc": "Active investment opportunities" },
-    "ongoing": { "label": "Ongoing Projects", "desc": "Running and completed investment projects" },
-    "suggest": { "label": "Your Suggestion", "desc": "Submit your investment idea" }
+    "atlas": {
+      "label": "Investment Atlas",
+      "desc": "Geographic overview of all investment opportunities"
+    },
+    "opportunities": {
+      "label": "Proposed Investments",
+      "desc": "Active investment opportunities"
+    },
+    "ongoing": {
+      "label": "Ongoing Projects",
+      "desc": "Running and completed investment projects"
+    },
+    "suggest": {
+      "label": "Your Suggestion",
+      "desc": "Submit your investment idea"
+    }
   },
   "investmentAtlas": {
     "badge": "Investment Atlas",
@@ -565,10 +652,10 @@
     "currUSD": "USD"
   },
   "investmentPage": {
-    "title": "Investment in Nahavand",
-    "sectionTag": "Investment Opportunities",
-    "homeSubtitle": "The best growth and profitability opportunities in the heart of western Iran",
-    "viewAll": "View All",
+    "title": "Investing in Nahavand",
+    "sectionTag": "Investment opportunities",
+    "homeSubtitle": "Open projects in tourism, agriculture and handicrafts — with the capital required and the status of each.",
+    "viewAll": "All opportunities",
     "active": "Active",
     "return": "Return:",
     "more": "More",
@@ -670,7 +757,11 @@
       "description": "For more information about investment opportunities and free consultation, contact our experts",
       "button1": "Request Consultation",
       "button2": "Download Investment Brochure"
-    }
+    },
+    "emptyTitle": "No opportunities published yet",
+    "emptyBody": "Investment projects appear here once reviewed. If you have a project in Nahavand, you can propose it.",
+    "emptyCta": "Propose a project",
+    "moreNote": "Register your own project"
   },
   "notablePage": {
     "badge": "Notable Figures",
@@ -856,7 +947,25 @@
     "successTitle": "Your Participation Has Been Registered",
     "successDesc": "The Nahavand Creative City Secretariat team will review your proposal and contact you.",
     "again": "Register New Participation",
-    "privacy": "Your information is confidential and will only be used by the Creative City Secretariat."
+    "privacy": "Your information is confidential and will only be used by the Creative City Secretariat.",
+    "ageGroups": {
+      "under18": "Under 18",
+      "age18to30": "18–30",
+      "age30to50": "30–50",
+      "over50": "Over 50"
+    },
+    "participation": {
+      "volunteer": "Volunteering",
+      "teach": "Teaching and training",
+      "showcase": "Showing my work",
+      "collaborate": "Collaborating on a project"
+    },
+    "errors": {
+      "required": "Required",
+      "pickDomain": "Choose a field",
+      "minChars": "At least 30 characters",
+      "submitFailed": "Could not send. Please try again."
+    }
   },
   "nature": {
     "title": "Nahavand Nature",
@@ -950,5 +1059,21 @@
       "architecture": "Architecture",
       "visualArts": "Visual Arts"
     }
+  },
+  "indexRail": {
+    "places": "Springs, tells and historic buildings",
+    "nature": "The Garin plains and mountain trails",
+    "history": "From Tepe Giyan to today",
+    "events": "Festivals and city programmes",
+    "investment": "Tourism and industry openings",
+    "creativeCity": "Nahavand Creative City secretariat"
+  },
+  "filterPanel": {
+    "filters": "Filters",
+    "close": "Close",
+    "open": "Open",
+    "allCategories": "All categories",
+    "search": "Search…",
+    "resultLabel": "results found"
   }
 }

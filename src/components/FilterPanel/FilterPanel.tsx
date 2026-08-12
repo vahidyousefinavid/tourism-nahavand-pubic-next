@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Filter as FilterIcon, ChevronDown } from 'lucide-react';
 
@@ -32,6 +33,7 @@ export const FilterPanel = ({
   resultCount = 0,
   resultLabel = 'مورد یافت شد',
 }: FilterPanelProps) => {
+  const { t } = useTranslation();
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
 
@@ -48,13 +50,13 @@ export const FilterPanel = ({
     <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
       {/* Mobile Toggle Button */}
       <div className="md:hidden mb-4 flex justify-between items-center">
-        <span className="font-semibold text-gray-700">فیلترها</span>
+        <span className="font-semibold text-gray-700">{t('filterPanel.filters', 'فیلترها')}</span>
         <button
           onClick={() => setShowMobileFilters(!showMobileFilters)}
           className="text-sm text-blue-600 flex items-center gap-1"
         >
           <FilterIcon className="w-4 h-4" />
-          {showMobileFilters ? 'بستن' : 'باز کردن'}
+          {showMobileFilters ? t('filterPanel.close', 'بستن') : t('filterPanel.open', 'باز کردن')}
         </button>
       </div>
 
@@ -92,7 +94,7 @@ export const FilterPanel = ({
                       onChange({ ...filters, category: e.target.value || undefined })
                     }
                   >
-                    <option value="">همه دسته‌ها</option>
+                    <option value="">{t('filterPanel.allCategories', 'همه دسته‌ها')}</option>
                     {categoryOptions.map((opt) => (
                       <option key={opt.value} value={opt.value}>
                         {opt.label}

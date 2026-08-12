@@ -2,149 +2,184 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useDirection } from '@/hooks/useDirection';
-import TourismTypewriter from './TourismTypewriter';
 import Link from 'next/link';
-import { MapPin, Calendar, Leaf, TrendingUp, Sparkles } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { MapPin, Calendar, ArrowLeft, ArrowRight } from 'lucide-react';
+import NahavandGlobe from './NahavandGlobe';
 
-const QUICK_LINKS = [
-  { href: '/places',                    icon: MapPin,     key: 'places',       color: 'text-blue-300',    label: 'مکان‌های گردشگری' },
-  { href: '/events',                    icon: Calendar,   key: 'events',       color: 'text-amber-300',   label: 'رویدادها' },
-  { href: '/nature',                    icon: Leaf,       key: 'nature',       color: 'text-emerald-300', label: 'طبیعت‌گردی' },
-  { href: '/investment',                icon: TrendingUp, key: 'investment',   color: 'text-violet-300',  label: 'سرمایه‌گذاری' },
-  { href: '/creative-city/secretariat', icon: Sparkles,   key: 'creativeCity', color: 'text-fuchsia-300', label: 'شهر خلاق' },
+/* ارقام واقعی شهر */
+const FACTS = [
+  { key: 'elevation', value: '۱٬۷۴۰', unit: 'متر', label: 'ارتفاع از دریا' },
+  { key: 'population', value: '۱۲۰', unit: 'هزار نفر', label: 'جمعیت شهر' },
+  { key: 'springs', value: '۳', unit: 'سراب بزرگ', label: 'گیان، فارسبان، گاماسیاب' },
+  { key: 'settled', value: '۷٬۰۰۰', unit: 'سال', label: 'سکونت پیوسته از تپه گیان' },
 ];
+
+/** کره باید با عرض صفحه بزرگ و کوچک شود، ولی کانواس به عدد پیکسلی نیاز دارد. */
+function useGlobeSize() {
+  const [size, setSize] = useState(420);
+  useEffect(() => {
+    const calc = () => {
+      const w = window.innerWidth;
+      if (w < 640) return Math.min(w * 0.78, 330);
+      if (w < 1024) return 400;
+      return Math.min(w * 0.34, 560);
+    };
+    const apply = () => setSize(Math.round(calc()));
+    apply();
+    window.addEventListener('resize', apply);
+    return () => window.removeEventListener('resize', apply);
+  }, []);
+  return size;
+}
 
 export default function HeroSection() {
   const { t } = useTranslation();
-  const { dir } = useDirection();
+  const { dir, isRTL } = useDirection();
+  const Arrow = isRTL ? ArrowLeft : ArrowRight;
+  const globeSize = useGlobeSize();
 
   return (
-    <div dir={dir} className="relative min-h-[calc(100vh-100px)] flex flex-col overflow-hidden">
-
-      {/* ── Background layers ── */}
+    <section
+      dir={dir}
+      /* منفی‌کردن پدینگ ۱۰۰ پیکسلی لِی‌اوت تا بخش واقعاً تمام‌قد باشد */
+      className="relative -mt-[100px] min-h-[100svh] flex flex-col overflow-hidden bg-[var(--nh-ink)]"
+    >
+      {/* ── زمینه: بدون عکس. یک تابش ملایم که کره را از دل آن بیرون می‌آورد ── */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/images/back2.jpg')" }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/40 to-black/85" />
-      {/* Dot grid — desktop only */}
-      <div
-        className="absolute inset-0 opacity-[0.05] hidden md:block"
+        className="absolute inset-0"
         style={{
-          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)',
-          backgroundSize: '36px 36px',
+          background:
+            'radial-gradient(120% 90% at 50% 8%, #1b2f27 0%, #16241d 42%, var(--nh-ink) 78%)',
+        }}
+      />
+      {/* شبکهٔ نقطه‌ای بسیار محو — بافت، نه تزئین */}
+      <div
+        className="absolute inset-0 opacity-[0.05] hidden sm:block"
+        style={{
+          backgroundImage:
+            'radial-gradient(circle, rgba(143,192,182,0.9) 1px, transparent 1px)',
+          backgroundSize: '38px 38px',
         }}
       />
 
-      {/* ── Center content ── */}
-      <div className="relative z-10 flex flex-col items-center text-center px-4 max-w-5xl mx-auto flex-1 justify-center py-10 sm:py-14">
+      {/* ══ محتوا ══ */}
+      <div className="relative z-10 flex-1 flex items-center px-5 sm:px-8 lg:px-14 pt-[124px] pb-10">
+        <div className="w-full max-w-[1400px] mx-auto">
+          <div className="grid lg:grid-cols-[minmax(0,1fr)_auto] gap-10 lg:gap-14 items-center">
 
-        {/* Location badge */}
-        <motion.div
-          initial={{ opacity: 0, y: -14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mb-5"
-        >
-          <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white/90 px-4 py-1.5 rounded-full text-xs sm:text-sm tracking-wide">
-            <MapPin className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-400 flex-shrink-0" />
-            {t('hero.locationBadge', 'نهاوند · استان همدان · غرب ایران')}
-          </span>
-        </motion.div>
+            {/* ── متن ── */}
+            <div className="max-w-[660px] text-start order-2 lg:order-1">
+              {/* ابرو */}
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="flex items-center gap-2.5 mb-6"
+              >
+                <span className="h-px w-9 bg-[var(--nh-gold)]" />
+                <span className="font-data text-[var(--nh-gold)] text-[0.78rem] sm:text-sm font-medium tracking-[0.14em]">
+                  {t('hero.locationBadge', 'استان همدان · غرب ایران')}
+                </span>
+              </motion.div>
 
-        {/* City name */}
-        <motion.h1
-          initial={{ opacity: 0, scale: 0.88 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="font-black text-white leading-none mb-3 select-none"
-          style={{
-            fontSize: 'clamp(64px, 17vw, 160px)',
-            textShadow: '0 8px 48px rgba(0,0,0,0.7)',
-            letterSpacing: '-0.02em',
-          }}
-        >
-          {t('hero.cityName', 'نهاوند')}
-        </motion.h1>
+              {/* نام شهر */}
+              <motion.h1
+                initial={{ opacity: 0, y: 22 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+                className="font-display text-white leading-[0.88] mb-6 select-none"
+                style={{ fontSize: 'var(--nh-display)' }}
+              >
+                {t('hero.cityName', 'نهاوند')}
+              </motion.h1>
 
-        {/* Accent line */}
-        <motion.div
-          initial={{ scaleX: 0, opacity: 0 }}
-          animate={{ scaleX: 1, opacity: 1 }}
-          transition={{ duration: 0.7, delay: 0.4 }}
-          className="w-16 sm:w-24 h-[3px] rounded-full bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 mb-4"
-        />
+              {/* جملهٔ معرفی */}
+              <motion.p
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.22 }}
+                className="text-white/75 text-[1.02rem] sm:text-xl lg:text-[1.28rem] leading-[1.9] mb-9 max-w-[38ch]"
+              >
+                {t(
+                  'hero.lead',
+                  'شهری بر بلندای ۱٬۷۴۰ متر، در کاسه‌ای از زاگرس؛ جایی که سرچشمه‌های گاماسیاب از دل سنگ بیرون می‌زنند و تپهٔ گیان هفت هزار سال زندگی را زیر خاک نگه داشته است.',
+                )}
+              </motion.p>
 
-        {/* Tagline */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.55 }}
-          className="text-white/70 text-sm sm:text-lg md:text-xl font-light mb-3"
-        >
-          {t('hero.tagline', 'نگین سبز غرب ایران')}
-        </motion.p>
+              {/* دو کنش اصلی */}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.36 }}
+                className="flex flex-col sm:flex-row gap-3 sm:gap-4"
+              >
+                <Link
+                  href="/locations"
+                  className="group inline-flex items-center justify-center gap-2.5 bg-[var(--nh-spring)] hover:bg-[var(--nh-spring-dk)] text-white ps-7 pe-6 py-4 rounded-full font-bold text-[0.95rem] sm:text-base transition-colors shadow-[0_14px_40px_-12px_rgba(14,107,88,0.9)]"
+                >
+                  <MapPin className="w-[1.15rem] h-[1.15rem] shrink-0" />
+                  {t('hero.ctaLocations', 'مکان‌های دیدنی نهاوند')}
+                  <Arrow className="w-4 h-4 shrink-0 transition-transform rtl:group-hover:-translate-x-1 ltr:group-hover:translate-x-1" />
+                </Link>
+                <Link
+                  href="/events"
+                  className="inline-flex items-center justify-center gap-2.5 bg-white/8 hover:bg-white/16 border border-white/20 text-white px-7 py-4 rounded-full font-bold text-[0.95rem] sm:text-base transition-colors"
+                >
+                  <Calendar className="w-[1.15rem] h-[1.15rem] shrink-0" />
+                  {t('hero.ctaEvents', 'رویدادهای پیش رو')}
+                </Link>
+              </motion.div>
+            </div>
 
-        {/* Typewriter */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7 }}
-          className="mb-8 sm:mb-10"
-        >
-          <TourismTypewriter className="text-emerald-300 text-xs sm:text-sm md:text-base text-center select-none min-h-[22px] sm:min-h-[28px]" />
-        </motion.div>
-
-        {/* CTA Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.85 }}
-          className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center w-full max-w-xs sm:max-w-none"
-        >
-          <Link
-            href="/locations"
-            className="inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-6 sm:px-8 py-3 sm:py-3.5 rounded-full font-bold text-sm sm:text-base transition-all duration-200 hover:scale-105 shadow-xl shadow-emerald-900/40"
-          >
-            <MapPin className="w-4 h-4 flex-shrink-0" />
-            {t('hero.ctaLocations', 'کشف مکان‌ها')}
-          </Link>
-          <Link
-            href="/events"
-            className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-6 sm:px-8 py-3 sm:py-3.5 rounded-full font-bold text-sm sm:text-base transition-all duration-200 hover:scale-105"
-          >
-            <Calendar className="w-4 h-4 flex-shrink-0" />
-            {t('hero.ctaEvents', 'رویدادهای پیش رو')}
-          </Link>
-        </motion.div>
+            {/* ── کره ── */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="order-1 lg:order-2 justify-self-center shrink-0"
+            >
+              <NahavandGlobe
+                size={globeSize}
+                label={t('hero.globeAlt', 'کرهٔ زمین؛ ایران مشخص شده و نهاوند روی آن علامت خورده است')}
+              />
+              {/* کره یک کار مشخص می‌کند: نشان می‌دهد نهاوند کجای زمین است.
+                  پس مختصات را زیرش می‌نویسیم تا تصویر ادعایش را کامل کند. */}
+              <p className="font-data text-center text-[var(--nh-water)]/50 text-[0.7rem] sm:text-[0.76rem] tracking-wide mt-3">
+                {t('hero.coords', '۳۴°۱۱′ شمالی · ۴۸°۲۲′ شرقی')}
+              </p>
+            </motion.div>
+          </div>
+        </div>
       </div>
 
-      {/* ── Quick links strip ── */}
+      {/* ══ نوار ارقام ══ */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.0 }}
-        className="relative z-10 w-full px-3 sm:px-4 pb-[128px] sm:pb-[120px]"
+        transition={{ duration: 0.7, delay: 0.5 }}
+        className="relative z-10 border-t border-white/12"
       >
-        <div className="grid grid-cols-5 gap-2 sm:gap-3 max-w-2xl mx-auto">
-          {QUICK_LINKS.map((link, i) => {
-            const Icon = link.icon;
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="group bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/15 hover:border-white/30 rounded-xl sm:rounded-2xl p-2.5 sm:p-3.5 flex flex-col items-center gap-1.5 text-white transition-all duration-200 hover:-translate-y-1"
-              >
-                <Icon className={`w-4 h-4 sm:w-5 sm:h-5 ${link.color} group-hover:scale-110 transition-transform`} />
-                <span className="text-[9px] sm:text-[11px] text-white/70 group-hover:text-white/90 text-center leading-tight transition-colors">
-                  {t(`hero.quickLinks.${link.key}`, link.label)}
-                </span>
-              </Link>
-            );
-          })}
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-14">
+          <dl className="grid grid-cols-2 lg:grid-cols-4 gap-px">
+            {FACTS.map((f) => (
+              <div key={f.key} className="py-5 sm:py-6 px-1 sm:px-5 lg:px-6">
+                <dd className="flex items-baseline gap-1.5 mb-1 flex-wrap">
+                  <span className="font-data font-black text-white text-[1.6rem] sm:text-[2.1rem] leading-none">
+                    {t(`hero.facts.${f.key}.value`, f.value)}
+                  </span>
+                  <span className="text-white/55 text-[0.72rem] sm:text-sm">
+                    {t(`hero.facts.${f.key}.unit`, f.unit)}
+                  </span>
+                </dd>
+                <dt className="text-white/40 text-[0.7rem] sm:text-[0.8rem] leading-snug">
+                  {t(`hero.facts.${f.key}.label`, f.label)}
+                </dt>
+              </div>
+            ))}
+          </dl>
         </div>
       </motion.div>
-      
-    </div>
+    </section>
   );
 }

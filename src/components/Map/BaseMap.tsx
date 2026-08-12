@@ -1,7 +1,30 @@
 'use client';
 
-import { MapContainer, TileLayer, ZoomControl } from 'react-leaflet';
+import { useEffect } from 'react';
+import { MapContainer, TileLayer, ZoomControl, useMap } from 'react-leaflet';
 import { ACTIVE_TILE } from '@/config/map-provider';
+
+/**
+ * قفل/بازکردن تعامل نقشه بعد از ساخته‌شدن آن.
+ *
+ * پراپ‌های MapContainer فقط موقع ساخت اعمال می‌شوند، پس برای تغییر در زمان اجرا
+ * باید مستقیم سراغ هندلرهای خود لیفلت رفت.
+ */
+function InteractionLock({ enabled }: { enabled: boolean }) {
+  const map = useMap();
+  useEffect(() => {
+    const handlers = [
+      map.dragging,
+      map.touchZoom,
+      map.doubleClickZoom,
+      map.scrollWheelZoom,
+      map.boxZoom,
+      map.keyboard,
+    ];
+    handlers.forEach((h) => (enabled ? h?.enable() : h?.disable()));
+  }, [map, enabled]);
+  return null;
+}
 
 interface BaseMapProps {
   center: [number, number];
@@ -10,6 +33,8 @@ interface BaseMapProps {
   style?: React.CSSProperties;
   zoomPosition?: 'topleft' | 'topright' | 'bottomleft' | 'bottomright';
   scrollWheelZoom?: boolean;
+  /** وقتی false باشد نقشه لمس و چرخ ماوس را نمی‌گیرد و صفحه آزادانه اسکرول می‌شود. */
+  interactive?: boolean;
   preferCanvas?: boolean;
   tileUrl?: string;
   tileAttribution?: string;
@@ -22,6 +47,7 @@ export default function BaseMap({
   style,
   zoomPosition = 'bottomleft',
   scrollWheelZoom = true,
+  interactive = true,
   preferCanvas,
   tileUrl,
   tileAttribution,
@@ -34,10 +60,14 @@ export default function BaseMap({
       center={center}
       zoom={zoom}
       style={style ?? { height: '100%', width: '100%' }}
-      scrollWheelZoom={scrollWheelZoom}
+      scrollWheelZoom={scrollWheelZoom && interactive}
+      dragging={interactive}
+      touchZoom={interactive}
+      doubleClickZoom={interactive}
       zoomControl={false}
       preferCanvas={preferCanvas}
     >
+      <InteractionLock enabled={interactive} />
       <ZoomControl position={zoomPosition} />
       <TileLayer
         key={url}

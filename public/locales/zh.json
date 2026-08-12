@@ -1,4 +1,4 @@
-﻿{
+{
   "nav": {
     "home": "首页",
     "events": "活动",
@@ -17,10 +17,10 @@
     "investmentAtlas": "投资地图",
     "investmentOngoing": "进行中的项目",
     "investmentSuggest": "您的建议",
-    "creativeCity":        "创意城市",
+    "creativeCity": "创意城市",
     "creativeSecretariat": "创意城市秘书处",
-    "creativeInCity":      "城市中的创意",
-    "creativeYou":         "您与创意",
+    "creativeInCity": "城市中的创意",
+    "creativeYou": "您与创意",
     "about": "关于我们",
     "menu": "菜单",
     "close": "关闭",
@@ -52,8 +52,34 @@
       "events": "活动",
       "nature": "自然游",
       "investment": "投资",
-      "creativeCity": "创意城市"
-    }
+      "creativeCity": "创意城市",
+      "history": "历史与文化"
+    },
+    "lead": "一座海拔 1,740 米的城市，坐落在扎格罗斯山脉的谷地中；加马西阿布河的源头自岩石间涌出，吉扬土丘的地下则封存着七千年的聚落。",
+    "facts": {
+      "elevation": {
+        "value": "1,740",
+        "unit": "米",
+        "label": "海拔"
+      },
+      "population": {
+        "value": "12",
+        "unit": "万人",
+        "label": "城市人口"
+      },
+      "springs": {
+        "value": "3",
+        "unit": "大泉",
+        "label": "吉扬、法雷斯班、加马西阿布"
+      },
+      "settled": {
+        "value": "7,000",
+        "unit": "年",
+        "label": "自吉扬土丘以来的持续聚落"
+      }
+    },
+    "coords": "北纬 34°11′ · 东经 48°22′",
+    "globeAlt": "地球仪，标示出伊朗以及其上的纳哈万德"
   },
   "tourismMap": {
     "badge": "旅游地图",
@@ -67,7 +93,10 @@
       "natural": "自然",
       "cultural": "文化",
       "religious": "宗教"
-    }
+    },
+    "unlockTouch": "轻点一次即可操作地图",
+    "unlockMouse": "点击以操作地图",
+    "unlockAria": "启用地图"
   },
   "locations": {
     "sectionTag": "旅游景点",
@@ -79,7 +108,11 @@
     "sectionTag": "活动日历",
     "title": "即将举行的活动",
     "subtitle": "纳哈万德的文化和娱乐节目",
-    "viewAll": "查看所有活动"
+    "viewAll": "查看所有活动",
+    "emptyTitle": "日历中暂无活动",
+    "emptyBody": "城市的新活动一经登记就会出现在这里。在此之前，可以先从纳哈万德的景点开始。",
+    "emptyCta": "浏览景点",
+    "moreNote": "完整城市日历"
   },
   "cityInfo": {
     "population": {
@@ -108,7 +141,33 @@
     "titleMain": "纳哈万德，",
     "titleAccent": "扎格罗斯山脉中的古城",
     "description": "数千年历史、原始自然和丰富文化，位于伊朗腹地",
-    "destinationsLabel": "旅游目的地"
+    "destinationsLabel": "旅游目的地",
+    "title": "何时来，走哪条路",
+    "photoAlt": "纳哈万德的吉扬泉",
+    "photoTitle": "吉扬泉",
+    "photoNote": "加马西阿布河源头之一，距市中心 15 分钟",
+    "practical": {
+      "season": {
+        "label": "最佳季节",
+        "value": "5 月至 9 月",
+        "note": "泉水充沛，原野翠绿"
+      },
+      "access": {
+        "label": "交通",
+        "value": "距哈马丹 90 公里",
+        "note": "距德黑兰约 400 公里"
+      },
+      "terrain": {
+        "label": "地形",
+        "value": "山地",
+        "note": "城市 1,740 米，格林山达 3,623 米"
+      },
+      "climate": {
+        "label": "气候",
+        "value": "夏季温和",
+        "note": "冬季寒冷多雪"
+      }
+    }
   },
   "historyGallery": {
     "sectionTag": "图片画廊",
@@ -126,8 +185,21 @@
       "cityViewSub": "纳哈万德，被自然环抱的城市",
       "landscape": "美丽风景",
       "landscapeSub": "这座城市的每个角落都有故事",
-      "nahavand": "纳哈万德"
-    }
+      "nahavand": "纳哈万德",
+      "sarabGiyan": "吉扬泉",
+      "sarabGiyanSub": "涌自吉扬土丘脚下",
+      "faresban": "法雷斯班泉",
+      "faresbanSub": "冰凉的山泉",
+      "mosque": "哈吉霍达拉赫姆清真寺",
+      "mosqueSub": "恺加时期的釉砖装饰",
+      "bamSpring": "春天的巴姆纳哈万德",
+      "bamSpringSub": "湖上方的红色崖壁",
+      "meadow": "格林山草原",
+      "meadowSub": "雪线之下的春季牧场",
+      "kayserye": "纳哈万德凯萨里耶",
+      "kayseryeSub": "老巴扎的砖砌工艺"
+    },
+    "credit": "图片：维基共享资源 — CC BY-SA / CC BY / CC0"
   },
   "cta": {
     "badge": "纳哈万德之旅",
@@ -176,7 +248,10 @@
     "facilities": "设施",
     "noFacilities": "无可用信息",
     "location": "地理位置",
-    "viewOnMap": "在地图上查看"
+    "viewOnMap": "在地图上查看",
+    "free": "免费",
+    "currencyIRT": "土曼",
+    "currencyIRR": "里亚尔"
   },
   "eventModal": {
     "noImage": "无图片",
@@ -468,10 +543,22 @@
     "title": "投资中心",
     "subtitle": "投资机会、进行中的项目及您的建议——一目了然",
     "enterSection": "进入板块",
-    "atlas": { "label": "投资地图", "desc": "所有投资机会的地理概览" },
-    "opportunities": { "label": "推荐投资", "desc": "活跃的投资机会" },
-    "ongoing": { "label": "进行中的项目", "desc": "正在运行和已完成的投资项目" },
-    "suggest": { "label": "您的建议", "desc": "提交您的投资创意" }
+    "atlas": {
+      "label": "投资地图",
+      "desc": "所有投资机会的地理概览"
+    },
+    "opportunities": {
+      "label": "推荐投资",
+      "desc": "活跃的投资机会"
+    },
+    "ongoing": {
+      "label": "进行中的项目",
+      "desc": "正在运行和已完成的投资项目"
+    },
+    "suggest": {
+      "label": "您的建议",
+      "desc": "提交您的投资创意"
+    }
   },
   "investmentAtlas": {
     "badge": "投资地图",
@@ -670,7 +757,11 @@
       "description": "了解更多投资机会和免费咨询，请联系我们的专家",
       "button1": "申请咨询",
       "button2": "下载投资手册"
-    }
+    },
+    "emptyTitle": "尚未发布投资机会",
+    "emptyBody": "投资项目经审核后会在此发布。若您在纳哈万德有项目，可以提交提案。",
+    "emptyCta": "提交项目提案",
+    "moreNote": "登记您的项目"
   },
   "notablePage": {
     "badge": "历史名人",
@@ -856,7 +947,25 @@
     "successTitle": "您的参与申请已提交",
     "successDesc": "纳哈万德创意城市秘书处团队将审核您的建议并与您联系。",
     "again": "提交新申请",
-    "privacy": "您的信息保密，仅供创意城市秘书处使用。"
+    "privacy": "您的信息保密，仅供创意城市秘书处使用。",
+    "ageGroups": {
+      "under18": "18 岁以下",
+      "age18to30": "18–30 岁",
+      "age30to50": "30–50 岁",
+      "over50": "50 岁以上"
+    },
+    "participation": {
+      "volunteer": "志愿服务",
+      "teach": "教学与培训",
+      "showcase": "展示作品",
+      "collaborate": "参与项目合作"
+    },
+    "errors": {
+      "required": "必填",
+      "pickDomain": "请选择一个领域",
+      "minChars": "至少 30 个字符",
+      "submitFailed": "发送失败，请重试。"
+    }
   },
   "nature": {
     "title": "纳哈万德自然风光",
@@ -950,5 +1059,21 @@
       "architecture": "建筑",
       "visualArts": "视觉艺术"
     }
+  },
+  "indexRail": {
+    "places": "泉眼、土丘与历史建筑",
+    "nature": "格林山草原与山间步道",
+    "history": "从吉扬土丘到今天",
+    "events": "城市节庆与活动",
+    "investment": "旅游与产业机会",
+    "creativeCity": "纳哈万德创意城市秘书处"
+  },
+  "filterPanel": {
+    "filters": "筛选",
+    "close": "收起",
+    "open": "展开",
+    "allCategories": "全部分类",
+    "search": "搜索…",
+    "resultLabel": "条结果"
   }
 }

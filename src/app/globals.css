@@ -1,6 +1,85 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* ==========================================================================
+   نهاوند — توکن‌های طراحی
+   رنگ‌ها از خود عکس‌های شهر بیرون کشیده شده‌اند: نور طلایی غروب از بام نهاوند،
+   سنگ‌آهک زاگرس، سبز تبریزی‌های سراب، و آجر قیصریه.
+   ========================================================================== */
+:root {
+  --nh-ink:        #132019;  /* سبز-سیاه کاج — پس‌زمینهٔ تیره و متن اصلی */
+  --nh-ink-soft:   #22332b;
+  --nh-paper:      #edf1ec;  /* کاغذ سنگی، نه کرم */
+  --nh-paper-warm: #f6f7f3;
+  --nh-spring:     #0e6b58;  /* سبز سرچشمه — رنگ اصلی */
+  --nh-spring-dk:  #0a5344;
+  --nh-water:      #8fc0b6;  /* آب کم‌عمق سراب */
+  --nh-clay:       #b4562f;  /* آجر قیصریه — لهجه، با احتیاط */
+  --nh-gold:       #d9a441;  /* نور طلایی غروب — فقط برق و تأکید */
+  --nh-line:       rgb(19 32 25 / 0.12);
+
+  /* مقیاس تایپ — سیال، بدون شکست ناگهانی */
+  /* اسم شهر باید در ستون ۶۸۰ پیکسلی جا شود — هم «نهاوند» هم «Nahavand» */
+  --nh-display: clamp(3.25rem, 9vw, 8.25rem);
+  --nh-h2:      clamp(1.75rem, 3.4vw, 3rem);
+  --nh-eyebrow: 0.78rem;
+}
+
+/* فونت‌ها ------------------------------------------------------------------ */
+/* لاله‌زار: حروف‌نگاری تابلوهای شهری و پوسترهای ایرانی — فقط برای تیترها */
+.font-display {
+  font-family: var(--font-lalezar), var(--font-vazirmatn), sans-serif;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+/* استعداد: برای عدد و برچسب‌های ریز */
+.font-data {
+  font-family: var(--font-estedad), var(--font-vazirmatn), sans-serif;
+  font-feature-settings: "ss01";
+}
+
+/* خط‌کش موئین بخش‌ها */
+.nh-rule {
+  height: 1px;
+  background: linear-gradient(to left, var(--nh-line), transparent);
+}
+
+/* منحنی‌های تراز — امضای بصری صفحه.
+   نهاوند در کاسه‌ای از زاگرس نشسته؛ این حلقه‌ها همان نقشهٔ ارتفاعی‌اند. */
+.nh-contour {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+}
+
+/* حرکت آرام آب پشت تیتر */
+@keyframes nhDrift {
+  0%,
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(0, -1.2%, 0) scale(1.03); }
+}
+.nh-drift { animation: nhDrift 22s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .nh-drift { animation: none; }
+  .nature-trail path { animation: none; }
+  .nature-pulse { animation: none; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* فوکوس کیبورد — همه‌جا دیده شود */
+:where(a, button, [role="button"], input, select, textarea):focus-visible {
+  outline: 2px solid var(--nh-spring);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 /* Leaflet tile fade-in — reduces the "piece by piece" visual */
 .leaflet-tile {
   transition: opacity 0.25s ease !important;
@@ -87,8 +166,9 @@
 }
 
 body {
-  font-family: Vazirmatn, Arial, Helvetica, sans-serif;
+  font-family: var(--font-vazirmatn), Vazirmatn, Arial, Helvetica, sans-serif;
   direction: rtl;
+  -webkit-font-smoothing: antialiased;
 }
 
 :root {

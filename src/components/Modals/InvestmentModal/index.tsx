@@ -309,7 +309,7 @@ function getCategoryLabel(category: string, lang: string): string {
     'real-estate': { fa: 'ملکی و ساختمانی', en: 'Real Estate', ar: 'عقارات', zh: '房地产' },
     'agriculture': { fa: 'کشاورزی', en: 'Agriculture', ar: 'زراعة', zh: '农业' },
     'tourism': { fa: 'گردشگری', en: 'Tourism', ar: 'سياحة', zh: '旅游业' },
-    'handicrafts': { fa: 'صنایع دستی', en: 'Handicrafts', ar: 'حرف دستی', zh: '手工艺品' },
+    'handicrafts': { fa: 'صنایع دستی', en: 'Handicrafts', ar: 'حرف يدوية', zh: '手工艺品' },
     'industry': { fa: 'صنعتی', en: 'Industry', ar: 'صناعة', zh: '工业' },
     'technology': { fa: 'فناوری', en: 'Technology', ar: 'تكنولوجيا', zh: '科技' },
   };

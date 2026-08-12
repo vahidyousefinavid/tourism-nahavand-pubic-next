@@ -2,138 +2,131 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useDirection } from '@/hooks/useDirection';
-import { Mountain, Users, Map, Compass, CheckCircle2 } from 'lucide-react';
+import Image from 'next/image';
+import { Sun, Route, Mountain, CalendarRange } from 'lucide-react';
+import SectionHeader from './SectionHeader';
 
+/**
+ * «پیش از سفر» — اطلاعات کاربردی برنامه‌ریزی سفر.
+ *
+ * قبلاً این بخش همان چهار عدد نوار قهرمان را دوباره نشان می‌داد (جمعیت، ارتفاع، مساحت).
+ * حالا که آن ارقام بالای صفحه هستند، اینجا چیزی می‌گوید که مسافر واقعاً لازم دارد:
+ * کی برود، چطور برسد، و چه انتظاری از هوا داشته باشد.
+ */
 export default function CityInfo() {
   const { t } = useTranslation();
   const { isRTL, dir } = useDirection();
 
-  const stats = [
+  const practical = [
     {
-      icon: <Users className="w-7 h-7" />,
-      gradient: 'from-violet-500 to-purple-600',
-      bg: 'bg-violet-50',
-      value: t('cityInfo.population.value', '۱۲۰,۰۰۰+'),
-      label: t('cityInfo.population.label', 'نفر ساکن'),
+      icon: <CalendarRange className="w-5 h-5" />,
+      label: t('cityInfo.practical.season.label', 'بهترین فصل'),
+      value: t('cityInfo.practical.season.value', 'اردیبهشت تا مهر'),
+      note: t('cityInfo.practical.season.note', 'سراب‌ها پرآب و دشت‌ها سبزند'),
     },
     {
-      icon: <Mountain className="w-7 h-7" />,
-      gradient: 'from-emerald-500 to-teal-600',
-      bg: 'bg-emerald-50',
-      value: t('cityInfo.height.value', '۱,۷۴۰'),
-      label: t('cityInfo.height.label', 'متر ارتفاع'),
+      icon: <Route className="w-5 h-5" />,
+      label: t('cityInfo.practical.access.label', 'دسترسی'),
+      value: t('cityInfo.practical.access.value', '۹۰ کیلومتر تا همدان'),
+      note: t('cityInfo.practical.access.note', 'حدود ۴۰۰ کیلومتر تا تهران'),
     },
     {
-      icon: <Map className="w-7 h-7" />,
-      gradient: 'from-blue-500 to-indigo-600',
-      bg: 'bg-blue-50',
-      value: t('cityInfo.area.value', '۱,۵۲۴'),
-      label: t('cityInfo.area.label', 'کیلومتر مربع'),
+      icon: <Mountain className="w-5 h-5" />,
+      label: t('cityInfo.practical.terrain.label', 'ناهمواری'),
+      value: t('cityInfo.practical.terrain.value', 'کوهستانی'),
+      note: t('cityInfo.practical.terrain.note', 'شهر ۱٬۷۴۰ م، گرین تا ۳٬۶۲۳ م'),
     },
     {
-      icon: <Compass className="w-7 h-7" />,
-      gradient: 'from-amber-500 to-orange-500',
-      bg: 'bg-amber-50',
-      value: '۱۸۰+',
-      label: t('cityInfo.destinationsLabel', 'مقصد گردشگری'),
+      icon: <Sun className="w-5 h-5" />,
+      label: t('cityInfo.practical.climate.label', 'آب‌وهوا'),
+      value: t('cityInfo.practical.climate.value', 'تابستان معتدل'),
+      note: t('cityInfo.practical.climate.note', 'زمستان سرد و برفی'),
     },
-  ];
-
-  const highlights = [
-    t('cityInfo.destinations.list.1', 'چشمه‌های نهاوند'),
-    t('cityInfo.destinations.list.2', 'آبشارهای سراب گیان'),
-    t('cityInfo.destinations.list.3', 'فرهنگ محلی'),
-    t('cityInfo.destinations.list.4', 'باغ‌های تاریخی'),
   ];
 
   return (
-    <section dir={dir} className="py-20 px-4 bg-white">
-      <div className="max-w-6xl mx-auto">
+    <section dir={dir} className="bg-[var(--nh-paper-warm)] py-16 sm:py-24">
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-14">
+        <SectionHeader
+          eyebrow={t('cityInfo.sectionTag', 'پیش از سفر')}
+          title={t('cityInfo.title', 'چه وقت، و از کدام راه')}
+        />
 
-        {/* Section header */}
-        <div className="text-center mb-14">
-          <motion.span
-            initial={{ opacity: 0, y: -8 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-block bg-emerald-50 text-emerald-700 text-sm font-semibold px-4 py-1.5 rounded-full mb-4"
-          >
-            {t('cityInfo.sectionTag', 'آمار و اطلاعات شهر')}
-          </motion.span>
-          <motion.h2
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-3xl md:text-4xl font-black text-gray-900 mb-3 leading-tight"
-          >
-            {t('cityInfo.titleMain', 'نهاوند،')}{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500">
-              {t('cityInfo.titleAccent', 'شهری کهن در دل زاگرس')}
-            </span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-gray-500 max-w-xl mx-auto text-base"
-          >
-            {t('cityInfo.description', 'هزاران سال تاریخ، طبیعتی بکر و فرهنگی غنی در قلب ایران')}
-          </motion.p>
-        </div>
-
-        {/* Stats grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-12">
-          {stats.map((stat, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 24 }}
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center">
+          {/* متن + جدول اطلاعات */}
+          <div>
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className={`${stat.bg} rounded-2xl p-6 flex flex-col items-center text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1`}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.5 }}
+              className="text-[var(--nh-ink)]/75 text-[1rem] sm:text-[1.08rem] leading-[2.05] mb-9"
             >
-              <div className={`w-14 h-14 bg-gradient-to-br ${stat.gradient} text-white rounded-2xl flex items-center justify-center mb-4 shadow-md`}>
-                {stat.icon}
-              </div>
-              <div className="text-3xl font-black text-gray-900 mb-1">{stat.value}</div>
-              <div className="text-sm text-gray-500">{stat.label}</div>
-            </motion.div>
-          ))}
-        </div>
+              {t(
+                'cityInfo.description',
+                'نهاوند در جنوبی‌ترین گوشهٔ استان همدان، میان کوه گرین و دشت گاماسیاب نشسته است. ارتفاع زیاد تابستان‌ها را خنک نگه می‌دارد و برف زمستان همان چیزی است که سراب‌ها را سال بعد پرآب می‌کند. بیشتر جاذبه‌ها در فاصلهٔ کوتاهی از مرکز شهرند و در یک روز می‌شود چندتاشان را دید.',
+              )}
+            </motion.p>
 
-        {/* Highlights card */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="bg-gradient-to-br from-gray-50 to-emerald-50 rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8"
-        >
-          <div className="flex-1 w-full">
-            <h3 className={`text-2xl font-black text-gray-900 mb-2 ${isRTL ? 'text-right' : 'text-left'}`}>
-              {t('cityInfo.destinations.title', '۱۸۰+ مقصد گردشگری')}
-            </h3>
-            <p className={`text-gray-500 text-sm mb-6 ${isRTL ? 'text-right' : 'text-left'}`}>
-              {t('cityInfo.destinations.subtitle', 'برترین تجربه‌ها از مردم و گردشگران')}
-            </p>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {highlights.map((item, i) => (
-                <li key={i} className={`flex items-center gap-2 text-gray-700 font-medium ${isRTL ? 'flex-row-reverse' : ''}`}>
-                  <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0" />
-                  {item}
-                </li>
+            <dl className="border-t border-[var(--nh-line)]">
+              {practical.map((p, i) => (
+                <motion.div
+                  key={p.label}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.4, delay: i * 0.07 }}
+                  className="flex items-center gap-4 sm:gap-6 py-4 border-b border-[var(--nh-line)]"
+                >
+                  <span className="shrink-0 w-10 h-10 rounded-full bg-[var(--nh-spring)]/10 text-[var(--nh-spring)] flex items-center justify-center">
+                    {p.icon}
+                  </span>
+                  <dt className="font-data text-[var(--nh-ink)]/45 text-[0.76rem] sm:text-[0.84rem] w-[5.5rem] sm:w-28 shrink-0">
+                    {p.label}
+                  </dt>
+                  <dd className={isRTL ? 'text-right' : 'text-left'}>
+                    <p className="font-bold text-[var(--nh-ink)] text-[0.92rem] sm:text-base leading-tight">
+                      {p.value}
+                    </p>
+                    <p className="text-[var(--nh-ink)]/50 text-[0.75rem] sm:text-[0.82rem] mt-0.5">
+                      {p.note}
+                    </p>
+                  </dd>
+                </motion.div>
               ))}
-            </ul>
+            </dl>
           </div>
 
-          <div className="flex-shrink-0">
-            <div className="w-40 h-40 md:w-52 md:h-52 rounded-full overflow-hidden border-4 border-white shadow-xl">
-              <img src="/images/back32.jpg" alt="نهاوند" className="w-full h-full object-cover" />
-            </div>
-          </div>
-        </motion.div>
+          {/* عکس */}
+          <motion.figure
+            initial={{ opacity: 0, scale: 0.97 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.7 }}
+            className="relative rounded-3xl overflow-hidden aspect-[4/5] sm:aspect-[16/10] lg:aspect-[5/6]"
+          >
+            <Image
+              src="/images/nahavand/giyan-spring.webp"
+              alt={t('cityInfo.photoAlt', 'سراب گیان در نهاوند')}
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
+            <figcaption
+              className={`absolute inset-x-0 bottom-0 p-5 sm:p-7 ${
+                isRTL ? 'text-right' : 'text-left'
+              }`}
+            >
+              <p className="font-display text-white text-xl sm:text-2xl">
+                {t('cityInfo.photoTitle', 'سراب گیان')}
+              </p>
+              <p className="text-white/60 text-[0.8rem] sm:text-sm mt-1">
+                {t('cityInfo.photoNote', 'یکی از سرچشمه‌های گاماسیاب، ۱۵ دقیقه از مرکز شهر')}
+              </p>
+            </figcaption>
+          </motion.figure>
+        </div>
       </div>
     </section>
   );

@@ -66,15 +66,16 @@ interface MapViewProps {
   activeCategory: string | null;
   selectedId: string | null;
   onSelectLocation: (loc: Location) => void;
+  interactive?: boolean;
 }
 
-export default function MapView({ locations, locale, activeCategory, selectedId, onSelectLocation }: MapViewProps) {
+export default function MapView({ locations, locale, activeCategory, selectedId, onSelectLocation, interactive = true }: MapViewProps) {
   const filtered = activeCategory
     ? locations.filter(l => l.category === activeCategory)
     : locations;
 
   return (
-    <BaseMap center={NAHAVAND_CENTER} zoom={12} preferCanvas>
+    <BaseMap center={NAHAVAND_CENTER} zoom={12} preferCanvas interactive={interactive}>
       {filtered.map(location => {
         if (!location.latlng) return null;
         const isActive = location.id === selectedId;

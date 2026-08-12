@@ -26,7 +26,14 @@ export function LocationModalContent({ location, openInMaps, locale }: LocationM
     : entryFeeRaw?.amount === 0
       ? t('locationModal.free', 'رایگان')
       : entryFeeRaw?.amount
-        ? new Intl.NumberFormat(locale === 'fa' ? 'fa-IR' : 'en-US').format(entryFeeRaw.amount) + (entryFeeRaw.currency === 'IRT' ? ' تومان' : entryFeeRaw.currency === 'IRR' ? ' ریال' : ` ${entryFeeRaw.currency}`)
+        ? new Intl.NumberFormat(locale === 'fa' ? 'fa-IR' : 'en-US').format(entryFeeRaw.amount) +
+          // واحد پول هم باید ترجمه شود؛ «تومان» و «ریال» ثابت فارسی بودند و در
+          // انگلیسی و عربی و چینی هم فارسی چاپ می‌شدند.
+          (entryFeeRaw.currency === 'IRT'
+            ? ` ${t('locationModal.currencyIRT', 'تومان')}`
+            : entryFeeRaw.currency === 'IRR'
+              ? ` ${t('locationModal.currencyIRR', 'ریال')}`
+              : ` ${entryFeeRaw.currency}`)
         : '';
   const facilities = location.facilities?.[locale] || location.facilities?.fa || [];
 

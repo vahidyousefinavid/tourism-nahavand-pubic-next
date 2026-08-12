@@ -1,26 +1,35 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { MapPin, ArrowLeft, ArrowRight, Layers } from 'lucide-react';
+import { MapPin, ArrowLeft, ArrowRight, Layers, Hand } from 'lucide-react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Modal } from '@/components/ui/Modal';
 import { LocationModalContent } from '../Locations/LocationModalContent';
 import { Location, AppLocale } from '@/types';
+import SectionHeader from './SectionHeader';
+
+/** اسپینری که تا آمدن چانک لیفلت نشان داده می‌شود.
+ *  کامپوننت جداست چون متنش هم باید ترجمه شود و برای هوک به بدنهٔ کامپوننت نیاز دارد؛
+ *  قبلاً «در حال بارگذاری نقشه...» ثابت فارسی بود و در هر چهار زبان فارسی می‌ماند. */
+function MapLoading() {
+  const { t } = useTranslation();
+  return (
+    <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 animate-pulse flex items-center justify-center">
+      <div className="text-center">
+        <div className="w-12 h-12 border-4 border-[var(--nh-spring)] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+        <p className="text-gray-400 text-sm">{t('tourismMap.loading', 'در حال بارگذاری نقشه...')}</p>
+      </div>
+    </div>
+  );
+}
 
 // Dynamic import to avoid SSR issues with Leaflet
 const MapView = dynamic(() => import('./MapView'), {
   ssr: false,
-  loading: () => (
-    <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 animate-pulse flex items-center justify-center">
-      <div className="text-center">
-        <div className="w-12 h-12 border-4 border-emerald-400 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-        <p className="text-gray-400 text-sm">در حال بارگذاری نقشه...</p>
-      </div>
-    </div>
-  ),
+  loading: () => <MapLoading />,
 });
 
 const CATEGORY_CONFIG = {
@@ -36,6 +45,27 @@ export default function TourismMap() {
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
+  // نقشه قفل شروع می‌شود: روی موبایل کشیدن انگشت را می‌گرفت و صفحه اسکرول نمی‌شد،
+  // روی دسکتاپ هم چرخ ماوس به‌جای اسکرول صفحه زوم می‌کرد.
+  const [mapUnlocked, setMapUnlocked] = useState(false);
+  const [coarsePointer, setCoarsePointer] = useState(false);
+  const mapBoxRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setCoarsePointer(window.matchMedia('(pointer: coarse)').matches);
+  }, []);
+
+  // وقتی نقشه از دید خارج شد دوباره قفل شود، تا برگشتن به آن دوباره کاربر را گیر نیندازد.
+  useEffect(() => {
+    const el = mapBoxRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => { if (!e.isIntersecting) setMapUnlocked(false); },
+      { threshold: 0 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   const locale = i18n.language as AppLocale;
   const isRTL = i18n.dir() === 'rtl';
   const ArrowIcon = isRTL ? ArrowLeft : ArrowRight;
@@ -68,50 +98,21 @@ export default function TourismMap() {
   return (
     <section
       dir={isRTL ? 'rtl' : 'ltr'}
-      className="relative bg-gray-50 pt-12 sm:pt-16 pb-10 px-4"
+      className="relative bg-[var(--nh-paper-warm)] py-16 sm:py-24"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-14">
 
         {/* ── Header ── */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
-          <div>
-            <motion.span
-              initial={{ opacity: 0, y: -8 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-700 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-full mb-3"
-            >
-              <MapPin className="w-3.5 h-3.5" />
-              {t('tourismMap.badge', 'نقشه گردشگری')}
-            </motion.span>
-            <motion.h2
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900"
-            >
-              {t('tourismMap.title', 'کشف نهاوند روی نقشه')}
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.15 }}
-              className="text-gray-500 text-sm mt-1"
-            >
-              {t('tourismMap.subtitle', 'جاذبه‌های گردشگری نهاوند را روی نقشه کشف و بازدید کنید')}
-            </motion.p>
-          </div>
-
-          <a
-            href="/locations"
-            className="inline-flex items-center gap-2 text-emerald-600 hover:text-emerald-700 font-semibold text-sm border border-emerald-200 hover:border-emerald-400 px-5 py-2.5 rounded-full transition-all hover:bg-emerald-50 whitespace-nowrap self-start sm:self-auto"
-          >
-            {t('locations.viewAll', 'مشاهده همه')}
-            <ArrowIcon className="w-4 h-4" />
-          </a>
-        </div>
+        <SectionHeader
+          eyebrow={t('tourismMap.badge', 'نقشهٔ گردشگری')}
+          title={t('tourismMap.title', 'کجای شهر؟')}
+          subtitle={t(
+            'tourismMap.subtitle',
+            'هر نشانه یک جاذبه است. رویش بزنید تا نشانی و مسیرش را ببینید.',
+          )}
+          href="/locations"
+          linkLabel={t('locations.viewAll', 'فهرست مکان‌ها')}
+        />
 
         {/* ── Category Filters ── */}
         <motion.div
@@ -160,8 +161,8 @@ export default function TourismMap() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.25 }}
-          className="rounded-2xl overflow-hidden shadow-xl border border-gray-200"
-          style={{ height: '520px' }}
+          ref={mapBoxRef}
+          className="relative rounded-2xl overflow-hidden shadow-xl border border-gray-200 h-[340px] sm:h-[440px] lg:h-[520px]"
         >
           {loading ? (
             <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
@@ -171,13 +172,33 @@ export default function TourismMap() {
               </div>
             </div>
           ) : (
-            <MapView
-              locations={locations}
-              locale={locale}
-              activeCategory={activeCategory}
-              selectedId={selectedLocation?.id ?? null}
-              onSelectLocation={setSelectedLocation}
-            />
+            <>
+              <MapView
+                locations={locations}
+                locale={locale}
+                activeCategory={activeCategory}
+                selectedId={selectedLocation?.id ?? null}
+                onSelectLocation={setSelectedLocation}
+                interactive={mapUnlocked}
+              />
+
+              {/* کاور: تا وقتی کاربر عمداً بازش نکند، نقشه لمس و چرخ را نمی‌گیرد */}
+              {!mapUnlocked && (
+                <button
+                  type="button"
+                  onClick={() => setMapUnlocked(true)}
+                  aria-label={t('tourismMap.unlockAria', 'فعال‌کردن نقشه')}
+                  className="absolute inset-0 z-[500] flex items-end justify-center pb-6 sm:pb-8 bg-[var(--nh-ink)]/10 hover:bg-[var(--nh-ink)]/[0.06] transition-colors cursor-pointer"
+                >
+                  <span className="inline-flex items-center gap-2 bg-[var(--nh-ink)]/85 text-white text-[0.8rem] sm:text-sm font-bold px-4 py-2.5 rounded-full backdrop-blur-sm shadow-lg">
+                    <Hand className="w-4 h-4 shrink-0" />
+                    {coarsePointer
+                      ? t('tourismMap.unlockTouch', 'برای کار با نقشه یک‌بار بزنید')
+                      : t('tourismMap.unlockMouse', 'برای کار با نقشه کلیک کنید')}
+                  </span>
+                </button>
+              )}
+            </>
           )}
         </motion.div>
 

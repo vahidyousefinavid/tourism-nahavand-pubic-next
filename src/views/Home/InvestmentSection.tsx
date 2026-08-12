@@ -4,12 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { useDirection } from '@/hooks/useDirection';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
 import axios from 'axios';
 import { TrendingUp, ArrowLeft, ArrowRight } from 'lucide-react';
+import SectionHeader from './SectionHeader';
+import CardRail from './CardRail';
 import InvestmentModal from '@/components/Modals/InvestmentModal';
 import { InvestmentOpportunity } from '@/types/investment';
 import { AppLocale } from '@/types';
@@ -119,77 +117,51 @@ export default function InvestmentSection() {
   }, []);
 
   return (
-    <section dir={dir} className="py-12 sm:py-16 px-4 bg-gradient-to-b from-amber-50/60 to-white relative">
-      <div className="max-w-7xl mx-auto">
+    <section dir={dir} className="bg-[var(--nh-paper)] py-16 sm:py-24">
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-14">
+        <SectionHeader
+          eyebrow={t('investmentPage.sectionTag', 'فرصت‌های سرمایه‌گذاری')}
+          title={t('investmentPage.title', 'سرمایه‌گذاری در نهاوند')}
+          subtitle={t(
+            'investmentPage.homeSubtitle',
+            'طرح‌های باز در گردشگری، کشاورزی و صنایع‌دستی — همراه با سرمایهٔ لازم و وضعیت هر طرح.',
+          )}
+          href="/investment/opportunities"
+          linkLabel={t('investmentPage.viewAll', 'همهٔ فرصت‌ها')}
+        />
 
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8 sm:mb-10">
-          <div>
-            <motion.span
-              initial={{ opacity: 0, y: -8 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="inline-flex items-center gap-1.5 bg-amber-100 text-amber-700 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-full mb-3"
-            >
-              <TrendingUp className="w-3.5 h-3.5" />
-              {t('investmentPage.sectionTag', 'فرصت‌های سرمایه‌گذاری')}
-            </motion.span>
-            <motion.h2
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900"
-            >
-              {t('investmentPage.title', 'سرمایه‌گذاری در نهاوند')}
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.15 }}
-              className="text-gray-500 text-sm mt-1"
-            >
-              {t('investmentPage.homeSubtitle', 'بهترین فرصت‌های رشد و سودآوری در قلب غرب ایران')}
-            </motion.p>
-          </div>
-          <Link
-            href="/investment/opportunities"
-            className="inline-flex items-center gap-2 text-amber-600 hover:text-amber-700 font-semibold text-sm border border-amber-200 hover:border-amber-400 px-5 py-2.5 rounded-full transition-all hover:bg-amber-50 whitespace-nowrap self-start sm:self-auto"
-          >
-            {t('investmentPage.viewAll', 'مشاهده همه')}
-            <ArrowIcon className="w-4 h-4" />
-          </Link>
-        </div>
-
-        {/* Swiper */}
-        <Swiper
-          modules={[Navigation]}
-          navigation
-          centeredSlides
-          centeredSlidesBounds
-          slidesPerView="auto"
-          spaceBetween={16}
-          className="!py-4 !-mx-1 !px-1"
-          dir={isRTL ? 'rtl' : 'ltr'}
-        >
-          {investments.map((inv, index) => (
-            <SwiperSlide
-              key={inv.id}
-              className="!w-[220px] sm:!w-[240px]"
-            >
-              <InvestmentCardCompact
-                opportunity={inv}
-                locale={i18n.language}
-                onClick={() => {
-                  setSelected(inv);
-                  const base = process.env.NEXT_PUBLIC_API_URL || '';
-                  fetch(`${base}/api/investments/${inv.id}/view`, { method: 'POST' }).catch(() => {});
-                }}
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        <CardRail
+          items={investments}
+          getKey={(inv) => inv.id}
+          slideWidth="!w-[240px] sm:!w-[265px]"
+          gridCols="sm:grid-cols-2 lg:grid-cols-4"
+          empty={{
+            title: t('investmentPage.emptyTitle', 'هنوز فرصتی منتشر نشده'),
+            body: t(
+              'investmentPage.emptyBody',
+              'طرح‌های سرمایه‌گذاری پس از بررسی در همین بخش منتشر می‌شوند. اگر طرحی در نهاوند دارید، می‌توانید آن را پیشنهاد بدهید.',
+            ),
+            href: '/investment/suggest',
+            linkLabel: t('investmentPage.emptyCta', 'پیشنهاد یک طرح'),
+          }}
+          more={{
+            href: '/investment/suggest',
+            label: t('investmentPage.emptyCta', 'پیشنهاد یک طرح'),
+            note: t('investmentPage.moreNote', 'طرح خودتان را ثبت کنید'),
+          }}
+          moreSpan="sm:col-span-1 lg:col-span-3"
+          renderItem={(inv) => (
+            <InvestmentCardCompact
+              opportunity={inv}
+              locale={i18n.language}
+              onClick={() => {
+                setSelected(inv);
+                const base = process.env.NEXT_PUBLIC_API_URL || '';
+                fetch(`${base}/api/investments/${inv.id}/view`, { method: 'POST' }).catch(() => {});
+              }}
+            />
+          )}
+        />
       </div>
 
       {/* Modal */}

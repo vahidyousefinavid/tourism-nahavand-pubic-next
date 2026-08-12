@@ -3,39 +3,37 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-// جلوگیری از اجرا در سمت سرور (Server Side)
-if (typeof window !== 'undefined') {
-  // وارد کردن فایل‌های ترجمه با مسیرهای جدید
-  import('../../public/locales/fa.json').then(fa => {
-    i18n.addResourceBundle('fa', 'translation', fa.default);
-  });
-  import('../../public/locales/en.json').then(en => {
-    i18n.addResourceBundle('en', 'translation', en.default);
-  });
-  import('../../public/locales/ar.json').then(ar => {
-    i18n.addResourceBundle('ar', 'translation', ar.default);
-  });
-  import('../../public/locales/zh.json').then(zh => {
-    i18n.addResourceBundle('zh', 'translation', zh.default);
-  });
+// ترجمه‌ها به صورت استاتیک import می‌شوند تا همراه باندل حاضر باشند.
+// قبلاً با import() داینامیک لود می‌شدند و init قبل از رسیدن‌شان اجرا می‌شد؛
+// نتیجه‌اش این بود که کلیدهای بدون مقدار پیش‌فرض خام رندر می‌شدند و تعویض زبان کار نمی‌کرد.
+import fa from '../../public/locales/fa.json';
+import en from '../../public/locales/en.json';
+import ar from '../../public/locales/ar.json';
+import zh from '../../public/locales/zh.json';
 
-  let savedLang = 'fa';
-  if (typeof window !== 'undefined') {
-    const lng = localStorage.getItem('i18nextLng');
-    if (lng) savedLang = lng;
-  }
+export const SUPPORTED_LANGS = ['fa', 'en', 'ar', 'zh'] as const;
 
+if (!i18n.isInitialized) {
   i18n
     .use(LanguageDetector)
     .use(initReactI18next)
     .init({
+      resources: {
+        fa: { translation: fa },
+        en: { translation: en },
+        ar: { translation: ar },
+        zh: { translation: zh },
+      },
       fallbackLng: 'fa',
-      lng: savedLang,   // ⭐ این کار مانع چشمک‌زدن می‌شود
+      supportedLngs: SUPPORTED_LANGS as unknown as string[],
+      // روی سرور همیشه fa تا مارک‌آپ SSR و اولین رندر کلاینت یکی باشد
+      lng: typeof window === 'undefined' ? 'fa' : undefined,
       interpolation: { escapeValue: false },
       detection: {
         order: ['localStorage', 'navigator'],
         caches: ['localStorage'],
       },
+      react: { useSuspense: false },
     });
 }
 

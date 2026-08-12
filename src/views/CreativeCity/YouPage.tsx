@@ -49,13 +49,20 @@ const DOMAINS = [
   { key: 'visualArts',  icon: Star,        color: '#d946ef' },
 ];
 
-const AGE_GROUPS = ['زیر ۱۸', '۱۸–۳۰', '۳۰–۵۰', 'بالای ۵۰'];
+// value همان چیزی است که به API فرستاده می‌شود و عمداً فارسی مانده تا payload
+// عوض نشود؛ فقط برچسبِ نمایشی ترجمه می‌شود.
+const AGE_GROUPS = [
+  { value: 'زیر ۱۸',   key: 'under18' },
+  { value: '۱۸–۳۰',    key: 'age18to30' },
+  { value: '۳۰–۵۰',    key: 'age30to50' },
+  { value: 'بالای ۵۰', key: 'over50' },
+];
 
 const PARTICIPATION_TYPES = [
-  { key: 'volunteer',  icon: Heart,      label: 'داوطلبانه' },
-  { key: 'teach',      icon: GraduationCap, label: 'آموزش و تدریس' },
-  { key: 'showcase',   icon: Star,       label: 'نمایش آثار' },
-  { key: 'collaborate',icon: Lightbulb,  label: 'همکاری در پروژه' },
+  { key: 'volunteer',   icon: Heart,         label: 'داوطلبانه' },
+  { key: 'teach',       icon: GraduationCap, label: 'آموزش و تدریس' },
+  { key: 'showcase',    icon: Star,          label: 'نمایش آثار' },
+  { key: 'collaborate', icon: Lightbulb,     label: 'همکاری در پروژه' },
 ];
 
 interface FormData {
@@ -98,16 +105,16 @@ export default function YouPage() {
   const validate = (): boolean => {
     const e: typeof errors = {};
     if (step === 1) {
-      if (!form.name.trim()) e.name = 'الزامی';
-      if (!form.phone.trim()) e.phone = 'الزامی';
-      if (!form.ageGroup) e.ageGroup = 'الزامی';
+      if (!form.name.trim()) e.name = t('you.errors.required', 'الزامی');
+      if (!form.phone.trim()) e.phone = t('you.errors.required', 'الزامی');
+      if (!form.ageGroup) e.ageGroup = t('you.errors.required', 'الزامی');
     }
-    if (step === 2 && !form.domain) e.domain = 'یک حوزه انتخاب کنید';
+    if (step === 2 && !form.domain) e.domain = t('you.errors.pickDomain', 'یک حوزه انتخاب کنید');
     if (step === 3) {
-      if (!form.ideaTitle.trim()) e.ideaTitle = 'الزامی';
-      if (!form.ideaDesc.trim() || form.ideaDesc.length < 30) e.ideaDesc = 'حداقل ۳۰ کاراکتر';
+      if (!form.ideaTitle.trim()) e.ideaTitle = t('you.errors.required', 'الزامی');
+      if (!form.ideaDesc.trim() || form.ideaDesc.length < 30) e.ideaDesc = t('you.errors.minChars', 'حداقل ۳۰ کاراکتر');
     }
-    if (step === 4 && form.participation.length === 0) e.participation = 'الزامی';
+    if (step === 4 && form.participation.length === 0) e.participation = t('you.errors.required', 'الزامی');
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -127,7 +134,7 @@ export default function YouPage() {
       if (!res.ok) throw new Error('server error');
       setSubmitted(true);
     } catch {
-      setErrors({ name: 'خطا در ارسال. لطفاً دوباره تلاش کنید.' });
+      setErrors({ name: t('you.errors.submitFailed', 'خطا در ارسال. لطفاً دوباره تلاش کنید.') });
     } finally {
       setSubmitting(false);
     }
@@ -229,14 +236,14 @@ export default function YouPage() {
                       <label className="block text-sm font-semibold text-gray-700 mb-2">{t('you.labelAge')} <span className="text-red-500">*</span></label>
                       <div className="flex flex-wrap gap-2">
                         {AGE_GROUPS.map(ag => (
-                          <button key={ag} type="button"
-                            onClick={() => setForm(p => ({ ...p, ageGroup: ag }))}
+                          <button key={ag.key} type="button"
+                            onClick={() => setForm(p => ({ ...p, ageGroup: ag.value }))}
                             className={`px-4 py-2 rounded-xl text-sm font-bold border-2 transition-all ${
-                              form.ageGroup === ag
+                              form.ageGroup === ag.value
                                 ? 'bg-purple-600 border-purple-600 text-white'
                                 : 'border-gray-200 text-gray-600 hover:border-purple-300'
                             }`}
-                          >{ag}</button>
+                          >{t(`you.ageGroups.${ag.key}`, ag.value)}</button>
                         ))}
                       </div>
                       {errors.ageGroup && <p className="mt-1 text-xs text-red-500">{errors.ageGroup}</p>}
@@ -315,7 +322,7 @@ export default function YouPage() {
                           }`}>
                             <Icon className="w-5 h-5" />
                           </div>
-                          <span className={`font-bold text-sm ${active ? 'text-purple-800' : 'text-gray-700'}`}>{label}</span>
+                          <span className={`font-bold text-sm ${active ? 'text-purple-800' : 'text-gray-700'}`}>{t(`you.participation.${key}`, label)}</span>
                           {active && <CheckCircle className="w-5 h-5 text-purple-500 mr-auto flex-shrink-0" />}
                         </button>
                       );
